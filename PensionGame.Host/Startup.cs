@@ -72,11 +72,6 @@ namespace PensionGame.Host
             RegisterAllImplementing(typeof(IValidator<>));
             RegisterAllImplementing(typeof(IQueryHandler<,>));
             RegisterAllImplementing(typeof(ICommandHandler<,>));
-            Container.Kernel.Register(
-                Classes.FromAssemblyContaining(typeof(ICommandHandler <,>))
-                    .BasedOn(typeof(ICommandHandler<,>))                    
-                    .WithServiceAllInterfaces()                    
-                );
             //Container.Register(Component.For<ICreateSessionCommandHandler>()
             //    .ImplementedBy<CreateSessionCommandHandler>());
         }
