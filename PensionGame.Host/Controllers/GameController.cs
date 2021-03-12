@@ -20,7 +20,7 @@ namespace PensionGame.Host.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Post(Guid sessionId, InvestmentSelection investmentSelection)
-        {           
+        {
             await Task.Run(() => Console.WriteLine(investmentSelection.BondValue));
 
             return Ok();
@@ -71,7 +71,7 @@ namespace PensionGame.Host.Controllers
                 IsFinished: false
             );
 
-            var newGameState = gameState with { Year = 27 };
+            var newGameState = gameState with { Year = 28 };
 
             return newGameState;
         }
