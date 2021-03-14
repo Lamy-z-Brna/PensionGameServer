@@ -16,7 +16,7 @@ namespace PensionGame.DataAccess
         }
 
         public DbSet<Session>? Sessions { get; set; }
-        //public DbSet<GameState>? GameStates { get; set; }
+        public DbSet<GameState>? GameStates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

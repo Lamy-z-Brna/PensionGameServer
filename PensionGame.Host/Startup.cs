@@ -10,13 +10,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
+using PensionGame.Api.Common.Readers;
+using PensionGame.Api.Common.Writers;
 using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
 using PensionGame.Core.Common;
 using PensionGame.DataAccess;
-using PensionGame.DataAccess.Readers;
-using PensionGame.DataAccess.Writers;
 using PensionGame.Host.Validators;
 using System;
 

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Data_Objects.GameData
 {
-    public record GameState
+    public class GameState
     {
+        public int Id { get; set; }
+        public int SessionId { get; set; }
+        public int Year { get; set; }
+        public bool IsFinished { get; set; }
     }
 }
