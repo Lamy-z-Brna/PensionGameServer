@@ -2,12 +2,15 @@
 
 namespace PensionGame.Core.Common
 {
-    public interface IRandom
+    public interface IRandomSampler
     {
         IEnumerable<double> GenerateNormal(double mu, double sigma);
 
+        //TODO VB implement
+        //IEnumerable<double> GenerateLogNormal(double mu, double sigma);
+
         IEnumerable<double> GenerateUniform(double a, double b);
 
-        IEnumerable<int> GenerateBernoulli(double p);
+        IEnumerable<bool> GenerateBernoulli(double p);
     }
 }

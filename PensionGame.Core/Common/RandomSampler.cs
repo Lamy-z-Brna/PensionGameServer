@@ -1,25 +1,31 @@
 ﻿using MathNet.Numerics.Distributions;
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 namespace PensionGame.Core.Common
 {
-    public class RandomGenerator : IRandom
+    public class RandomSampler : IRandomSampler
     {
         public IEnumerable<double> GenerateNormal(double mu, double sigma)
         {
             return GenerateWithDistribution(new Normal(mu, sigma));
         }
 
+        //TODO VB implement + unit test
+        //public IEnumerable<double> GenerateLogNormal(double mu, double sigma)
+        //{
+        //    return GenerateWithDistribution(new LogNormal(mu, sigma));
+        //}
+
         public IEnumerable<double> GenerateUniform(double a, double b)
         {
             return GenerateWithDistribution(new ContinuousUniform(a, b));
         }
 
-        public IEnumerable<int> GenerateBernoulli(double p)
+        public IEnumerable<bool> GenerateBernoulli(double p)
         {
-            return GenerateWithDistribution(new Bernoulli(p));
+            return GenerateWithDistribution(new Bernoulli(p))
+                .Select(i => i == 1);
         }
 
         private IEnumerable<double> GenerateWithDistribution(IContinuousDistribution distribution)
