@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators.RequiredData
 {
-    public record ClientHoldingsRequiredData(ClientHoldings PreviousClientHoldings, InvestmentSelection InvestmentSelection, ReturnData ReturnData, IEnumerable<IEvent> Events)
+    public record ClientDataRequiredData(ClientData PreviousClientData, InvestmentSelection InvestmentSelection, MacroEconomicData MacroEconomicData, ReturnData ReturnData, IEnumerable<IEvent> Events)
     {
     }
 }
