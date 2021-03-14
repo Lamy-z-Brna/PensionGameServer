@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Resources.ClientData;
 using PensionGame.Api.Resources.Events;
@@ -33,7 +34,12 @@ namespace PensionGame.Host.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Guid sessionId, InvestmentSelection investmentSelection)
         {
-            await Task.Run(() => Console.WriteLine(investmentSelection.BondValue));
+            await _dispatcher.Dispatch(
+                new CheckInvestmentSelectionCommand
+                (
+                    SessionId: new Api.Domain.Session.SessionId(sessionId),
+                    InvestmentSelection: investmentSelection
+                ));
 
             return Ok();
         }

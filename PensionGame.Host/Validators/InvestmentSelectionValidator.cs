@@ -14,10 +14,10 @@ namespace PensionGame.Host.Validators
         public InvestmentSelectionValidator()
         {
             RuleFor(x => x.StockValue)
-                    .GreaterThan(0)
+                    .GreaterThanOrEqualTo(0)
                     .LessThanOrEqualTo(100000000);
             RuleFor(x => x.BondValue)
-                .GreaterThan(0)
+                .GreaterThanOrEqualTo(0)
                 .LessThanOrEqualTo(100000000);
             RuleFor(x => x.SavingsAccountValue)
                 .GreaterThanOrEqualTo(0)

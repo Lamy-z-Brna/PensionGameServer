@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
+using PensionGame.Core.Common;
 using PensionGame.DataAccess.Readers;
 using PensionGame.DataAccess.Writers;
 using PensionGame.Host.Validators;
@@ -37,6 +37,7 @@ namespace PensionGame.Host
             services.AddControllers(options => options.Filters.Add(typeof(ValidateModelAttribute)))
                 .AddFluentValidation(fv 
                     => fv.RegisterValidatorsFromAssemblyContaining<StartupParametersValidator>());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PensionGame.Host", Version = "v1" });
@@ -71,12 +72,15 @@ namespace PensionGame.Host
 
         private void RegisterApplicationComponents(IServiceCollection services)
         {
+            _container.Register(Component.For<IRandom>()
+                .ImplementedBy<RandomGenerator>());
             RegisterAllImplementing<IReader>();
             RegisterAllImplementing<IWriter>();
             RegisterAllImplementing(typeof(ICalculator<>));
             RegisterAllImplementing(typeof(ICalculator<,>));
             RegisterAllImplementing(typeof(IMapper<,>));
             RegisterAllImplementing(typeof(IQueryHandler<,>));
+            RegisterAllImplementing(typeof(ICommandHandler<>));
             RegisterAllImplementing(typeof(ICommandHandler<,>));
             _container.Register(Component.For<IDispatcher>()
                 .ImplementedBy<Dispatcher>());
