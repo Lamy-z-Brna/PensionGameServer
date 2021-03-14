@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Readers.ClientData
 {
-    public interface IIncomeDataReader : IReader
+    public interface IInvestmentSelectionReader : IReader
     {
-        Task<IncomeData> Get(SessionId sessionId, int year);
+        Task<InvestmentSelection> Get(SessionId sessionId, int year);
     }
 }

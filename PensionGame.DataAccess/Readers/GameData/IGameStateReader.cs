@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using PensionGame.DataAccess.Data_Objects.GameData;
+using PensionGame.DataAccess.Data_Objects.Session;
 using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Readers.GameData
 {
-    interface IGameStateReader
+    public interface IGameStateReader : IReader
     {
+        Task<GameState> Get(SessionId sessionId, int year);
     }
 }

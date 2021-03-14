@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Data_Objects.ClientData
 {
-    class ExpenseData
+    public record ExpenseData
     {
     }
 }

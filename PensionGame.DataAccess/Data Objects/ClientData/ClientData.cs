@@ -1,6 +1,8 @@
-﻿namespace PensionGame.DataAccess.Data_Objects.ClientData
+﻿using System;
+
+namespace PensionGame.DataAccess.Data_Objects.ClientData
 {
-    public record ClientData
+    public record ClientData()
     {
     }
 }

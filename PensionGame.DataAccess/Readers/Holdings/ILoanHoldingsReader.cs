@@ -1,12 +1,12 @@
-﻿using System;
+﻿using PensionGame.DataAccess.Data_Objects.Holdings;
+using PensionGame.DataAccess.Data_Objects.Session;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Readers.Holdings
 {
-    interface ILoanHoldingsReader
+    public interface ILoanHoldingsReader : IReader
     {
+        Task<IEnumerable<LoanHolding>> Get(SessionId sessionId, int year);
     }
 }
