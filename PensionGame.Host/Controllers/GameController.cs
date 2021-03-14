@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
+using PensionGame.Api.Handlers.Queries;
 using PensionGame.Api.Resources.ClientData;
 using PensionGame.Api.Resources.Events;
 using PensionGame.Api.Resources.GameData;
@@ -26,7 +27,12 @@ namespace PensionGame.Host.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Guid sessionId, InvestmentSelection investmentSelection)
         {
-            await Task.Run(() => Console.WriteLine(investmentSelection.BondValue));
+            await _dispatcher.Dispatch(
+                new CreateNextStepCommand
+                (
+                    SessionId: new Api.Domain.Session.SessionId(sessionId),
+                    InvestmentSelection: investmentSelection
+                ));
 
             return Ok();
         }
@@ -46,44 +52,11 @@ namespace PensionGame.Host.Controllers
         [HttpGet]
         public async Task<GameState> Get(Guid sessionId)
         {
-            var gameState = new GameState
-            (
-                Year: 26,
-                ClientData: new ClientData
+            var result = await _dispatcher.Query<GetGameStateQuery, GameState>
                 (
-                    ClientHoldings: new ClientHoldings
-                    (
-                        Bonds: new List<BondHolding>
-                        {
-                            new BondHolding(1000, 5),
-                            new BondHolding(700, 3)
-                        },
-                        Loans: Enumerable.Empty<LoanHolding>(),
-                        SavingsAccount: new SavingsAccountHoldings(26),
-                        Stocks: new StockHolding(35, 102)
-                    ),
-                    Events: Enumerable.Empty<Event>(),
-                    ExpenseData: new ExpenseData
-                    {
-                        ChildrenExpenses = 0,
-                        ExtraExpenses = 0,
-                        LifeExpenses = 10000,
-                        Rent = 1520
-                    },
-                    IncomeData: new IncomeData
-                    {
-                        BondInterest = 0,
-                        ExtraIncome = 10000,
-                        Salary = 15000,
-                        SavingsAccountInterest = 10
-                    }
-                ),
-                IsFinished: false
-            );
-
-            var newGameState = gameState with { Year = 28 };
-
-            return newGameState;
+                    new GetGameStateQuery(sessionId)
+                );
+            return result;
         }
     }
 }

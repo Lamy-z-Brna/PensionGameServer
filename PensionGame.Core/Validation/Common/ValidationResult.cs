@@ -36,6 +36,8 @@ namespace PensionGame.Core.Validation.Common
             return _either.Match(func1, func2);
         }
 
-        public ValidationResult<TObj> OnValid<TResult>(Action<TObj> action) => new(_either.Do(action, (error) => { }));
+        public ValidationResult<TObj> OnValid(Action<TObj> action) => new(_either.Do(action, (error) => { }));
+
+        public ValidationResult<TObj> OnError(Action<ValidationError> action) => new(_either.Do((_) => { }, action));
     }
 }

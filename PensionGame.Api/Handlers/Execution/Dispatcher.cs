@@ -26,5 +26,12 @@ namespace PensionGame.Api.Handlers.Execution
 
             return await commandHandler.Handle(command);
         }
+
+        public async Task<TResult> Query<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>
+        {
+            var queryHandler = _kernel.Resolve<IQueryHandler<TQuery, TResult>>();
+
+            return await queryHandler.Handle(query);
+        }
     }
 }

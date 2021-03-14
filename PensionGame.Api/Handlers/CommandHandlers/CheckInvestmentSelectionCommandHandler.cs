@@ -78,7 +78,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
                     )
                 );
 
-            result.Do((_) => { }, (error) => throw new Exception(string.Join(",", error.ErrorMessages)));
+            result.OnError(error => throw new Exception(string.Join(",", error.ErrorMessages)));
         }
     }
 }
