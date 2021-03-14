@@ -37,13 +37,13 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                         ChildrenExpenses = 0,
                         ExtraExpenses = 0,
                         LifeExpenses = 10000,
-                        Rent = 1520
+                        Rent = 0
                     },
                     IncomeData: new IncomeData
                     {
                         BondInterest = 0,
-                        ExtraIncome = 10000,
-                        Salary = 15000,
+                        ExtraIncome = 0,
+                        Salary = 17500,
                         SavingsAccountInterest = 10
                     }
                 ),
