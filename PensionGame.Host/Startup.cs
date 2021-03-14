@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
+using PensionGame.Core.Calculators.Common;
 using PensionGame.DataAccess.Readers;
 using PensionGame.DataAccess.Writers;
 using PensionGame.Host.Validators;
@@ -72,6 +73,8 @@ namespace PensionGame.Host
         {
             RegisterAllImplementing<IReader>();
             RegisterAllImplementing<IWriter>();
+            RegisterAllImplementing(typeof(ICalculator<>));
+            RegisterAllImplementing(typeof(ICalculator<,>));
             RegisterAllImplementing(typeof(IMapper<,>));
             RegisterAllImplementing(typeof(IQueryHandler<,>));
             RegisterAllImplementing(typeof(ICommandHandler<,>));

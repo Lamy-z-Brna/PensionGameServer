@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Resources.ClientData;
 using PensionGame.Api.Resources.Events;
 using PensionGame.Api.Resources.GameData;
@@ -14,8 +15,11 @@ namespace PensionGame.Host.Controllers
     [Route("api/[controller]")]
     public class GameController : ControllerBase
     {
-        public GameController()
+        private readonly IDispatcher _dispatcher;
+
+        public GameController(IDispatcher dispatcher)
         {
+            _dispatcher = dispatcher;
         }
 
         [HttpPost]

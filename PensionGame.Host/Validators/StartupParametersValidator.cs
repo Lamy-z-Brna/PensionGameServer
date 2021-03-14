@@ -15,9 +15,9 @@ namespace PensionGame.Host.Validators
                 .GreaterThan(0)
                 .LessThanOrEqualTo(100000000);
             RuleFor(x => x.Year)
-                .GreaterThanOrEqualTo(20)
-                .LessThanOrEqualTo(100)
-                .LessThan(x => x.RetirementYear);
+                 .GreaterThanOrEqualTo(20)
+                 .LessThanOrEqualTo(100)
+                 .LessThan(x => x.RetirementYear);
             RuleFor(x => x.RetirementYear)
                 .GreaterThanOrEqualTo(20)
                 .LessThanOrEqualTo(100);

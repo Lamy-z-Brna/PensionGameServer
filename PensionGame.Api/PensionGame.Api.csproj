@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\QueryHandlers\" />
-    <Folder Include="Handlers\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="5.1.1" />
   </ItemGroup>
 

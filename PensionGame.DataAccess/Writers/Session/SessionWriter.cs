@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Writers.Session
 {
-    public class SessionWriter : ISessionWriter
+    public sealed class SessionWriter : ISessionWriter
     {
         public async Task<SessionId> Create(int Income, int Expenses, int Year, int RetirementYear)
         {

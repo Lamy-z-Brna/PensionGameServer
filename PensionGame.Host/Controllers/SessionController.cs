@@ -2,6 +2,7 @@
 using PensionGame.Api.Domain.Session;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
+using PensionGame.Api.Resources.ClientData;
 using System.Threading.Tasks;
 
 namespace PensionGame.Host.Controllers
