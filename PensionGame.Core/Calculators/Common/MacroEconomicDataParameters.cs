@@ -11,7 +11,8 @@
         public double UnemploymentRateNonCrisisMean { get; } = 0.15;
         public double UnemploymentRateDeviation { get; } = 0.05;
 
-        public double InterestRateMean { get; } = 0.012;
+        public double InterestRateCrisisMean { get; } = 0.002;
+        public double InterestRateNonCrisisMean { get; } = 0.012;
         public double InterestRateDeviation { get; } = 0.01;
     }
 }

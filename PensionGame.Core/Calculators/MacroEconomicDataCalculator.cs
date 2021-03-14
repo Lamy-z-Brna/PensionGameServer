@@ -22,7 +22,10 @@ namespace PensionGame.Core.Calculators
         {
             var isCrisis = _random.GenerateBernoulli(_parameters.CrisisProbability).First();
             var inflationRate = _random.GenerateNormal(_parameters.InflationRateMean, _parameters.InflationRateDeviation).First();
-            var interestRate = _random.GenerateNormal(_parameters.InterestRateMean, _parameters.InterestRateDeviation).First();
+
+            var interestRate = _random.GenerateNormal(
+                isCrisis ? _parameters.InterestRateCrisisMean : _parameters.InterestRateNonCrisisMean,
+                _parameters.InterestRateDeviation).First();
 
             var unemploymentRate = Math.Max(0.0,
                 _random.GenerateNormal(

@@ -1,6 +1,6 @@
 ﻿namespace PensionGame.Core.Calculators.Common
 {
-    public interface IMacroEconomicDataParameters
+    public interface IMacroEconomicDataParameters : ICalculatorParameters
     {
         double CrisisProbability { get; }
 
@@ -11,7 +11,8 @@
         double UnemploymentRateNonCrisisMean { get; }
         double UnemploymentRateDeviation { get; }
 
-        double InterestRateMean { get; }
+        double InterestRateCrisisMean { get; }
+        double InterestRateNonCrisisMean { get; }
         double InterestRateDeviation { get; }
     }
 }

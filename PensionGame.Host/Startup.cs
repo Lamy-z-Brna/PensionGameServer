@@ -76,6 +76,7 @@ namespace PensionGame.Host
                 .ImplementedBy<RandomSampler>());
             RegisterAllImplementing<IReader>();
             RegisterAllImplementing<IWriter>();
+            RegisterAllImplementing(typeof(ICalculatorParameters));
             RegisterAllImplementing(typeof(ICalculator<>));
             RegisterAllImplementing(typeof(ICalculator<,>));
             RegisterAllImplementing(typeof(IMapper<,>));
