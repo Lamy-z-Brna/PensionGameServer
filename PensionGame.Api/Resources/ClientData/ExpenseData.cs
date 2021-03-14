@@ -4,6 +4,8 @@
     {
         public int LifeExpenses { get; init; }
 
+        public int LoanExpenses { get; init; }
+
         public int Rent { get; init; }
 
         public int ChildrenExpenses { get; init; }

@@ -58,7 +58,7 @@ namespace PensionGame.Core.Calculators
                     ExpenseData: new ExpenseData
                     (
                         LifeExpenses: Rounder.Round(previousExpenseData.LifeExpenses * macroEconomicData.InflationRate),
-                        LoanInterest: Rounder.Round(loanInterest),
+                        LoanExpenses: Rounder.Round(loanInterest),
                         ChildrenExpenses: 0,
                         ExtraExpenses: 0,
                         Rent: 0
