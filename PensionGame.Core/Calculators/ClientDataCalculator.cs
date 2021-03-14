@@ -23,7 +23,7 @@ namespace PensionGame.Core.Calculators
             var investmentSelection = requiredData.InvestmentSelection;
             var returnData = requiredData.ReturnData;
 
-            var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice * returnData.StockRate, 2);
+            var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice * (1 + returnData.StockRate), 2);
             var stocksUnits = Math.Round(investmentSelection.StockValue / previousHoldings.Stocks.UnitPrice, 2);
 
             var bondInterest = previousHoldings.Bonds
@@ -50,14 +50,14 @@ namespace PensionGame.Core.Calculators
                 (
                     IncomeData: new IncomeData
                     (
-                        Salary: Rounder.Round(previousIncomeData.Salary * macroEconomicData.InflationRate),
+                        Salary: Rounder.Round(previousIncomeData.Salary * (1 + macroEconomicData.InflationRate)),
                         BondInterest: bondInterest,
                         SavingsAccountInterest: Rounder.Round(investmentSelection.SavingsAccountValue * returnData.SavingsAccountRate),
                         ExtraIncome: 0
                     ),
                     ExpenseData: new ExpenseData
                     (
-                        LifeExpenses: Rounder.Round(previousExpenseData.LifeExpenses * macroEconomicData.InflationRate),
+                        LifeExpenses: Rounder.Round(previousExpenseData.LifeExpenses * (1 + macroEconomicData.InflationRate)),
                         LoanExpenses: Rounder.Round(loanInterest),
                         ChildrenExpenses: 0,
                         ExtraExpenses: 0,

@@ -1,4 +1,4 @@
-﻿using PensionGame.Api.Common.Mappers;
+﻿using AutoMapper;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Resources.ClientData;
 using PensionGame.Api.Resources.Events;
@@ -9,7 +9,6 @@ using PensionGame.Core.Calculators.RequiredData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
@@ -17,16 +16,13 @@ namespace PensionGame.Api.Handlers.CommandHandlers
     public sealed class CheckInvestmentSelectionCommandHandler : ICheckInvestmentSelectionCommandHandler
     {
         private readonly IInvestmentSelectionValidationCalculator _investmentSelectionValidationCalculator;
-        private readonly IClientDataMapper _clientDataMapper;
-        private readonly IInvestmentSelectionMapper _investmentSelectionMapper;
+        private readonly IMapper _mapper;
 
         public CheckInvestmentSelectionCommandHandler(IInvestmentSelectionValidationCalculator investmentSelectionValidationCalculator,
-            IClientDataMapper clientDataMapper,
-            IInvestmentSelectionMapper investmentSelectionMapper)
+            IMapper mapper)
         {
             _investmentSelectionValidationCalculator = investmentSelectionValidationCalculator;
-            _clientDataMapper = clientDataMapper;
-            _investmentSelectionMapper = investmentSelectionMapper;
+            _mapper = mapper;
         }
 
         public async Task Handle(CheckInvestmentSelectionCommand command)
@@ -66,8 +62,8 @@ namespace PensionGame.Api.Handlers.CommandHandlers
                 IsFinished: false
             );
 
-            var clientData = _clientDataMapper.Map(gameState.ClientData);
-            var investmentSelection = _investmentSelectionMapper.Map(command.InvestmentSelection);
+            var clientData = _mapper.Map<Core.Domain.ClientData.ClientData>(gameState.ClientData);
+            var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
 
             var result = _investmentSelectionValidationCalculator.Calculate
                 (

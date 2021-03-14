@@ -3,12 +3,9 @@ using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
 using PensionGame.Api.Resources.ClientData;
-using PensionGame.Api.Resources.Events;
 using PensionGame.Api.Resources.GameData;
-using PensionGame.Api.Resources.Holdings;
+using PensionGame.Api.Resources.Session;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PensionGame.Host.Controllers
@@ -30,7 +27,7 @@ namespace PensionGame.Host.Controllers
             await _dispatcher.Dispatch(
                 new CreateNextStepCommand
                 (
-                    SessionId: new Api.Domain.Session.SessionId(sessionId),
+                    SessionId: new SessionId(sessionId),
                     InvestmentSelection: investmentSelection
                 ));
 
@@ -43,7 +40,7 @@ namespace PensionGame.Host.Controllers
             await _dispatcher.Dispatch(
                 new CheckInvestmentSelectionCommand
                 (
-                    SessionId: new Api.Domain.Session.SessionId(sessionId),
+                    SessionId: new SessionId(sessionId),
                     InvestmentSelection: investmentSelection
                 ));
 

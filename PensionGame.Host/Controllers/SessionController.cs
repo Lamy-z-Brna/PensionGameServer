@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PensionGame.Api.Domain.Session;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
-using PensionGame.Api.Resources.ClientData;
+using PensionGame.Api.Resources.Session;
 using System.Threading.Tasks;
 
 namespace PensionGame.Host.Controllers

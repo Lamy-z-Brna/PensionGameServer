@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PensionGame.Api.Domain.Session
+namespace PensionGame.Api.Resources.Session
 {
     public record SessionId(Guid Id)
     {

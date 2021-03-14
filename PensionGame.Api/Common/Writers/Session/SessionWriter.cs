@@ -1,4 +1,4 @@
-﻿using PensionGame.Api.Domain.Session;
+﻿using PensionGame.Api.Resources.Session;
 using PensionGame.DataAccess;
 using System;
 using System.Threading.Tasks;
