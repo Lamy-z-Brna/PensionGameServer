@@ -8,6 +8,6 @@ namespace PensionGame.Core.Common
 
         IEnumerable<double> GenerateUniform(double a, double b);
 
-        IEnumerable<double> GenerateAlternative(double p);
+        IEnumerable<int> GenerateBernoulli(double p);
     }
 }
