@@ -72,8 +72,8 @@ namespace PensionGame.Host
 
         private void RegisterApplicationComponents(IServiceCollection services)
         {
-            _container.Register(Component.For<IRandom>()
-                .ImplementedBy<RandomGenerator>());
+            _container.Register(Component.For<IRandomSampler>()
+                .ImplementedBy<RandomSampler>());
             RegisterAllImplementing<IReader>();
             RegisterAllImplementing<IWriter>();
             RegisterAllImplementing(typeof(ICalculator<>));

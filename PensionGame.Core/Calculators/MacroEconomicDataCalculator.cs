@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace PensionGame.Core.Calculators
 {
+    //TODO VB unit tests?
     public class MacroEconomicDataCalculator : IMacroEconomicDataCalculator
     {
         private readonly IRandomSampler _random;
