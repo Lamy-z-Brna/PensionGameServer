@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess.Writers.ClientData
 {
-    interface IClientDataWriter
+    public interface IClientDataWriter
     {
     }
 }

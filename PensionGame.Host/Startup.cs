@@ -4,14 +4,17 @@ using Castle.Windsor;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
 using PensionGame.Core.Common;
+using PensionGame.DataAccess;
 using PensionGame.DataAccess.Readers;
 using PensionGame.DataAccess.Writers;
 using PensionGame.Host.Validators;
@@ -33,6 +36,7 @@ namespace PensionGame.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<PensionGameDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PensionGameDbConnection"), b => b.MigrationsAssembly("PensionGame.Host")));
 
             services.AddControllers(options => options.Filters.Add(typeof(ValidateModelAttribute)))
                 .AddFluentValidation(fv 
@@ -46,6 +50,8 @@ namespace PensionGame.Host
             RegisterApplicationComponents(services);
 
             services.AddWindsor(_container);
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
