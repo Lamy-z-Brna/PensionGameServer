@@ -3,7 +3,6 @@ using PensionGame.Api.Resources.ClientData;
 using PensionGame.Api.Resources.Events;
 using PensionGame.Api.Resources.GameData;
 using PensionGame.Api.Resources.Holdings;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,12 +19,17 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                 (
                     ClientHoldings: new ClientHoldings
                     (
-                        Bonds: new List<BondHolding>
+                        Bonds: new BondHoldings(new []
                         {
                             new BondHolding(1000, 5),
                             new BondHolding(700, 3)
-                        },
-                        Loans: Enumerable.Empty<LoanHolding>(),
+                        }),
+                        Loans: new LoanHoldings(new[]
+                        {
+                            new LoanHolding(1000, 0.05),
+                            new LoanHolding(700, 0.1),
+                            new LoanHolding(400, 0.45)
+                        }),
                         SavingsAccount: new SavingsAccountHoldings(26),
                         Stocks: new StockHolding(35, 102)
                     ),

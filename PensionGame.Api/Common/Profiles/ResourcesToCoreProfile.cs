@@ -18,9 +18,13 @@ namespace PensionGame.Api.Common.Profiles
 
             CreateMap<BondHolding, Core.Domain.Holdings.BondHolding>();
 
+            CreateMap<BondHoldings, Core.Domain.Holdings.BondHoldings>();
+
             CreateMap<SavingsAccountHoldings, Core.Domain.Holdings.SavingsAccountHoldings>();
 
             CreateMap<LoanHolding, Core.Domain.Holdings.LoanHolding>();
+
+            CreateMap<LoanHoldings, Core.Domain.Holdings.LoanHoldings>();
 
             CreateMap<ClientHoldings, Core.Domain.Holdings.ClientHoldings>();
 

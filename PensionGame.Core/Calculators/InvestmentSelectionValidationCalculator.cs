@@ -6,27 +6,45 @@ namespace PensionGame.Core.Calculators
 {
     public sealed class InvestmentSelectionValidationCalculator : IInvestmentSelectionValidationCalculator
     {
+        private readonly IInvestmentSelectionDifferenceCalculator _investmentSelectionDifferenceCalculator;
+
+        public InvestmentSelectionValidationCalculator(IInvestmentSelectionDifferenceCalculator investmentSelectionDifferenceCalculator)
+        {
+            _investmentSelectionDifferenceCalculator = investmentSelectionDifferenceCalculator;
+        }
+
         public ValidationResult<InvestmentSelection> Calculate(InvestmentSelectionValidationRequiredData requiredData)
         {
             var currentClientData = requiredData.CurrentClientData;
             var investmentSelection = requiredData.InvestmentSelection;
 
-            var newLoanValue = investmentSelection.LoanValue - currentClientData.ClientHoldings.TotalLoanValue;
-            var totalDisposableIncome = newLoanValue + currentClientData.DisposableIncome;
-            var totalInvestedAmount = investmentSelection.TotalInvestedValue;
-
-            if (totalDisposableIncome < totalInvestedAmount)
-                return new ValidationResult<InvestmentSelection>
+            var holdingChanges = _investmentSelectionDifferenceCalculator.Calculate
+                (
+                    new InvestmentSelectionDifferenceRequiredData
                     (
-                        new ValidationError
-                        (
-                            $"Total invested amount of {totalInvestedAmount} exceeds disposable income of {totalDisposableIncome}"
-                        )
-                    );
+                        CurrentHoldings: currentClientData.ClientHoldings, 
+                        InvestmentSelection: investmentSelection
+                    )
+                );
 
+            if (currentClientData.DisposableIncome + holdingChanges.LoanChange - holdingChanges.StockChange - holdingChanges.SavingsAccountChange - holdingChanges.BondChange < 0)
+            {
+                var totalInvested = holdingChanges.StockChange + holdingChanges.SavingsAccountChange + holdingChanges.BondChange;
 
+                var errorMessage = holdingChanges.LoanChange >= 0
+                    ? $"Total income usable of {currentClientData.DisposableIncome + holdingChanges.LoanChange} is not enough to cover investments totalling {totalInvested}"
+                    : $"Total disposable income of {currentClientData.DisposableIncome} is not enough to cover investments and repayments totalling {totalInvested - holdingChanges.LoanChange}";
 
-            if (newLoanValue > 0 && currentClientData.IncomeData.TotalIncome < investmentSelection.LoanValue)
+                return new ValidationResult<InvestmentSelection>
+                (
+                    new ValidationError
+                    (
+                        errorMessage
+                    )
+                );
+            }
+
+            if (holdingChanges.LoanChange > 0 && currentClientData.IncomeData.TotalIncome < investmentSelection.LoanValue)
                 return new ValidationResult<InvestmentSelection>
                     (
                         new ValidationError

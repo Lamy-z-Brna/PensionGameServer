@@ -9,6 +9,16 @@ namespace PensionGame.Core.Calculators
 {
     public sealed class ClientDataCalculator : IClientDataCalculator
     {
+        private readonly INewBondCalculator _newBondCalculator;
+        private readonly INewLoanCalculator _newLoanCalculator;
+
+        public ClientDataCalculator(INewLoanCalculator newLoanCalculator, 
+            INewBondCalculator newBondCalculator)
+        {
+            _newLoanCalculator = newLoanCalculator;
+            _newBondCalculator = newBondCalculator;
+        }
+
         public ClientData Calculate(ClientDataRequiredData requiredData)
         {
             var previousClientData = requiredData.PreviousClientData;
@@ -23,25 +33,33 @@ namespace PensionGame.Core.Calculators
             var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice * (1 + returnData.StockRate), 2);
             var stocksUnits = Math.Round(investmentSelection.StockValue / previousHoldings.Stocks.UnitPrice, 2);
 
-            var bondInterest = previousHoldings.Bonds
-                .Sum(bond => bond.YearlyPayment);
+            var bondInterest = previousHoldings.Bonds.TotalPayments;
 
-            var bonds = previousHoldings.Bonds
-                .Select(bond => bond with { YearsToExpiration = bond.YearsToExpiration - 1 })
-                .Where(bond => bond.YearsToExpiration > 0)
-                .ToList();
-
-            bonds.Add(new BondHolding(Rounder.Round(investmentSelection.BondValue * (1 + returnData.BondRate)), 10));
+            var bonds = _newBondCalculator.Calculate
+                (
+                    new NewBondRequiredData
+                    (
+                        CurrentBonds: previousHoldings.Bonds,
+                        InvestmentSelection: investmentSelection,
+                        BondInterestRate: returnData.BondRate,
+                        BondDefaultRate: returnData.BondDefaultRate
+                    )
+                );
 
             var loanInterest = previousHoldings.Loans
                 .Sum(loans => loans.Amount * loans.InterestRate);
 
             var loanAmount = investmentSelection.LoanValue - previousHoldings.TotalLoanValue;
 
-            var loans = previousHoldings.Loans
-                .ToList();
-
-            loans.Add(new LoanHolding(loanAmount, returnData.LoanRate));
+            var loans = _newLoanCalculator.Calculate
+                (
+                    new NewLoanRequiredData
+                    (
+                        CurrentLoans: previousHoldings.Loans,
+                        InvestmentSelection: investmentSelection,
+                        LoanInterestRate: returnData.LoanRate
+                    )
+                );
 
             var clientData = new ClientData
                 (
@@ -63,7 +81,7 @@ namespace PensionGame.Core.Calculators
                     ClientHoldings: new ClientHoldings
                     (
                         Stocks: new StockHolding(stockPrice, stocksUnits),
-                        Bonds: bonds,
+                        Bonds: new BondHoldings(bonds),
                         SavingsAccount: new SavingsAccountHoldings(investmentSelection.SavingsAccountValue),
                         Loans: loans
                     )
