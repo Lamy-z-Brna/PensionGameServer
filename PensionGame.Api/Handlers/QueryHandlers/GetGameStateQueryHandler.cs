@@ -3,10 +3,8 @@ using PensionGame.Api.Resources.ClientData;
 using PensionGame.Api.Resources.Events;
 using PensionGame.Api.Resources.GameData;
 using PensionGame.Api.Resources.Holdings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers

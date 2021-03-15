@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PensionGame.DataAccess.Data_Objects.GameData;
 using PensionGame.DataAccess.Data_Objects.Session;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PensionGame.DataAccess
 {

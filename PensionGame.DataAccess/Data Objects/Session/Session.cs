@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PensionGame.DataAccess.Data_Objects.Session
 {
