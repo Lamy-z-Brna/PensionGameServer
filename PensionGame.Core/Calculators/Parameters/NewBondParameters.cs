@@ -1,4 +1,4 @@
-﻿namespace PensionGame.Core.Calculators.Common
+﻿namespace PensionGame.Core.Calculators.Parameters
 {
     public sealed class NewBondParameters : INewBondParameters
     {

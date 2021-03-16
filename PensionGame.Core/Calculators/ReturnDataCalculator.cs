@@ -1,4 +1,4 @@
-﻿using PensionGame.Core.Calculators.Common;
+﻿using PensionGame.Core.Calculators.Parameters;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain;
 using System;

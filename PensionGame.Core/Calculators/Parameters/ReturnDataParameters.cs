@@ -1,4 +1,4 @@
-﻿namespace PensionGame.Core.Calculators.Common
+﻿namespace PensionGame.Core.Calculators.Parameters
 {
     public class ReturnDataParameters : IReturnDataParameters
     {

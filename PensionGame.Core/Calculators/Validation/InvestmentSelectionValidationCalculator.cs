@@ -2,7 +2,7 @@
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Validation.Common;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Validation
 {
     public sealed class InvestmentSelectionValidationCalculator : IInvestmentSelectionValidationCalculator
     {

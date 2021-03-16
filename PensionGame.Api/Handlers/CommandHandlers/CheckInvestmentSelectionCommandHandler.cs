@@ -3,8 +3,8 @@ using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
 using PensionGame.Api.Resources.GameData;
-using PensionGame.Core.Calculators;
 using PensionGame.Core.Calculators.RequiredData;
+using PensionGame.Core.Calculators.Validation;
 using System;
 using System.Threading.Tasks;
 
@@ -27,7 +27,14 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
         public async Task Handle(CheckInvestmentSelectionCommand command)
         {
-            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>(new GetGameStateQuery(command.SessionId.Id));
+            var currentGameState = await _dispatcher
+                .Query<GetGameStateQuery, GameState>
+                (
+                    new GetGameStateQuery
+                    (
+                        SessionId: command.SessionId.Id
+                    )
+                );
 
             var clientData = _mapper.Map<Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
             var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
