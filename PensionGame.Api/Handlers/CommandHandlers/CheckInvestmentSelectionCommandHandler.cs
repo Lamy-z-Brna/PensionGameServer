@@ -7,6 +7,7 @@ using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Calculators.Validation;
 using System;
 using System.Threading.Tasks;
+using PensionGame.Api.Domain.Validation;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {
@@ -48,7 +49,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
                     )
                 );
 
-            result.OnError(error => throw new Exception(string.Join(",", error.ErrorMessages)));
+            result.OnError(error => throw new ValidationException(string.Join(",", error.ErrorMessages)));
         }
     }
 }

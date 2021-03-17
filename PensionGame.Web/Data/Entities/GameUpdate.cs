@@ -1,5 +1,3 @@
-using System;
-
 namespace PensionGame.Web.Data.Entities
 {
     public class GameUpdate

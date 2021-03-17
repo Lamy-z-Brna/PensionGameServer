@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PensionGame.Web.Data.Entities

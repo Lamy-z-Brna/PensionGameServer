@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace PensionGame.Host
+namespace PensionGame.Host.Validation
 {
     public sealed class ValidateModelAttribute : ActionFilterAttribute
     {
@@ -9,7 +8,7 @@ namespace PensionGame.Host
         {
             if (!context.ModelState.IsValid)
             {
-                context.Result = new BadRequestObjectResult(context.ModelState);
+                context.Result = new ValidationFailedResult(context.ModelState);
             }
         }
     }

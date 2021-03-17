@@ -4,6 +4,7 @@ using Castle.Windsor;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,14 +13,17 @@ using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Common.Profiles;
 using PensionGame.Api.Data_Access.Readers;
 using PensionGame.Api.Data_Access.Writers;
+using PensionGame.Api.Domain.Validation.Validators;
 using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
 using PensionGame.Core.Common;
 using PensionGame.DataAccess;
-using PensionGame.Host.Validators;
+using PensionGame.Host.Exception_Handling;
+using PensionGame.Host.Validation;
 using System;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace PensionGame.Host
 {
@@ -39,8 +43,16 @@ namespace PensionGame.Host
         {
             services.AddDbContext<PensionGameDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PensionGameDbConnection"), b => b.MigrationsAssembly("PensionGame.Host")));
 
-            services.AddControllers(options => options.Filters.Add(typeof(ValidateModelAttribute)))
-                .AddFluentValidation(fv 
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(ValidateModelAttribute));
+                    options.Filters.Add(typeof(ExceptionHandlingAttribute));
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                })
+                .AddFluentValidation(fv
                     => fv.RegisterValidatorsFromAssemblyContaining<StartupParametersValidator>());
             services.AddAutoMapper(Assembly.GetAssembly(typeof(DataObjectsToResourcesProfile)));
             services.AddSwaggerGen(c =>
@@ -52,7 +64,10 @@ namespace PensionGame.Host
 
             services.AddWindsor(_container);
 
-            
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
