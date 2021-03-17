@@ -2,8 +2,8 @@ using System;
 
 namespace PensionGame.Web.Data.Entities
 {
-    public class SessionId
+    public record SessionId
     {
-        public string Id { get; set; }
+        public Guid Id { get; init; }
     }
 }

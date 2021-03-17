@@ -22,7 +22,6 @@ namespace PensionGame.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<SessionDataServices>();
             services.AddSingleton<GameDataServices>();
         }

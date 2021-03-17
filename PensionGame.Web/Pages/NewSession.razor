@@ -8,14 +8,6 @@
 
 <h1>New game session!</h1>
 
-@if (sessionId != null)
-{
-    <p class="alert-success">
-        New game session created! Session ID: @sessionId.Id
-    </p>
-}
-
-
 <EditForm Model="@session" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -65,11 +57,9 @@
         Year = 25
     };
 
-    SessionId sessionId = null;
-
     private async Task HandleValidSubmit()
     {
-        sessionId = await SessionService.SessionPost(session);
+        var sessionId = await SessionService.SessionPost(session);
         navigationManager.NavigateTo($"/game/{sessionId.Id}");
     }
 }

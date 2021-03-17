@@ -31,7 +31,7 @@
 <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    @if (gameData != null && gameUpdate != null)
+    @if (gameData != null)
     {
         <p>
             <label>
@@ -101,7 +101,7 @@
             <InputNumber @bind-Value="gameUpdate.LoanValue" />
         </div>
     </p>
-    @if (gameData != null && gameUpdate != null)
+    @if (gameData != null)
     {
         <p>
             <label>
@@ -117,27 +117,33 @@
 
 @code {
     [Parameter]
-    public string sessionId { get; set; }
+    public string? sessionId { get; set; }
 
     GameUpdate gameUpdate = new GameUpdate();
 
-    GameData gameData;
+    GameData? gameData;
 
-    SessionId currentSession;
+    SessionId? currentSession;
 
-    int TotalCashFlow => gameData.ClientData.DisposableIncome + gameUpdate.LoanValue;
+    int TotalCashFlow => gameData?.ClientData.DisposableIncome + gameUpdate.LoanValue ?? 0;
     int RemainingCashFlow => TotalCashFlow - (gameUpdate.BondValue + gameUpdate.StockValue + gameUpdate.SavingsAccountValue);
 
     bool? success = null;
     bool validationOkay = true;
 
-    private EditContext editContext;
+    private EditContext editContext = new EditContext(new GameUpdate());
 
     protected override async void OnInitialized()
     {
         editContext = new EditContext(gameUpdate);
 
-        currentSession = new SessionId() { Id = sessionId };
+        if (string.IsNullOrEmpty(sessionId))
+            return; //TODO vypisat nejaku hlasku
+
+        if (!Guid.TryParse(sessionId, out var sessionGuid))
+            return; //TODO vypisat nejaku inu hlasku
+
+        currentSession = new SessionId() { Id = sessionGuid };
 
         gameData = await GameService.GameDataGet(currentSession);
 
@@ -146,22 +152,23 @@
         StateHasChanged();
     }
 
-    protected async void editContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
+    protected async void editContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
     {
-        validationOkay = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.PUT);
+        if (currentSession != null)
+        {
+            validationOkay = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.PUT);
 
-        StateHasChanged();
-    }
-    protected override void OnParametersSet()
-    {
-        //the param will be set now
-        //currentSession.Id = sessionId;
+            StateHasChanged();
+        }
     }
 
     private async Task HandleValidSubmit()
     {
-        success = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.POST);
+        if (currentSession != null)
+        {
+            success = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.POST);
 
-        gameData = await GameService.GameDataGet(currentSession);
+            gameData = await GameService.GameDataGet(currentSession);
+        }
     }
 }

@@ -26,11 +26,6 @@ namespace PensionGame.Web.Data
 
         public async Task<GameData> GameDataGet(SessionId sessionId)
         {
-            if (string.IsNullOrEmpty(sessionId.Id))
-            {
-                return null;
-            }
-
             Uri requestUri = new($"https://pensiongameserver.azurewebsites.net/api/Game");
 
             IRestClient client = new RestClient(requestUri);
