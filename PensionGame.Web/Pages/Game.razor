@@ -1,0 +1,167 @@
+﻿@page "/game/{sessionId}"
+@using PensionGame.Web.Data
+@using PensionGame.Web.Data.Entities
+
+@inject GameDataServices GameService
+
+
+<h1>Pension game</h1>
+
+@if (success.HasValue)
+{
+    if (success.Value)
+    {
+        <p class="alert-success">
+            Step executed successfuly!
+        </p>
+    }
+    else
+    {
+        <p class="alert-danger">
+            Step failed!
+        </p>
+    }
+}
+@if (!validationOkay)
+{
+    <p class="alert-danger">
+        Incorrect values!
+    </p>
+}
+<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    @if (gameData != null && gameUpdate != null)
+    {
+        <p>
+            <label>
+                Year:
+            </label>
+            <div>
+                @gameData.Year
+            </div>
+        </p>
+        <p>
+            <label>
+                Income:
+            </label>
+            <div>
+                @gameData.ClientData.IncomeData.TotalIncome
+            </div>
+        </p>
+        <p>
+            <label>
+                Expenses:
+            </label>
+            <div>
+                @gameData.ClientData.ExpenseData.TotalExpenses
+            </div>
+        </p>
+        <p>
+            <label>
+                Total Cash-flow:
+            </label>
+            <div>
+                @TotalCashFlow
+            </div>
+        </p>
+    }
+    <h3>How would you like to distribute your investments?</h3>
+    <p>
+        <label>
+            Stocks:
+        </label>
+        <div>
+            <InputNumber @bind-Value="gameUpdate.StockValue" />
+        </div>
+    </p>
+    <p>
+        <label>
+            Bonds:
+        </label>
+        <div>
+            <InputNumber @bind-Value="gameUpdate.BondValue" />
+        </div>
+    </p>
+    <p>
+        <label>
+            Savings account:
+        </label>
+        <div>
+            <InputNumber @bind-Value="gameUpdate.SavingsAccountValue" />
+        </div>
+    </p>
+
+    <h3>Would you like to take a loan?</h3>
+    <p>
+        <label>
+            Loan:
+        </label>
+        <div>
+            <InputNumber @bind-Value="gameUpdate.LoanValue" />
+        </div>
+    </p>
+    @if (gameData != null && gameUpdate != null)
+    {
+        <p>
+            <label>
+                Remaining Cash-flow:
+            </label>
+            <div>
+                @RemainingCashFlow
+            </div>
+        </p>
+    }
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string sessionId { get; set; }
+
+    GameUpdate gameUpdate = new GameUpdate();
+
+    GameData gameData;
+
+    SessionId currentSession;
+
+    int TotalCashFlow => gameData.ClientData.DisposableIncome + gameUpdate.LoanValue;
+    int RemainingCashFlow => TotalCashFlow - (gameUpdate.BondValue + gameUpdate.StockValue + gameUpdate.SavingsAccountValue);
+
+    bool? success = null;
+    bool validationOkay = true;
+
+    private EditContext editContext;
+
+    protected override async void OnInitialized()
+    {
+        editContext = new EditContext(gameUpdate);
+
+        currentSession = new SessionId() { Id = sessionId };
+
+        gameData = await GameService.GameDataGet(currentSession);
+
+        editContext.OnFieldChanged += editContext_OnFieldChanged;
+
+        StateHasChanged();
+    }
+
+    protected async void editContext_OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        validationOkay = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.PUT);
+
+        StateHasChanged();
+    }
+    protected override void OnParametersSet()
+    {
+        //the param will be set now
+        //currentSession.Id = sessionId;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        success = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.POST);
+
+        gameData = await GameService.GameDataGet(currentSession);
+    }
+}

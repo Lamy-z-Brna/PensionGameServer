@@ -1,0 +1,75 @@
+﻿@page "/newsession"
+@using PensionGame.Web.Data
+@using PensionGame.Web.Data.Entities
+
+@inject SessionDataServices SessionService
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+
+<h1>New game session!</h1>
+
+@if (sessionId != null)
+{
+    <p class="alert-success">
+        New game session created! Session ID: @sessionId.Id
+    </p>
+}
+
+
+<EditForm Model="@session" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        <label>
+            Income:
+        </label>
+        <div>
+            <InputNumber @bind-Value="session.Income" />
+        </div>
+    </p>
+    <p>
+        <label>
+            Expenses:
+        </label>
+        <div>
+            <InputNumber @bind-Value="session.Expenses" />
+        </div>
+    </p>
+    <p>
+        <label>
+            Age:
+        </label>
+        <div>
+            <InputNumber @bind-Value="session.Year" />
+        </div>
+    </p>
+    <p>
+        <label>
+            Retirement age:
+        </label>
+        <div>
+            <InputNumber @bind-Value="session.RetirementYear" />
+        </div>
+    </p>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    Session session = new Session()
+    {
+        Income = 30000,
+        Expenses = 20000,
+        RetirementYear = 65,
+        Year = 25
+    };
+
+    SessionId sessionId = null;
+
+    private async Task HandleValidSubmit()
+    {
+        sessionId = await SessionService.SessionPost(session);
+        navigationManager.NavigateTo($"/game/{sessionId.Id}");
+    }
+}
