@@ -1,8 +1,8 @@
 ﻿using PensionGame.Api.Handlers.Queries;
-using PensionGame.Api.Resources.ClientData;
-using PensionGame.Api.Resources.Events;
-using PensionGame.Api.Resources.GameData;
-using PensionGame.Api.Resources.Holdings;
+using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.Events;
+using PensionGame.Api.Domain.Resources.GameData;
+using PensionGame.Api.Domain.Resources.Holdings;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PensionGame.Api.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.ClientData;
 
 namespace PensionGame.Host.Validators
 {

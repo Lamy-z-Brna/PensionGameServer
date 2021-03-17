@@ -9,8 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
-using PensionGame.Api.Common.Readers;
-using PensionGame.Api.Common.Writers;
+using PensionGame.Api.Common.Profiles;
+using PensionGame.Api.Data_Access.Readers;
+using PensionGame.Api.Data_Access.Writers;
 using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
@@ -18,6 +19,7 @@ using PensionGame.Core.Common;
 using PensionGame.DataAccess;
 using PensionGame.Host.Validators;
 using System;
+using System.Reflection;
 
 namespace PensionGame.Host
 {
@@ -40,7 +42,7 @@ namespace PensionGame.Host
             services.AddControllers(options => options.Filters.Add(typeof(ValidateModelAttribute)))
                 .AddFluentValidation(fv 
                     => fv.RegisterValidatorsFromAssemblyContaining<StartupParametersValidator>());
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(DataObjectsToResourcesProfile)));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PensionGame.Host", Version = "v1" });

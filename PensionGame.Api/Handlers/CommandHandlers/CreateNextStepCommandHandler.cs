@@ -2,7 +2,7 @@
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
-using PensionGame.Api.Resources.GameData;
+using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Core.Calculators;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Events.Common;

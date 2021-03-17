@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using PensionGame.Api.Common.Writers.Session;
 using PensionGame.Api.Handlers.Commands;
-using PensionGame.Api.Resources.Session;
+using PensionGame.Api.Domain.Resources.Session;
 using System.Threading.Tasks;
+using PensionGame.Api.Data_Access.Writers.Session;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {

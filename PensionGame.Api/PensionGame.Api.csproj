@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PensionGame.Api.Domain\PensionGame.Api.Domain.csproj" />
     <ProjectReference Include="..\PensionGame.Core\PensionGame.Core.csproj" />
     <ProjectReference Include="..\PensionGame.DataAccess\PensionGame.DataAccess.csproj" />
   </ItemGroup>

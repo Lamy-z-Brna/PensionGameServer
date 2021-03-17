@@ -1,6 +1,6 @@
 ﻿using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Queries;
-using PensionGame.Api.Resources.GameData;
+using PensionGame.Api.Domain.Resources.GameData;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
 {

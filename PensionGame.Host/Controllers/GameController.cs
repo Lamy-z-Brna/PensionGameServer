@@ -2,9 +2,9 @@
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
-using PensionGame.Api.Resources.ClientData;
-using PensionGame.Api.Resources.GameData;
-using PensionGame.Api.Resources.Session;
+using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.GameData;
+using PensionGame.Api.Domain.Resources.Session;
 using System;
 using System.Threading.Tasks;
 

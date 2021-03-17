@@ -7,7 +7,7 @@ namespace PensionGame.Api.Common.Profiles
     {
         public DataObjectsToResourcesProfile()
         {
-            CreateMap<SessionId, Resources.Session.SessionId>();
+            CreateMap<SessionId, Domain.Resources.Session.SessionId>();
         }
     }
 }
