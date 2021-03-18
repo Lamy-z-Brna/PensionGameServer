@@ -5,6 +5,7 @@ using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using System.Linq;
 using System.Threading.Tasks;
+using PensionGame.Api.Domain.Resources.MarketData;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
 {
@@ -48,6 +49,15 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                         Salary = 17500,
                         SavingsAccountInterest = 10
                     }
+                ),
+                MarketData: new MarketData
+                (
+                    new ReturnData
+                    (
+                        BondRate: 0.03,
+                        SavingsAccountRate: 0.01,
+                        LoanRate: 0.09
+                    )
                 ),
                 IsFinished: false
             );

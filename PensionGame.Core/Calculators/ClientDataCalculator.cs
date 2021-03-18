@@ -22,6 +22,7 @@ namespace PensionGame.Core.Calculators
         public ClientData Calculate(ClientDataRequiredData requiredData)
         {
             var previousClientData = requiredData.PreviousClientData;
+            var previousReturnData = requiredData.PreviousMarketData.ReturnData;
             var previousIncomeData = previousClientData.IncomeData;
             var previousExpenseData = previousClientData.ExpenseData;
             var previousHoldings = previousClientData.ClientHoldings;
@@ -41,7 +42,7 @@ namespace PensionGame.Core.Calculators
                     (
                         CurrentBonds: previousHoldings.Bonds,
                         InvestmentSelection: investmentSelection,
-                        BondInterestRate: returnData.BondRate,
+                        BondInterestRate: previousReturnData.BondRate,
                         BondDefaultRate: returnData.BondDefaultRate
                     )
                 );
@@ -57,7 +58,7 @@ namespace PensionGame.Core.Calculators
                     (
                         CurrentLoans: previousHoldings.Loans,
                         InvestmentSelection: investmentSelection,
-                        LoanInterestRate: returnData.LoanRate
+                        LoanInterestRate: previousReturnData.LoanRate
                     )
                 );
 
@@ -67,7 +68,7 @@ namespace PensionGame.Core.Calculators
                     (
                         Salary: Rounder.Round(previousIncomeData.Salary * (1 + macroEconomicData.InflationRate)),
                         BondInterest: bondInterest,
-                        SavingsAccountInterest: Rounder.Round(investmentSelection.SavingsAccountValue * returnData.SavingsAccountRate),
+                        SavingsAccountInterest: Rounder.Round(investmentSelection.SavingsAccountValue * previousReturnData.SavingsAccountRate),
                         ExtraIncome: 0
                     ),
                     ExpenseData: new ExpenseData

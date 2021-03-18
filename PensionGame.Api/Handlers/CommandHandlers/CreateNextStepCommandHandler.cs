@@ -8,6 +8,7 @@ using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Events.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using PensionGame.Api.Data_Access.Readers.MarketData;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {
@@ -15,6 +16,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
     {
         private readonly IDispatcher _dispatcher;
         private readonly IMapper _mapper;
+        private readonly IMarketDataReader _marketDataReader;
         private readonly IMacroEconomicDataCalculator _macroEconomicDataCalculator;
         private readonly IReturnDataCalculator _returnDataCalculator;
         private readonly IClientDataCalculator _clientDataCalculator;
@@ -22,12 +24,14 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
         public CreateNextStepCommandHandler(IDispatcher dispatcher,
             IMapper mapper, 
+            IMarketDataReader marketDataReader,
             IMacroEconomicDataCalculator macroEconomicDataCalculator, 
             IReturnDataCalculator returnDataCalculator, 
             IClientDataCalculator clientDataCalculator)
         {
             _dispatcher = dispatcher;
             _mapper = mapper;
+            _marketDataReader = marketDataReader;
             _macroEconomicDataCalculator = macroEconomicDataCalculator;
             _returnDataCalculator = returnDataCalculator;
             _clientDataCalculator = clientDataCalculator;
@@ -35,16 +39,18 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
         public async Task Handle(CreateNextStepCommand command)
         {
+            var sessionId = command.SessionId;
             var checkInvestmentSelectionCommand = _mapper.Map<CheckInvestmentSelectionCommand>(command);
 
             await _dispatcher.Dispatch(checkInvestmentSelectionCommand);
 
             var getGameStateQuery = new GetGameStateQuery
                 (
-                    SessionId: command.SessionId.Id
+                    SessionId: sessionId.Id
                 );
 
             var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>(getGameStateQuery);
+            var marketData = await _marketDataReader.GetCurrent(sessionId);
 
             var macroEconomicData = _macroEconomicDataCalculator.Calculate();
             var returnData = _returnDataCalculator.Calculate(macroEconomicData);
@@ -52,6 +58,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
             var clientDataRequiredData = new ClientDataRequiredData
                 (
                     PreviousClientData: _mapper.Map<Core.Domain.ClientData.ClientData>(currentGameState.ClientData),
+                    PreviousMarketData: marketData,
                     InvestmentSelection: _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection),
                     MacroEconomicData: macroEconomicData,
                     ReturnData: returnData,

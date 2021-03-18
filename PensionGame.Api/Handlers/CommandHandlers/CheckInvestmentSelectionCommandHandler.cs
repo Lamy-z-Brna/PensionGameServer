@@ -5,7 +5,6 @@ using PensionGame.Api.Handlers.Queries;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Calculators.Validation;
-using System;
 using System.Threading.Tasks;
 using PensionGame.Api.Domain.Validation;
 

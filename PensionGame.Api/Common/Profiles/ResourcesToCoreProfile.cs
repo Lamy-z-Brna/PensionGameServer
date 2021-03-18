@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.Holdings;
+using PensionGame.Api.Domain.Resources.MarketData;
 
 namespace PensionGame.Api.Common.Profiles
 {

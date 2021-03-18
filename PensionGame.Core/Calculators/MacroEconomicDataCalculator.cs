@@ -1,6 +1,6 @@
 ﻿using PensionGame.Core.Calculators.Parameters;
 using PensionGame.Core.Common;
-using PensionGame.Core.Domain;
+using PensionGame.Core.Domain.MarketData;
 using System;
 using System.Linq;
 
