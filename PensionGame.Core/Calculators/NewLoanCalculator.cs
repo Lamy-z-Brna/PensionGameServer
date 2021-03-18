@@ -1,4 +1,5 @@
 ﻿using PensionGame.Core.Calculators.RequiredData;
+using PensionGame.Core.Common;
 using PensionGame.Core.Domain.Holdings;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +19,24 @@ namespace PensionGame.Core.Calculators
 
             var loanAmountChange = investmentSelection - currentLoanTotal;
 
+            var processedLoans = ProcessLoanChange(refinancedLoans, loanAmountChange, loanInterestRate);
 
+            var mergedLoans = MergeLoans(processedLoans);
+
+            return mergedLoans;
+        }
+
+        private static LoanHoldings ProcessLoanChange(LoanHoldings loanHoldings, int loanAmountChange, double loanInterestRate)
+        {
             switch (loanAmountChange)
             {
                 case int toBorrow when toBorrow > 0:
-                    return AddNewLoan(refinancedLoans, toBorrow, loanInterestRate);
+                    return AddNewLoan(loanHoldings, toBorrow, loanInterestRate);
                 case int toRepay when toRepay < 0:
-                    return RepayLoans(refinancedLoans, -toRepay);
+                    return RepayLoans(loanHoldings, -toRepay);
                 case int _:
-                    return refinancedLoans;
-            }    
+                    return loanHoldings;
+            }
         }
 
         private static LoanHoldings Refinance(LoanHoldings currentLoans, double loanInterestRate)
@@ -35,12 +44,10 @@ namespace PensionGame.Core.Calculators
             var loansByRefinance = currentLoans.ToLookup(loan => loan.InterestRate > loanInterestRate);
             var totalToRefinance = new LoanHoldings(loansByRefinance[true]).TotalLoanValue;
 
-            var result = new LoanHoldings
-                (
-                    loansByRefinance[false]
-                    .Append(new LoanHolding(totalToRefinance, loanInterestRate))
-                    .Where(loan => loan.Amount > 0)
-                );
+            var result = loansByRefinance[false]
+                .Append(new LoanHolding(totalToRefinance, loanInterestRate))                    
+                .Where(loan => loan.Amount > 0)
+                .ToLoans();
 
             return result;
         }
@@ -49,16 +56,15 @@ namespace PensionGame.Core.Calculators
         {
             var newLoans = currentLoans
                 .Append(new LoanHolding(loanAmountChange, loanInterestRate))
-                .GroupBy(loan => loan.InterestRate)
-                .ToDictionary(interest => interest.Key, g => g.Sum(loan => loan.Amount))
-                .Select(kv => new LoanHolding(kv.Value, kv.Key));
+                .ToLoans();
 
-            return new LoanHoldings(newLoans);
+            return newLoans;
         }
 
         private static LoanHoldings RepayLoans(LoanHoldings currentLoans, int amountToRepay)
         {
-            return new LoanHoldings(RepayLoansInternal(currentLoans, amountToRepay));
+            return RepayLoansInternal(currentLoans, amountToRepay)
+                .ToLoans();
         }
 
         private static IEnumerable<LoanHolding> RepayLoansInternal(LoanHoldings currentLoans, int amountToRepay)
@@ -82,6 +88,15 @@ namespace PensionGame.Core.Calculators
                     yield return loan;
                 }
             }
+        }
+
+        private static LoanHoldings MergeLoans(LoanHoldings loanHoldings)
+        {
+            return loanHoldings
+                .GroupBy(loan => loan.InterestRate)
+                .ToDictionary(interest => interest.Key, g => g.Sum(loan => loan.Amount))
+                .Select(kv => new LoanHolding(kv.Value, kv.Key))
+                .ToLoans();
         }
     }
 }

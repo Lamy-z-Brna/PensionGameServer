@@ -2,7 +2,6 @@
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.Holdings;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PensionGame.Core.Calculators
@@ -38,21 +37,23 @@ namespace PensionGame.Core.Calculators
 
             var bonds = AddNewBonds(maturedBonds, bondPaymentValue, _newBondParameters.DefaultMaturity);
 
-            return new BondHoldings(bonds);
+            return bonds;
         }
 
-        private static IEnumerable<BondHolding> MatureBonds(IEnumerable<BondHolding> bondHoldings)
+        private static BondHoldings MatureBonds(BondHoldings bondHoldings)
         {
             return bondHoldings
                 .Select(bond => bond with { YearsToExpiration = bond.YearsToExpiration - 1 })
-                .Where(bond => bond.YearsToExpiration > 0);
+                .Where(bond => bond.YearsToExpiration > 0)
+                .ToBonds();
         }
 
-        private static IEnumerable<BondHolding> AddNewBonds(IEnumerable<BondHolding> bondHoldings, double yearlyPayment, int maturity)
+        private static BondHoldings AddNewBonds(BondHoldings bondHoldings, double yearlyPayment, int maturity)
         {
             return bondHoldings
                 .Append(new BondHolding(Rounder.Round(yearlyPayment), maturity))
-                .Where(bond => bond.YearlyPayment > 0);
+                .Where(bond => bond.YearlyPayment > 0)
+                .ToBonds();
         }
     }
 }

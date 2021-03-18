@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PensionGame.Core.Domain.Holdings
 {
-    public record LoanHoldings(IEnumerable<LoanHolding> Loans) : IEnumerable<LoanHolding>
+    public sealed record LoanHoldings(IEnumerable<LoanHolding> Loans) : IEnumerable<LoanHolding>
     {
         public int TotalLoanValue => Loans.Sum(loan => loan.Amount);
 
@@ -16,6 +16,19 @@ namespace PensionGame.Core.Domain.Holdings
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Loans.GetEnumerator();
+        }
+
+        public bool Equals(LoanHoldings? other)
+        {
+            if (other == null)
+                return false;
+
+            return Enumerable.SequenceEqual(Loans, other.Loans);
+        }
+
+        public override int GetHashCode()
+        {
+            return Loans.GetHashCode();
         }
     }
 }
