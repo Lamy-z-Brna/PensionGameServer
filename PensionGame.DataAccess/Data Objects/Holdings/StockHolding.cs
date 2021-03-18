@@ -2,13 +2,13 @@
 
 namespace PensionGame.DataAccess.Data_Objects.Holdings
 {
-    public class LoanHolding
+    public class StockHolding
     {
         public int Id { get; set; }
         [ForeignKey("ClientHoldings")]
         public int ClientHoldingId { get; set; }
-        public int Amount { get; set; }
-        public double InterestRate { get; set; }
+        public double UnitPrice { get; set; }
+        public double UnitsHeld { get; set; }
         public ClientHoldings? ClientHoldings { get; set; }
     }
 }

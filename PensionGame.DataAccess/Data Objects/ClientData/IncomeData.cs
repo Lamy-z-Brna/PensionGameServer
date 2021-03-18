@@ -1,13 +1,15 @@
-﻿namespace PensionGame.DataAccess.Data_Objects.ClientData
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PensionGame.DataAccess.Data_Objects.ClientData
 {
-    public record IncomeData
+    public class IncomeData
     {
-        public int Salary { get; init; }
-
-        public int BondInterest { get; init; }
-
-        public int SavingsAccountInterest { get; init; }
-
-        public int ExtraIncome { get; init; }
+        public int Id { get; set; }
+        [ForeignKey("ClientData")]
+        public int ClientDataId { get; set; }
+        public int Salary { get; set; }
+        public int BondInterest { get; set; }
+        public int SavingsAccountInterest { get; set; }
+        public int ExtraIncome { get; set; }
     }
 }
