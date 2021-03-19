@@ -1,6 +1,6 @@
 ﻿namespace PensionGame.Api.Domain.Resources.MarketData
 {
-    public record MarketData(ReturnData ReturnData)
+    public record MarketData(MacroEconomicData MacroEconomicData, ReturnData ReturnData)
     {
     }
 }

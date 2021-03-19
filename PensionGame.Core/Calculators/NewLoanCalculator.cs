@@ -14,29 +14,19 @@ namespace PensionGame.Core.Calculators
             var currentLoanTotal = currentLoans.TotalLoanValue;
             var investmentSelection = requiredData.InvestmentSelection.LoanValue;
             var loanInterestRate = requiredData.LoanInterestRate;
-
-            var refinancedLoans = Refinance(currentLoans, loanInterestRate);
-
             var loanAmountChange = investmentSelection - currentLoanTotal;
 
-            var processedLoans = ProcessLoanChange(refinancedLoans, loanAmountChange, loanInterestRate);
+            LoanHoldings refinance(LoanHoldings loanHoldings) => Refinance(loanHoldings, loanInterestRate);
+            LoanHoldings addNewLoan(LoanHoldings loanHoldings) => AddNewLoan(loanHoldings, loanAmountChange, loanInterestRate);
+            LoanHoldings repayLoans(LoanHoldings loanHoldings) => RepayLoans(loanHoldings, -loanAmountChange);
+            LoanHoldings processLoans(LoanHoldings loanHoldings) => loanAmountChange > 0 ? addNewLoan(loanHoldings) : repayLoans(loanHoldings);
 
-            var mergedLoans = MergeLoans(processedLoans);
-
-            return mergedLoans;
-        }
-
-        private static LoanHoldings ProcessLoanChange(LoanHoldings loanHoldings, int loanAmountChange, double loanInterestRate)
-        {
-            switch (loanAmountChange)
-            {
-                case int toBorrow when toBorrow > 0:
-                    return AddNewLoan(loanHoldings, toBorrow, loanInterestRate);
-                case int toRepay when toRepay < 0:
-                    return RepayLoans(loanHoldings, -toRepay);
-                case int _:
-                    return loanHoldings;
-            }
+            return currentLoans.Pipe
+                (
+                    refinance,
+                    processLoans,
+                    MergeLoans
+                );
         }
 
         private static LoanHoldings Refinance(LoanHoldings currentLoans, double loanInterestRate)

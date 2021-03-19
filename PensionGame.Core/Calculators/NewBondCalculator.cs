@@ -22,8 +22,7 @@ namespace PensionGame.Core.Calculators
         {
             var investmentSelection = requiredData.InvestmentSelection;
             var bondRate = requiredData.BondInterestRate;
-
-            var maturedBonds = MatureBonds(requiredData.CurrentBonds);
+            var currentBonds = requiredData.CurrentBonds;
 
             var bondPaymentValue = _bondPaymentCalculator.Calculate
                 (
@@ -35,9 +34,13 @@ namespace PensionGame.Core.Calculators
                     )
                 );
 
-            var bonds = AddNewBonds(maturedBonds, bondPaymentValue, _newBondParameters.DefaultMaturity);
+            BondHoldings addNewBonds(BondHoldings holdings) => AddNewBonds(holdings, bondPaymentValue, _newBondParameters.DefaultMaturity);
 
-            return bonds;
+            return currentBonds.Pipe
+                (
+                    MatureBonds,
+                    addNewBonds
+                );
         }
 
         private static BondHoldings MatureBonds(BondHoldings bondHoldings)

@@ -1,6 +1,6 @@
 ﻿namespace PensionGame.Api.Domain.Resources.MarketData
 {
-    public record ReturnData(double BondRate, double SavingsAccountRate, double LoanRate)
+    public record ReturnData(double StockRate, double BondRate, double BondDefaultRate, double SavingsAccountRate, double LoanRate)
     {
     }
 }

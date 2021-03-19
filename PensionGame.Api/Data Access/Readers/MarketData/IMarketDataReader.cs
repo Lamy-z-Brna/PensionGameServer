@@ -5,6 +5,6 @@ namespace PensionGame.Api.Data_Access.Readers.MarketData
 {
     public interface IMarketDataReader : IReader
     {
-        Task<Core.Domain.MarketData.MarketData> GetCurrent(SessionId sessionId);
+        Task<Domain.Resources.MarketData.MarketData> GetCurrent(SessionId sessionId);
     }
 }

@@ -34,7 +34,6 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                         SavingsAccount: new SavingsAccountHoldings(26),
                         Stocks: new StockHolding(35, 102)
                     ),
-                    Events: Enumerable.Empty<Event>(),
                     ExpenseData: new ExpenseData
                     {
                         ChildrenExpenses = 0,
@@ -52,9 +51,18 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                 ),
                 MarketData: new MarketData
                 (
+                    new MacroEconomicData
+                    (
+                        IsCrisis: false,
+                        InflationRate: 0.03,
+                        UnemploymentRate: 0.07,
+                        InterestRate: 0.02
+                    ),
                     new ReturnData
                     (
+                        StockRate: 0.06,
                         BondRate: 0.03,
+                        BondDefaultRate: 0.02,
                         SavingsAccountRate: 0.01,
                         LoanRate: 0.09
                     )
