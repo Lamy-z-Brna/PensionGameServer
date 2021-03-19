@@ -29,13 +29,6 @@ namespace PensionGame.Tests.Calculators
             UnderTest = new NewBondCalculator(mockedBondParameters.Object, mockedBondPaymentCalculator.Object);
         }
 
-
-        [Test]
-        public void BreakingTest()
-        {
-            Assert.AreEqual(2+2, 2);
-        }
-
         [Test]
         public void MaturityIsDecreasedByOneYear()
         {
