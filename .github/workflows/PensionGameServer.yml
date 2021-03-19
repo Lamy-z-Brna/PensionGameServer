@@ -41,6 +41,8 @@ jobs:
       run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Test
       run: dotnet test ${{ env.WORKING_DIRECTORY }} --no-build
+    - name: Restore Unit tests project
+      run: dotnet restore ${{ env.TESTS_DIRECTORY }}
     - name: Build Unit tests project
       run: dotnet build ${{ env.TESTS_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Unit Tests
