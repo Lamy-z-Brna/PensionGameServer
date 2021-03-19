@@ -21,6 +21,7 @@ env:
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 5.0.x
   WORKING_DIRECTORY: PensionGame.Host
+  TESTS_DIRECTORY: PensionGame.Tests
 jobs:
   build:
     runs-on: windows-latest
@@ -40,6 +41,12 @@ jobs:
       run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Test
       run: dotnet test ${{ env.WORKING_DIRECTORY }} --no-build
+    - name: Restore Unit tests project
+      run: dotnet restore ${{ env.TESTS_DIRECTORY }}
+    - name: Build Unit tests project
+      run: dotnet build ${{ env.TESTS_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-restore
+    - name: Unit Tests
+      run: dotnet test ${{ env.TESTS_DIRECTORY }} --no-build --verbosity n
     - name: Publish
       run: dotnet publish ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Deploy to Azure WebApp
