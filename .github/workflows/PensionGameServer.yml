@@ -42,7 +42,7 @@ jobs:
     - name: Test
       run: dotnet test ${{ env.WORKING_DIRECTORY }} --no-build
     - name: Unit Tests
-      run: dotnet test ${{ env.TESTS_DIRECTORY }} --no-build
+      run: dotnet test ${{ env.TESTS_DIRECTORY }} --no-build --verbosity n
     - name: Publish
       run: dotnet publish ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Deploy to Azure WebApp
