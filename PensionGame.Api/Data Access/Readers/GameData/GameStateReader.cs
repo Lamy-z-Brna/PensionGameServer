@@ -49,6 +49,19 @@ namespace PensionGame.Api.Data_Access.Readers.GameData
             return Map(gameStateModel);
         }
 
+        public async Task<GameState> GetCurrentGameState(SessionId sessionId)
+        {
+            if (_context.GameStates == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var gameStateModel = await _context.GameStates
+                .Where(g => g.SessionId == FromGuid(sessionId.Id))
+                .OrderByDescending(g => g.Id)
+                .FirstOrDefaultAsync();
+            return Map(gameStateModel);
+        }
+
         private int FromGuid(Guid value)
         {
             byte[] b = value.ToByteArray();

@@ -8,5 +8,6 @@ namespace PensionGame.Api.Data_Access.Readers.GameData
     {
         Task<GameState> Get(SessionId sessionId, int year);
         Task<GameState> Get(int gameStateId);
+        Task<GameState> GetCurrentGameState(SessionId sessionId);
     }
 }
