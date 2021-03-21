@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PensionGame.Api.Common.Mappers;
+using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Handlers.Queries;
@@ -14,19 +14,16 @@ namespace PensionGame.Api.Handlers.QueryHandlers
     public sealed class GetNextGameStateQueryHandler : IGetNextGameStateQueryHandler
     {
         private readonly IMapper _mapper;
-        private readonly IClientDataMapper _clientDataMapper;
         private readonly IMacroEconomicDataCalculator _macroEconomicDataCalculator;
         private readonly IReturnDataCalculator _returnDataCalculator;
         private readonly IClientDataCalculator _clientDataCalculator;
 
         public GetNextGameStateQueryHandler(IMapper mapper,
-            IClientDataMapper clientDataMapper,
             IMacroEconomicDataCalculator macroEconomicDataCalculator,
             IReturnDataCalculator returnDataCalculator, 
             IClientDataCalculator clientDataCalculator)
         {
             _mapper = mapper;
-            _clientDataMapper = clientDataMapper;
             _macroEconomicDataCalculator = macroEconomicDataCalculator;
             _returnDataCalculator = returnDataCalculator;
             _clientDataCalculator = clientDataCalculator;
@@ -40,7 +37,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
             var macroEconomicData = _macroEconomicDataCalculator.Calculate();
             var returnData = _returnDataCalculator.Calculate(macroEconomicData);
 
-            var previousClientData = _clientDataMapper.Map(currentGameState.ClientData);
+            var previousClientData = _mapper.Map<ClientData, Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
 
             var clientDataRequiredData = new ClientDataRequiredData
                 (

@@ -3,7 +3,6 @@ using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Handlers.Queries;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers

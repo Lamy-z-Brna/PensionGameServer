@@ -2,15 +2,15 @@
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.MarketData;
-using PensionGame.Core.Common;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PensionGame.Api.Common.Profiles
 {
     public sealed class ResourcesToCoreProfile : Profile
     {
         public ResourcesToCoreProfile()
-        {           
+        {
             CreateMap<InvestmentSelection, Core.Domain.ClientData.InvestmentSelection>();
 
             CreateMap<IncomeData, Core.Domain.ClientData.IncomeData>();
@@ -29,17 +29,15 @@ namespace PensionGame.Api.Common.Profiles
 
             CreateMap<LoanHoldings, Core.Domain.Holdings.LoanHoldings>();
 
-            CreateMap<ClientHoldings, Core.Domain.Holdings.ClientHoldings>()
-                .ForMember(dest => dest.Bonds, src => src.MapFrom((@from, _, _, context) =>
-                {
-                    return context.Mapper.Map<BondHoldings, Core.Domain.Holdings.BondHoldings>(new BondHoldings(@from.Bonds));
-                }))
-                .ForMember(dest => dest.Loans, src => src.MapFrom((@from, _, _, context) =>
-                {
-                    return context.Mapper.Map<IEnumerable<LoanHolding>, IEnumerable<Core.Domain.Holdings.LoanHolding>>(@from.Loans).ToLoans();
-                }));
+            CreateMap<IEnumerable<BondHolding>, Core.Domain.Holdings.BondHoldings>()
+                .ConvertUsing((src, _, context) => new Core.Domain.Holdings.BondHoldings(src.Select(bond => context.Mapper.Map<BondHolding, Core.Domain.Holdings.BondHolding>(bond))));
 
-            CreateMap<ClientData, Core.Domain.ClientData.ClientData>();                
+            CreateMap<IEnumerable<LoanHolding>, Core.Domain.Holdings.LoanHoldings>()
+                .ConvertUsing((src, _, context) => new Core.Domain.Holdings.LoanHoldings(src.Select(loan => context.Mapper.Map<LoanHolding, Core.Domain.Holdings.LoanHolding>(loan))));
+
+            CreateMap<ClientHoldings, Core.Domain.Holdings.ClientHoldings>();
+
+            CreateMap<ClientData, Core.Domain.ClientData.ClientData>();
 
             CreateMap<MacroEconomicData, Core.Domain.MarketData.MacroEconomicData>();
 
