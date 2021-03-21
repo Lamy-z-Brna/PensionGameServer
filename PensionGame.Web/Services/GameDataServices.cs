@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
-using PensionGame.Web.Data.Entities;
 using RestSharp;
 using PensionGame.Web.Client;
+using PensionGame.Api.Domain.Resources.GameData;
+using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.Session;
 
 namespace PensionGame.Web.Services
 {
@@ -14,21 +16,21 @@ namespace PensionGame.Web.Services
             _client = client;
         }
 
-        public async Task<bool> GameUpdateValidate(SessionId sessionId, GameUpdate gameUpdate)
+        public async Task<bool> InvestmentSelectionValidate(SessionId sessionId, InvestmentSelection gameUpdate)
         {
             return await _client.Request("Game", Method.PUT, gameUpdate,
                 new() { { "sessionId", sessionId.Id } });
         }
 
-        public async Task<bool> GameUpdateSubmit(SessionId sessionId, GameUpdate gameUpdate)
+        public async Task<bool> InvestmentSelectionSubmit(SessionId sessionId, InvestmentSelection gameUpdate)
         {
             return await _client.Request("Game", Method.POST, gameUpdate,
                 new() { { "sessionId", sessionId.Id } });
         }
 
-        public async Task<GameData> GameDataGet(SessionId sessionId)
+        public async Task<GameState> GameStateGet(SessionId sessionId)
         {
-            return await _client.Request<GameData>("Game", Method.GET,
+            return await _client.Request<GameState>("Game", Method.GET,
                 parameters : new() { { "sessionId", sessionId.Id } });
         }
     }

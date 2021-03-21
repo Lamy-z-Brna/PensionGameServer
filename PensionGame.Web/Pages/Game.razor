@@ -1,6 +1,9 @@
 ﻿@page "/game/{sessionId}"
 @using PensionGame.Web.Services
-@using PensionGame.Web.Data.Entities
+@using PensionGame.Api.Domain.Resources.GameData
+@using PensionGame.Api.Domain.Resources.Session
+@using PensionGame.Api.Domain.Resources.ClientData
+@using PensionGame.Web.Data
 
 @inject GameDataServices GameService
 
@@ -37,68 +40,109 @@
             <label>
                 Year:
             </label>
-            <div>
+            <h4>
                 @gameData.Year
-            </div>
+            </h4>
         </p>
         <p>
             <label>
                 Income:
             </label>
-            <div>
+            <h4>
                 @gameData.ClientData.IncomeData.TotalIncome
-            </div>
+            </h4>
         </p>
         <p>
             <label>
                 Expenses:
             </label>
-            <div>
+            <h4>
                 @gameData.ClientData.ExpenseData.TotalExpenses
-            </div>
+            </h4>
         </p>
         <p>
             <label>
                 Total Cash-flow:
             </label>
-            <div>
+            <h4>
                 @TotalCashFlow
-            </div>
+            </h4>
         </p>
     }
+
     <h3>How would you like to distribute your investments?</h3>
     <p>
-        <label>
-            Stocks:
-        </label>
-        <div>
-            <InputNumber @bind-Value="gameUpdate.StockValue" />
+        <div class="d-inline-block">
+            <div>
+                Stocks:
+            </div>
+            <div>
+                <InputNumber @bind-Value="investmentSelection.StockValue" />
+            </div>
+        </div>
+        <div class="d-inline-block" style="margin-left: 10px">
+            <div>
+                Last year's return rate:
+            </div>
+            <div>
+                <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P2")</strong>
+            </div>
         </div>
     </p>
     <p>
-        <label>
-            Bonds:
-        </label>
-        <div>
-            <InputNumber @bind-Value="gameUpdate.BondValue" />
+        <div class="d-inline-block">
+            <div>
+                Bonds:
+            </div>
+            <div>
+                <InputNumber @bind-Value="investmentSelection.BondValue" />
+            </div>
+        </div>
+        <div class="d-inline-block" style="margin-left: 10px">
+            <div>
+                Return rate:
+            </div>
+            <div>
+                <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P2")</strong>
+            </div>
         </div>
     </p>
     <p>
-        <label>
-            Savings account:
-        </label>
-        <div>
-            <InputNumber @bind-Value="gameUpdate.SavingsAccountValue" />
+        <div class="d-inline-block">
+            <div>
+                Savings account:
+            </div>
+            <div>
+                <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
+            </div>
+        </div>
+        <div class="d-inline-block" style="margin-left: 10px">
+            <div>
+                Interest rate:
+            </div>
+            <div>
+                <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P2")</strong>
+            </div>
         </div>
     </p>
 
     <h3>Would you like to take a loan?</h3>
     <p>
-        <label>
-            Loan:
-        </label>
-        <div>
-            <InputNumber @bind-Value="gameUpdate.LoanValue" />
+        <div class="d-inline-block">
+            <div>
+                Loan:
+            </div>
+            <div>
+                <InputNumber @bind-Value="investmentSelection.LoanValue" />
+            </div>
+        </div>
+        <div class="d-inline-block" style="margin-left: 10px">
+            <div>
+                Loan interest rate:
+            </div>
+            <div>
+                <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P2")</strong>
+            </div>
         </div>
     </p>
     @if (gameData != null)
@@ -119,23 +163,23 @@
     [Parameter]
     public string? sessionId { get; set; }
 
-    GameUpdate gameUpdate = new GameUpdate();
+    InvestmentSelectionModel investmentSelection = new InvestmentSelectionModel(new InvestmentSelection());
 
-    GameData? gameData;
+    GameState? gameData;
 
-    SessionId? currentSession;
+    SessionId? currentSessionId;
 
-    int TotalCashFlow => gameData?.ClientData.DisposableIncome + gameUpdate.LoanValue ?? 0;
-    int RemainingCashFlow => TotalCashFlow - (gameUpdate.BondValue + gameUpdate.StockValue + gameUpdate.SavingsAccountValue);
+    int TotalCashFlow => gameData?.ClientData.DisposableIncome + investmentSelection.LoanValue ?? 0;
+    int RemainingCashFlow => TotalCashFlow - (investmentSelection.BondValue + investmentSelection.StockValue + investmentSelection.SavingsAccountValue);
 
     bool? success = null;
     bool validationOkay = true;
 
-    private EditContext editContext = new EditContext(new GameUpdate());
+    private EditContext editContext = new EditContext(new InvestmentSelection());
 
     protected override async void OnInitialized()
     {
-        editContext = new EditContext(gameUpdate);
+        editContext = new EditContext(investmentSelection);
 
         if (string.IsNullOrEmpty(sessionId))
             return; //TODO vypisat nejaku hlasku
@@ -143,9 +187,9 @@
         if (!Guid.TryParse(sessionId, out var sessionGuid))
             return; //TODO vypisat nejaku inu hlasku
 
-        currentSession = new SessionId() { Id = sessionGuid };
+        currentSessionId = new SessionId(sessionGuid);
 
-        gameData = await GameService.GameDataGet(currentSession);
+        gameData = await GameService.GameStateGet(currentSessionId);
 
         editContext.OnFieldChanged += editContext_OnFieldChanged;
 
@@ -154,9 +198,9 @@
 
     protected async void editContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
     {
-        if (currentSession != null)
+        if (currentSessionId != null)
         {
-            validationOkay = await GameService.GameUpdateValidate(currentSession, gameUpdate);
+            validationOkay = await GameService.InvestmentSelectionValidate(currentSessionId, investmentSelection);
 
             StateHasChanged();
         }
@@ -164,11 +208,11 @@
 
     private async Task HandleValidSubmit()
     {
-        if (currentSession != null)
+        if (currentSessionId != null)
         {
-            success = await GameService.GameUpdateSubmit(currentSession, gameUpdate);
+            success = await GameService.InvestmentSelectionSubmit(currentSessionId, investmentSelection);
 
-            gameData = await GameService.GameDataGet(currentSession);
+            gameData = await GameService.GameStateGet(currentSessionId);
         }
     }
 }

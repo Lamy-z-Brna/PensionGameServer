@@ -1,6 +1,7 @@
 ﻿@page "/newsession"
 @using PensionGame.Web.Services
-@using PensionGame.Web.Data.Entities
+@using PensionGame.Web.Data
+@using PensionGame.Api.Domain.Resources.Session
 
 @inject SessionDataServices SessionService
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
@@ -49,13 +50,7 @@
 </EditForm>
 
 @code {
-    Session session = new Session()
-    {
-        Income = 30000,
-        Expenses = 20000,
-        RetirementYear = 65,
-        Year = 25
-    };
+    StartupParametersModel session = new StartupParametersModel(new StartupParameters(30000, 20000, 65, 25));
 
     private async Task HandleValidSubmit()
     {
