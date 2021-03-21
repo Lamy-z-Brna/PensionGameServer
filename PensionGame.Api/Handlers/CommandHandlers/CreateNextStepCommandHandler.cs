@@ -1,23 +1,22 @@
-﻿using AutoMapper;
-using PensionGame.Api.Handlers.Commands;
+﻿using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
 using PensionGame.Api.Domain.Resources.GameData;
 using System.Threading.Tasks;
+using PensionGame.Api.Data_Access.Writers.GameData;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {
     public sealed class CreateNextStepCommandHandler : ICreateNextStepCommandHandler
     {
         private readonly IDispatcher _dispatcher;
-        private readonly IMapper _mapper;
+        private readonly IGameStateWriter _gameStateWriter;
 
-
-        public CreateNextStepCommandHandler(IDispatcher dispatcher,
-            IMapper mapper)
+        public CreateNextStepCommandHandler(IDispatcher dispatcher, 
+            IGameStateWriter gameStateWriter)
         {
             _dispatcher = dispatcher;
-            _mapper = mapper;
+            _gameStateWriter = gameStateWriter;
         }
 
         public async Task Handle(CreateNextStepCommand command)
@@ -28,7 +27,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
                 (
                     new GetGameStateQuery
                     (
-                        SessionId: sessionId.Id
+                        SessionId: sessionId
                     )
                 );
 
@@ -44,6 +43,8 @@ namespace PensionGame.Api.Handlers.CommandHandlers
                         InvestmentSelection: command.InvestmentSelection
                     )
                 );
+
+            await _gameStateWriter.Create(sessionId, newGameState);
         }
     }
 }

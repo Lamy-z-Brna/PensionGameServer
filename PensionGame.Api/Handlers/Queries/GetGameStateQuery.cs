@@ -1,10 +1,10 @@
 ﻿using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Domain.Resources.GameData;
-using System;
+using PensionGame.Api.Domain.Resources.Session;
 
 namespace PensionGame.Api.Handlers.Queries
 {
-    public record GetGameStateQuery(Guid SessionId) : IQuery<GameState>
+    public record GetGameStateQuery(SessionId SessionId) : IQuery<GameState>
     {
     }
 }

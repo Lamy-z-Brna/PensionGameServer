@@ -5,8 +5,6 @@ using PensionGame.DataAccess.Data_Objects.ClientData;
 using PensionGame.DataAccess.Data_Objects.Holdings;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Data_Access.Writers.GameData

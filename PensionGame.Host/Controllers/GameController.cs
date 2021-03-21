@@ -22,12 +22,14 @@ namespace PensionGame.Host.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Guid sessionId, InvestmentSelection investmentSelection)
+        public async Task<IActionResult> Post(string sessionId, InvestmentSelection investmentSelection)
         {
+            Guid.TryParse(sessionId, out var guid);
+
             await _dispatcher.Dispatch(
                 new CreateNextStepCommand
                 (
-                    SessionId: new SessionId(sessionId),
+                    SessionId: new SessionId(guid),
                     InvestmentSelection: investmentSelection
                 ));
 
@@ -49,9 +51,14 @@ namespace PensionGame.Host.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Guid sessionId, InvestmentSelection investmentSelection)
+        public async Task<IActionResult> Put(string sessionId, InvestmentSelection investmentSelection)
         {
-            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>(new GetGameStateQuery(sessionId));
+            Guid.TryParse(sessionId, out var guid);
+
+            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>
+                (
+                    new GetGameStateQuery(new SessionId(guid))                 
+                );
 
             await _dispatcher.Dispatch(
                 new CheckInvestmentSelectionCommand
@@ -68,7 +75,7 @@ namespace PensionGame.Host.Controllers
         {
             var result = await _dispatcher.Query<GetGameStateQuery, GameState>
                 (
-                    new GetGameStateQuery(sessionId)
+                    new GetGameStateQuery(new SessionId(sessionId))
                 );
             return result;
         }

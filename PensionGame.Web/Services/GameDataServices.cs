@@ -19,7 +19,7 @@ namespace PensionGame.Web.Services
         public async Task<bool> InvestmentSelectionValidate(SessionId sessionId, InvestmentSelection gameUpdate)
         {
             return await _client.Request("Game", Method.PUT, gameUpdate,
-                new() { { "sessionId", sessionId.Id } });
+                new() { { "sessionId", sessionId.Id.ToString() } });
         }
 
         public async Task<bool> InvestmentSelectionSubmit(SessionId sessionId, InvestmentSelection gameUpdate)

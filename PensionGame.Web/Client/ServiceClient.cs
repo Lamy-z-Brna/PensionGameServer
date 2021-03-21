@@ -43,19 +43,26 @@ namespace PensionGame.Web.Client
 
             IRestRequest restRequest = new RestRequest(requestUri, method);
 
-            if (requestBody != null)
-            {
-                restRequest.AddParameter("format", "json");
-                restRequest.AddJsonBody(requestBody);
-            }
-
             if (parameters != null)
             {
                 foreach (var parameter in parameters)
                 {
-                    restRequest.AddParameter(parameter.Key, parameter.Value);
+                    if (parameter.Key == "sessionId")
+                    {
+                        restRequest.AddQueryParameter(parameter.Key, parameter.Value.ToString() ?? string.Empty);
+                    }
+                    else
+                    {
+                        restRequest.AddParameter(parameter.Key, parameter.Value);
+                    }
                 }
             }
+
+            if (requestBody != null)
+            {
+                restRequest.AddParameter("format", "json");
+                restRequest.AddJsonBody(requestBody);
+            }            
 
             var response = await client.ExecuteAsync(restRequest);
 
