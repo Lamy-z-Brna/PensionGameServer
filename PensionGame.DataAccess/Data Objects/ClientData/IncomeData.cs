@@ -11,5 +11,15 @@ namespace PensionGame.DataAccess.Data_Objects.ClientData
         public int BondInterest { get; set; }
         public int SavingsAccountInterest { get; set; }
         public int ExtraIncome { get; set; }
+
+        public IncomeData(int salary, int bondInterest, int savingsAccountInterest, int extraIncome)
+        {
+            Salary = salary;
+            BondInterest = bondInterest;
+            SavingsAccountInterest = savingsAccountInterest;
+            ExtraIncome = extraIncome;
+        }
+
+        public IncomeData() { }
     }
 }

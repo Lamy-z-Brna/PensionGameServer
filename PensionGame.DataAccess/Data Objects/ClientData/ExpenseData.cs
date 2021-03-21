@@ -12,5 +12,16 @@ namespace PensionGame.DataAccess.Data_Objects.ClientData
         public int Rent { get; set; }
         public int ChildrenExpenses { get; set; }
         public int ExtraExpenses { get; set; }
+
+        public ExpenseData(int lifeExpenses, int loanExpenses, int rent, int childrenExpenses, int extraExpenses)
+        {
+            LifeExpenses = lifeExpenses;
+            LoanExpenses = loanExpenses;
+            Rent = rent;
+            ChildrenExpenses = childrenExpenses;
+            ExtraExpenses = extraExpenses;
+        }
+
+        public ExpenseData() { }
     }
 }

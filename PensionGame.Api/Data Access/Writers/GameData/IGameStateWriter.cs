@@ -1,6 +1,10 @@
-﻿namespace PensionGame.Api.Data_Access.Writers.GameData
+﻿using PensionGame.Api.Domain.Resources.Session;
+using System.Threading.Tasks;
+
+namespace PensionGame.Api.Data_Access.Writers.GameData
 {
-    interface IGameStateWriter
+    public interface IGameStateWriter : IWriter
     {
+        Task<int> Create(SessionId sessionId, Domain.Resources.GameData.GameState gameState);
     }
 }

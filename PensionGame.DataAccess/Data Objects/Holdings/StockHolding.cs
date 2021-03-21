@@ -10,5 +10,11 @@ namespace PensionGame.DataAccess.Data_Objects.Holdings
         public double UnitPrice { get; set; }
         public double UnitsHeld { get; set; }
         public ClientHoldings? ClientHoldings { get; set; }
+
+        public StockHolding(double unitPrice, double unitsHeld)
+        {
+            UnitPrice = unitPrice;
+            UnitsHeld = unitsHeld;
+        }
     }
 }

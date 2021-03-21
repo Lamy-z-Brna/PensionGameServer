@@ -13,5 +13,16 @@ namespace PensionGame.DataAccess.Data_Objects.ClientData
         public ExpenseData? ExpenseData { get; set; }
         public ClientHoldings? ClientHoldings { get; set; }
         public GameState? GameState { get; set; }
+
+        public ClientData(IncomeData incomeData, ExpenseData expenseData, ClientHoldings clientHoldings)
+        {
+            IncomeData = incomeData;
+            ExpenseData = expenseData;
+            ClientHoldings = clientHoldings;
+        }
+
+        public ClientData()
+        {
+        }
     }
 }

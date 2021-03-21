@@ -13,5 +13,17 @@ namespace PensionGame.DataAccess.Data_Objects.Holdings
         public SavingsAccountHolding? SavingsAccount { get; set; }
         public StockHolding? Stocks { get; set; }
         public ClientData.ClientData? ClientData { get; set; }
+
+        public ClientHoldings(IEnumerable<BondHolding> bonds, IEnumerable<LoanHolding> loans, SavingsAccountHolding savingsAccount, StockHolding stocks)
+        {
+            Bonds = bonds;
+            Loans = loans;
+            SavingsAccount = savingsAccount;
+            Stocks = stocks;
+        }
+
+        public ClientHoldings()
+        {
+        }
     }
 }

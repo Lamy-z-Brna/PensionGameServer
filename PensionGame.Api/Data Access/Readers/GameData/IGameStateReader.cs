@@ -7,5 +7,6 @@ namespace PensionGame.Api.Data_Access.Readers.GameData
     public interface IGameStateReader : IReader
     {
         Task<GameState> Get(SessionId sessionId, int year);
+        Task<GameState> Get(int gameStateId);
     }
 }

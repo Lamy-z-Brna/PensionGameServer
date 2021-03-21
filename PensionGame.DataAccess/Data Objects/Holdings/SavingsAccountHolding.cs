@@ -9,5 +9,10 @@ namespace PensionGame.DataAccess.Data_Objects.Holdings
         public int ClientHoldingId { get; set; }
         public int Amount { get; set; }
         public ClientHoldings? ClientHoldings { get; set; }
+
+        public SavingsAccountHolding(int amount)
+        {
+            Amount = amount;
+        }
     }
 }

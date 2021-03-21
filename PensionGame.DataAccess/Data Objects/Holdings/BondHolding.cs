@@ -10,5 +10,11 @@ namespace PensionGame.DataAccess.Data_Objects.Holdings
         public int YearlyPayment { get; set; }
         public int YearsToExpiration { get; set; }
         public ClientHoldings? ClientHoldings { get; set; }
+
+        public BondHolding(int yearlyPayment, int yearsToExpiration)
+        {
+            YearlyPayment = yearlyPayment;
+            YearsToExpiration = yearsToExpiration;
+        }
     }
 }

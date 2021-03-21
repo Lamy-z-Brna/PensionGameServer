@@ -11,5 +11,27 @@ namespace PensionGame.DataAccess.Data_Objects.GameData
         public bool IsFinished { get; set; }
         public ClientData.ClientData? ClientData { get; set; }
         public Session.Session? Session { get; set; }
+
+        public GameState(int sessionId, int year, bool isFinished, ClientData.ClientData clientData)
+        {
+            SessionId = sessionId;
+            Year = year;
+            IsFinished = isFinished;
+            ClientData = clientData;
+
+        }
+
+        public GameState(int year, bool isFinished, ClientData.ClientData clientData)
+        {
+            Year = year;
+            IsFinished = isFinished;
+            ClientData = clientData;
+
+        }
+
+        public GameState()
+        {
+
+        }
     }
 }

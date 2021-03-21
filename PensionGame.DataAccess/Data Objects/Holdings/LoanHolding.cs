@@ -10,5 +10,11 @@ namespace PensionGame.DataAccess.Data_Objects.Holdings
         public int Amount { get; set; }
         public double InterestRate { get; set; }
         public ClientHoldings? ClientHoldings { get; set; }
+
+        public LoanHolding(int amount, double interestRate)
+        {
+            Amount = amount;
+            InterestRate = interestRate;
+        }
     }
 }
