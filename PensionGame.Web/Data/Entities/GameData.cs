@@ -1,3 +1,5 @@
+using PensionGame.Api.Domain.Resources.ClientData;
+
 namespace PensionGame.Web.Data.Entities
 {
     public record GameData(int Year, ClientData ClientData, bool IsFinished)
