@@ -1,13 +1,15 @@
-using System;
 using System.Threading.Tasks;
-using PensionGame.Web.Data.Entities;
-using Newtonsoft.Json;
 using RestSharp;
+using System.Collections.Generic;
 
 namespace PensionGame.Web.Client
 {
     public interface IServiceClient
     {
-        Task<T> PostRequest<T>(string requestAddress, object? requestContent = null);
+        Task<T> Request<T>(string requestAddress, Method method, object? requestBody = null,
+            Dictionary<string, object>? parameters = null);
+
+        Task<bool> Request(string requestAddress, Method method, object? requestBody = null,
+            Dictionary<string, object>? parameters = null);
     }
 }

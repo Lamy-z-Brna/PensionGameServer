@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using PensionGame.Web.Client;
 using PensionGame.Web.Data.Entities;
+using RestSharp;
 
 namespace PensionGame.Web.Services
 {
@@ -15,12 +16,12 @@ namespace PensionGame.Web.Services
 
         public async Task<SessionId> CreateDefaultSession()
         {
-            return await _client.PostRequest<SessionId>("Session/Default");
+            return await _client.Request<SessionId>("Session/Default", Method.POST);
         }
 
         public async Task<SessionId> CreateSession(Session session)
         {
-            return await _client.PostRequest<SessionId>("Session/New", session);
+            return await _client.Request<SessionId>("Session/New", Method.POST, session);
         }
     }
 }

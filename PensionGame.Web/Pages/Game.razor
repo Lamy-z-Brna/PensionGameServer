@@ -156,7 +156,7 @@
     {
         if (currentSession != null)
         {
-            validationOkay = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.PUT);
+            validationOkay = await GameService.GameUpdateValidate(currentSession, gameUpdate);
 
             StateHasChanged();
         }
@@ -166,7 +166,7 @@
     {
         if (currentSession != null)
         {
-            success = await GameService.GameUpdate(currentSession, gameUpdate, RestSharp.Method.POST);
+            success = await GameService.GameUpdateSubmit(currentSession, gameUpdate);
 
             gameData = await GameService.GameDataGet(currentSession);
         }
