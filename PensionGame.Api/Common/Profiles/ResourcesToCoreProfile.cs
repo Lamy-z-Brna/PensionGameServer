@@ -2,6 +2,8 @@
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.MarketData;
+using PensionGame.Core.Common;
+using System.Collections.Generic;
 
 namespace PensionGame.Api.Common.Profiles
 {
@@ -27,7 +29,15 @@ namespace PensionGame.Api.Common.Profiles
 
             CreateMap<LoanHoldings, Core.Domain.Holdings.LoanHoldings>();
 
-            CreateMap<ClientHoldings, Core.Domain.Holdings.ClientHoldings>();
+            CreateMap<ClientHoldings, Core.Domain.Holdings.ClientHoldings>()
+                .ForMember(dest => dest.Bonds, src => src.MapFrom((@from, _, _, context) =>
+                {
+                    return context.Mapper.Map<BondHoldings, Core.Domain.Holdings.BondHoldings>(new BondHoldings(@from.Bonds));
+                }))
+                .ForMember(dest => dest.Loans, src => src.MapFrom((@from, _, _, context) =>
+                {
+                    return context.Mapper.Map<IEnumerable<LoanHolding>, IEnumerable<Core.Domain.Holdings.LoanHolding>>(@from.Loans).ToLoans();
+                }));
 
             CreateMap<ClientData, Core.Domain.ClientData.ClientData>();                
 

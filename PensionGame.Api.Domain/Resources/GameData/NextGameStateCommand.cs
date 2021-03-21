@@ -1,0 +1,13 @@
+﻿using PensionGame.Api.Domain.Resources.ClientData;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PensionGame.Api.Domain.Resources.GameData
+{
+    public record NextGameStateCommand(GameState GameState, InvestmentSelection InvestmentSelection)
+    {
+    }
+}

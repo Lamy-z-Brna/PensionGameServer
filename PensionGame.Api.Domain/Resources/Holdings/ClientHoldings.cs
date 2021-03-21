@@ -1,6 +1,8 @@
-﻿namespace PensionGame.Api.Domain.Resources.Holdings
+﻿using System.Collections.Generic;
+
+namespace PensionGame.Api.Domain.Resources.Holdings
 {
-    public record ClientHoldings(StockHolding Stocks, BondHoldings Bonds, SavingsAccountHoldings SavingsAccount, LoanHoldings Loans)
+    public record ClientHoldings(StockHolding Stocks, IEnumerable<BondHolding> Bonds, SavingsAccountHoldings SavingsAccount, IEnumerable<LoanHolding> Loans)
     {
     }
 }

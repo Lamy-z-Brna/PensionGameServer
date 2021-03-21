@@ -1,50 +1,42 @@
-﻿using PensionGame.Api.Handlers.Queries;
-using PensionGame.Api.Domain.Resources.ClientData;
+﻿using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
-using System.Threading.Tasks;
 using PensionGame.Api.Domain.Resources.MarketData;
+using PensionGame.Api.Handlers.Queries;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
 {
-    public sealed class GetGameStateQueryHandler : IGetGameStateQueryHandler
+    public sealed class GetInitialGameStateQueryHandler : IGetInitialGameStateQueryHandler
     {
-        public async Task<GameState> Handle(GetGameStateQuery query)
+        public async Task<GameState> Handle(GetInitialGameStateQuery query)
         {
             return new GameState
             (
-                Year: 26,
+                Year: 25,
                 ClientData: new ClientData
                 (
                     ClientHoldings: new ClientHoldings
                     (
-                        Bonds: new BondHoldings(new []
-                        {
-                            new BondHolding(1000, 5),
-                            new BondHolding(700, 3)
-                        }),
-                        Loans: new LoanHoldings(new[]
-                        {
-                            new LoanHolding(1000, 0.05),
-                            new LoanHolding(700, 0.1),
-                            new LoanHolding(400, 0.45)
-                        }),
-                        SavingsAccount: new SavingsAccountHoldings(26),
-                        Stocks: new StockHolding(35, 102)
+                        Bonds: new BondHoldings(),
+                        Loans: new LoanHoldings(),
+                        SavingsAccount: new SavingsAccountHoldings(),
+                        Stocks: new StockHolding()
                     ),
                     ExpenseData: new ExpenseData
                     {
                         ChildrenExpenses = 0,
                         ExtraExpenses = 0,
-                        LifeExpenses = 10000,
+                        LifeExpenses = 100000,
                         Rent = 0
                     },
                     IncomeData: new IncomeData
                     {
                         BondInterest = 0,
                         ExtraIncome = 0,
-                        Salary = 17500,
-                        SavingsAccountInterest = 10
+                        Salary = 175000,
+                        SavingsAccountInterest = 0
                     }
                 ),
                 MarketData: new MarketData
@@ -52,8 +44,8 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                     new MacroEconomicData
                     (
                         IsCrisis: false,
-                        InflationRate: 0.03,
-                        UnemploymentRate: 0.07,
+                        InflationRate: 0.02,
+                        UnemploymentRate: 0.06,
                         InterestRate: 0.02
                     ),
                     new ReturnData

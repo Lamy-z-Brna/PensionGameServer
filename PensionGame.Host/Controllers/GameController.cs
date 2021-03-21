@@ -34,24 +34,52 @@ namespace PensionGame.Host.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("Next")]
+        public async Task<GameState> PostNext(NextGameStateCommand nextGameStateCommand)
+        {
+            var result = await _dispatcher.Dispatch<GetNextStepCommand, GameState>(
+                new GetNextStepCommand
+                (
+                    GameState: nextGameStateCommand.GameState,
+                    InvestmentSelection: nextGameStateCommand.InvestmentSelection
+                ));
+
+            return result;
+        }
+
         [HttpPut]
         public async Task<IActionResult> Put(Guid sessionId, InvestmentSelection investmentSelection)
         {
+            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>(new GetGameStateQuery(sessionId));
+
             await _dispatcher.Dispatch(
                 new CheckInvestmentSelectionCommand
                 (
-                    SessionId: new SessionId(sessionId),
+                    GameState: currentGameState,
                     InvestmentSelection: investmentSelection
                 ));
 
             return Ok();
         }
+
         [HttpGet]
         public async Task<GameState> Get(Guid sessionId)
         {
             var result = await _dispatcher.Query<GetGameStateQuery, GameState>
                 (
                     new GetGameStateQuery(sessionId)
+                );
+            return result;
+        }
+
+        [HttpGet]
+        [Route("Initial")]
+        public async Task<GameState> GetInitial()
+        {
+            var result = await _dispatcher.Query<GetInitialGameStateQuery, GameState>
+                (
+                    new GetInitialGameStateQuery()
                 );
             return result;
         }

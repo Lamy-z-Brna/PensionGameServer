@@ -7,36 +7,34 @@ using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Calculators.Validation;
 using System.Threading.Tasks;
 using PensionGame.Api.Domain.Validation;
+using PensionGame.Api.Domain.Resources.Holdings;
+using System.Collections.Generic;
+using PensionGame.Core.Common;
+using System.Linq;
+using PensionGame.Api.Common.Mappers;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {
     public sealed class CheckInvestmentSelectionCommandHandler : ICheckInvestmentSelectionCommandHandler
     {
-        private readonly IDispatcher _dispatcher;
         private readonly IInvestmentSelectionValidationCalculator _investmentSelectionValidationCalculator;
         private readonly IMapper _mapper;
+        private readonly IClientDataMapper _clientDataMapper;
 
-        public CheckInvestmentSelectionCommandHandler(IDispatcher dispatcher,
-            IInvestmentSelectionValidationCalculator investmentSelectionValidationCalculator,
-            IMapper mapper)
+        public CheckInvestmentSelectionCommandHandler(IInvestmentSelectionValidationCalculator investmentSelectionValidationCalculator,
+            IMapper mapper, IClientDataMapper clientDataMapper)
         {
-            _dispatcher = dispatcher;
             _investmentSelectionValidationCalculator = investmentSelectionValidationCalculator;
             _mapper = mapper;
+            _clientDataMapper = clientDataMapper;
         }
 
         public async Task Handle(CheckInvestmentSelectionCommand command)
         {
-            var currentGameState = await _dispatcher
-                .Query<GetGameStateQuery, GameState>
-                (
-                    new GetGameStateQuery
-                    (
-                        SessionId: command.SessionId.Id
-                    )
-                );
+            var currentGameState = command.GameState;
+            var currentClientHoldings = currentGameState.ClientData.ClientHoldings;
 
-            var clientData = _mapper.Map<Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
+            var clientData = _clientDataMapper.Map(currentGameState.ClientData);
             var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
 
             var result = _investmentSelectionValidationCalculator.Calculate

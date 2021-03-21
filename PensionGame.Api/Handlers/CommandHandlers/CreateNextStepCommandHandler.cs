@@ -22,17 +22,19 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
         public async Task Handle(CreateNextStepCommand command)
         {
-            var sessionId = command.SessionId;
-            var checkInvestmentSelectionCommand = _mapper.Map<CheckInvestmentSelectionCommand>(command);
-
-            await _dispatcher.Dispatch(checkInvestmentSelectionCommand);
-
-            var getGameStateQuery = new GetGameStateQuery
+            var sessionId = command.SessionId;           
+            var currentGameState = await _dispatcher
+                .Query<GetGameStateQuery, GameState>
                 (
-                    SessionId: sessionId.Id
+                    new GetGameStateQuery
+                    (
+                        SessionId: sessionId.Id
+                    )
                 );
 
-            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>(getGameStateQuery);
+            var checkInvestmentSelectionCommand = new CheckInvestmentSelectionCommand(currentGameState, command.InvestmentSelection);
+
+            await _dispatcher.Dispatch(checkInvestmentSelectionCommand);
 
             var newGameState = await _dispatcher.Query<GetNextGameStateQuery, GameState>
                 (
