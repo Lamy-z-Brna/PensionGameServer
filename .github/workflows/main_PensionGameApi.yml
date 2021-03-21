@@ -9,6 +9,7 @@ on:
       - main
   workflow_dispatch:
 env:
+  WORKING_DIRECTORY: PensionGame.Host
   TESTS_DIRECTORY: PensionGame.Tests
 jobs:
   build-and-deploy:
@@ -23,15 +24,15 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration Release
       
     - name: Build Unit tests project
       run: dotnet build ${{ env.TESTS_DIRECTORY }} --configuration Release
     - name: Unit Tests
-      run: dotnet test ${{ env.TESTS_DIRECTORY }} --no-build --verbosity n
+      run: dotnet test ${{ env.TESTS_DIRECTORY }} --no-build --configuration Release --verbosity n
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
