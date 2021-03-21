@@ -2,8 +2,9 @@ using System;
 
 namespace PensionGame.Web.Client
 {
-    public static class RestConnectionConfiguration
+    public class RestConnectionConfiguration : IRestConnectionConfiguration
     {
-        public static Uri RestApiUri = new($"https://pensiongameserver.azurewebsites.net/api/");
+        private Uri _restApiUri => new("https://pensiongameserver.azurewebsites.net/api/");
+        public Uri RestApiUri => _restApiUri;
     }
 }

@@ -2,23 +2,21 @@ using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
-using Castle.Windsor;
 
 namespace PensionGame.Web.Client
 {
     public class ServiceClient : IServiceClient
     {
-        private static readonly WindsorContainer _container = new();
+        private IRestConnectionConfiguration _config;
 
-        //TODO VB
-        private static ServiceClient? _instance;
-        public static ServiceClient Instance => _instance ??= new ServiceClient();
-
-        private ServiceClient() { }
+        public ServiceClient(IRestConnectionConfiguration config)
+        {
+            _config = config;
+        }
 
         public async Task<T> PostRequest<T>(string requestAddress, object? requestContent = null)
         {
-            Uri requestUri = new Uri(RestConnectionConfiguration.RestApiUri, requestAddress);
+            Uri requestUri = new Uri(_config.RestApiUri, requestAddress);
 
             IRestClient client = new RestClient(requestUri);
             client.AddDefaultHeader("Content-type", "application/json");

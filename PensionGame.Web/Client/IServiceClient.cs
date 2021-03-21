@@ -8,5 +8,6 @@ namespace PensionGame.Web.Client
 {
     public interface IServiceClient
     {
+        Task<T> PostRequest<T>(string requestAddress, object? requestContent = null);
     }
 }

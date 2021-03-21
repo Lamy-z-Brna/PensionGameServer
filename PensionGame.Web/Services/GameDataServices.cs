@@ -7,8 +7,15 @@ using PensionGame.Web.Client;
 
 namespace PensionGame.Web.Services
 {
-    public class GameDataServices : ServicesBase
+    public class GameDataServices
     {
+        private readonly IServiceClient _client;
+
+        public GameDataServices(IServiceClient client)
+        {
+            _client = client;
+        }
+
         public async Task<bool> GameUpdate(SessionId sessionId, GameUpdate gameUpdate, Method method)
         {
             Uri requestUri = new($"https://pensiongameserver.azurewebsites.net/api/Game");
@@ -27,7 +34,6 @@ namespace PensionGame.Web.Services
 
         public async Task<GameData> GameDataGet(SessionId sessionId)
         {
-            var service = Client;
             Uri requestUri = new($"https://pensiongameserver.azurewebsites.net/api/Game");
 
             IRestClient client = new RestClient(requestUri);

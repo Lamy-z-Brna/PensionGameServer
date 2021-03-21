@@ -59,7 +59,7 @@
 
     private async Task HandleValidSubmit()
     {
-        var sessionId = await SessionService.SessionPost(session);
+        var sessionId = await SessionService.CreateSession(session);
         navigationManager.NavigateTo($"/game/{sessionId.Id}");
     }
 }
