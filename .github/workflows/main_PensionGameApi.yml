@@ -8,7 +8,8 @@ on:
     branches:
       - main
   workflow_dispatch:
-
+env:
+  TESTS_DIRECTORY: PensionGame.Tests
 jobs:
   build-and-deploy:
     runs-on: windows-latest
@@ -23,6 +24,11 @@ jobs:
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
+      
+    - name: Build Unit tests project
+      run: dotnet build ${{ env.TESTS_DIRECTORY }} --configuration Release
+    - name: Unit Tests
+      run: dotnet test ${{ env.TESTS_DIRECTORY }} --no-build --verbosity n
 
     - name: dotnet publish
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
