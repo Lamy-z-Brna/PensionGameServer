@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
+using PensionGame.Api.Data_Access.Connection;
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
@@ -16,20 +19,27 @@ namespace PensionGame.Api.Data_Access.Readers.GameData
     public class GameStateReader : IGameStateReader
     {
         private readonly PensionGameDbContext _context;
+        //private readonly IMongoDatabase _database;
+        private readonly GameStateDatabase _gameStateDatabase;
 
-        public GameStateReader(PensionGameDbContext context)
+        public GameStateReader(PensionGameDbContext context, GameStateDatabase gameStateDatabase)
         {
             _context = context;
+            //var client = new MongoClient("mongodb+srv://pension-game-admin:Brno123@cluster0.2fb3r.mongodb.net/PensionGameDb?retryWrites=true&w=majority");
+
+            //_database = client.GetDatabase("PensionGameDb");
+            _gameStateDatabase = gameStateDatabase;
         }
         public async Task<GameState> Get(SessionId sessionId, int year)
         {
-            var gameStateModel = await _context.GameStates.FirstOrDefaultAsync(g => g.SessionId == FromGuid(sessionId.Id) && g.Year == year);
-            if (gameStateModel == null)
-            {
-                throw new ArgumentNullException();
-            }
+            throw new NotImplementedException();
+            //var gameStateModel = await _context.GameStates.FirstOrDefaultAsync(g => g.SessionId == FromGuid(sessionId.Id) && g.Year == year);
+            //if (gameStateModel == null)
+            //{
+            //    throw new ArgumentNullException();
+            //}
 
-            return Map(gameStateModel);
+            //return Map(gameStateModel);
         }
 
         public async Task<IEnumerable<GameState>> Get(SessionId sessionId)
@@ -40,26 +50,42 @@ namespace PensionGame.Api.Data_Access.Readers.GameData
 
         public async Task<GameState> Get(int gameStateId) 
         {
-            var gameStateModel = await _context.GameStates.FirstOrDefaultAsync(g => g.Id == gameStateId);
-            if (gameStateModel == null)
-            {
-                throw new ArgumentNullException();
-            }
+            throw new NotImplementedException();
 
-            return Map(gameStateModel);
+            //var gameStateModel = await _context.GameStates.FirstOrDefaultAsync(g => g.Id == gameStateId);
+            //if (gameStateModel == null)
+            //{
+            //    throw new ArgumentNullException();
+            //}
+
+            //return Map(gameStateModel);
         }
 
         public async Task<GameState> GetCurrentGameState(SessionId sessionId)
         {
-            if (_context.GameStates == null)
-            {
-                throw new ArgumentNullException();
-            }
-            var gameStateModel = await _context.GameStates
-                .Where(g => g.SessionId == FromGuid(sessionId.Id))
-                .OrderByDescending(g => g.Id)
-                .FirstOrDefaultAsync();
-            return Map(gameStateModel);
+            var gameStates = await _gameStateDatabase.GetAll(sessionId.Id);
+            var gameState = gameStates.FirstOrDefault();
+
+            //var gameStates = _database.GetCollection<DTO.GameState>("GameStates");
+
+            //var result = await gameStates.FindAsync(x => x.Id == sessionId.Id);
+
+            //var gameState = result.FirstOrDefault();
+
+#pragma warning disable CS8603 // Possible null reference return.
+            return gameState?.Game;
+#pragma warning restore CS8603 // Possible null reference return.
+
+            throw new NotImplementedException();
+            //if (_context.GameStates == null)
+            //{
+            //    throw new ArgumentNullException();
+            //}
+            //var gameStateModel = await _context.GameStates
+            //    .Where(g => g.SessionId == FromGuid(sessionId.Id))
+            //    .OrderByDescending(g => g.Id)
+            //    .FirstOrDefaultAsync();
+            //return Map(gameStateModel);
         }
 
         private int FromGuid(Guid value)

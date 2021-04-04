@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Common.Profiles;
+using PensionGame.Api.Data_Access.Connection;
+using PensionGame.Api.Data_Access.ConnectionSettings;
 using PensionGame.Api.Data_Access.Readers;
 using PensionGame.Api.Data_Access.Writers;
 using PensionGame.Api.Domain.Validation.Validators;
@@ -41,7 +44,15 @@ namespace PensionGame.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PensionGameDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PensionGameDbConnection"), b => b.MigrationsAssembly("PensionGame.Host")));
+            services.AddDbContext<PensionGameDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("PensionGameDbConnection"), b => b.MigrationsAssembly("PensionGame.Host")));
+
+            services.Configure<GameStateConnectionSettings>(
+                Configuration.GetSection(nameof(GameStateConnectionSettings)));
+
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<GameStateConnectionSettings>>().Value);
+
+            services.AddSingleton<GameStateDatabase>();
 
             services.AddControllers(options =>
                 {

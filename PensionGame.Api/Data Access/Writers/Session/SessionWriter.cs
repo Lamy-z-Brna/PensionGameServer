@@ -22,7 +22,7 @@ namespace PensionGame.Api.Data_Access.Writers.Session
             _context.Add(testSession);
             await _context.SaveChangesAsync();
 
-            return new SessionId(ToGuid(testSession.Id));
+            return new SessionId(guid);
         }
 
         private Guid ToGuid(int value)
