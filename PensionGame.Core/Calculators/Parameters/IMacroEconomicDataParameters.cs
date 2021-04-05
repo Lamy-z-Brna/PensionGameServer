@@ -4,8 +4,6 @@ namespace PensionGame.Core.Calculators.Parameters
 {
     public interface IMacroEconomicDataParameters : ICalculatorParameters
     {
-        double CrisisProbability { get; }
-
         double InflationRateMean { get; }
         double InflationRateDeviation { get; }
 

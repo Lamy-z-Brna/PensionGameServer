@@ -28,14 +28,14 @@ namespace PensionGame.Api.Handlers.CommandHandlers
             var clientData = _mapper.Map<ClientData, Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
             var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
 
-            var result = _investmentSelectionValidationCalculator.Calculate
+            var result = await Task.Run(() => _investmentSelectionValidationCalculator.Calculate
                 (
                     new InvestmentSelectionValidationRequiredData
                     (
                         CurrentClientData: clientData,
                         InvestmentSelection: investmentSelection
                     )
-                );
+                ));
 
             result.OnError(error => throw new ValidationException(string.Join(",", error.ErrorMessages)));
         }

@@ -1,7 +1,7 @@
 ﻿namespace PensionGame.Core.Domain.ClientData
 {
-    public record IncomeData(int Salary, int BondInterest, int SavingsAccountInterest, int ExtraIncome)
+    public record IncomeData(int ExpectedSalary, int ActualSalary, int BondInterest, int SavingsAccountInterest, int ExtraIncome)
     {
-        public int TotalIncome => Salary + BondInterest + SavingsAccountInterest + ExtraIncome;
+        public int TotalIncome => ActualSalary + BondInterest + SavingsAccountInterest + ExtraIncome;
     }
 }

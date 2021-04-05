@@ -1,8 +1,10 @@
 ﻿using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.Events;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Handlers.Queries;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
@@ -34,7 +36,8 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                     {
                         BondInterest = 0,
                         ExtraIncome = 0,
-                        Salary = 175000,
+                        ExpectedSalary = 175000,
+                        ActualSalary = 175000,
                         SavingsAccountInterest = 0
                     }
                 ),
@@ -42,7 +45,6 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                 (
                     new MacroEconomicData
                     (
-                        IsCrisis: false,
                         InflationRate: 0.02,
                         UnemploymentRate: 0.06,
                         InterestRate: 0.02
@@ -57,7 +59,8 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                     )
                 ),
                 IsInitial: true,
-                IsFinished: false
+                IsFinished: false,
+                Events: Enumerable.Empty<Event>()
             );
 
             return await Task.FromResult(gameState);

@@ -2,7 +2,9 @@
 {
     public record IncomeData
     {
-        public int Salary { get; init; }
+        public int ExpectedSalary { get; init; }
+
+        public int ActualSalary { get; init; }
 
         public int BondInterest { get; init; }
 
@@ -10,6 +12,6 @@
 
         public int ExtraIncome { get; init; }
 
-        public int TotalIncome => Salary + BondInterest + SavingsAccountInterest + ExtraIncome;
+        public int TotalIncome => ActualSalary + BondInterest + SavingsAccountInterest + ExtraIncome;
     }
 }

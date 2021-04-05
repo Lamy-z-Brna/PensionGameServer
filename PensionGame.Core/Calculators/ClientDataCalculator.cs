@@ -2,6 +2,8 @@
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Domain.Holdings;
+using PensionGame.Core.Events;
+using PensionGame.Core.Events.Common;
 using System;
 using System.Linq;
 
@@ -21,15 +23,10 @@ namespace PensionGame.Core.Calculators
 
         public ClientData Calculate(ClientDataRequiredData requiredData)
         {
-            var previousClientData = requiredData.PreviousClientData;
-            var previousReturnData = requiredData.PreviousMarketData.ReturnData;
-            var previousIncomeData = previousClientData.IncomeData;
-            var previousExpenseData = previousClientData.ExpenseData;
-            var previousHoldings = previousClientData.ClientHoldings;
-
-            var macroEconomicData = requiredData.MacroEconomicData;
-            var investmentSelection = requiredData.InvestmentSelection;
-            var returnData = requiredData.ReturnData;
+            var (previousClientData, previousMarketData, investmentSelection, marketData, events) = requiredData;
+            var previousReturnData = previousMarketData.ReturnData;
+            var (previousIncomeData, previousExpenseData, previousHoldings) = previousClientData;
+            var (macroEconomicData, returnData) = marketData;
 
             var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice * (1 + returnData.StockRate), 2);
             var stocksUnits = Math.Round(investmentSelection.StockValue / previousHoldings.Stocks.UnitPrice, 2);
@@ -62,11 +59,16 @@ namespace PensionGame.Core.Calculators
                     )
                 );
 
+            var expectedSalary = Rounder.Round(previousIncomeData.ExpectedSalary * (1 + macroEconomicData.InflationRate));
+            var unemploymentEvent = events.GetEvent<UnemploymentEvent>();
+            var actualSalary = unemploymentEvent != null ? Rounder.Round(expectedSalary * (1 - unemploymentEvent.IncomeLoss)) : expectedSalary;
+
             var clientData = new ClientData
                 (
                     IncomeData: new IncomeData
                     (
-                        Salary: Rounder.Round(previousIncomeData.Salary * (1 + macroEconomicData.InflationRate)),
+                        ExpectedSalary: expectedSalary,
+                        ActualSalary: actualSalary,
                         BondInterest: bondInterest,
                         SavingsAccountInterest: Rounder.Round(investmentSelection.SavingsAccountValue * previousReturnData.SavingsAccountRate),
                         ExtraIncome: 0

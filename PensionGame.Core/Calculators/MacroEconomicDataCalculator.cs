@@ -1,6 +1,8 @@
 ﻿using PensionGame.Core.Calculators.Parameters;
+using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.MarketData;
+using PensionGame.Core.Events.PreMacroEconomicEvents;
 using System;
 using System.Linq;
 
@@ -18,21 +20,27 @@ namespace PensionGame.Core.Calculators
             _parameters = macroEconomicDataParameters;
         }
 
-        public MacroEconomicData Calculate()
+        public MacroEconomicData Calculate(MacroEconomicDataRequiredData macroEconomicDataRequiredData)
         {
-            var isCrisis = _random.GenerateBernoulli(_parameters.CrisisProbability).First();
-            var inflationRate = _random.GenerateNormal(_parameters.InflationRateMean, _parameters.InflationRateDeviation).First();
+            var isCrisis = macroEconomicDataRequiredData.Events.Any(@event => @event is CrisisEvent);
+
+            var inflationRate = _random.GenerateNormal(_parameters.InflationRateMean, _parameters.InflationRateDeviation)
+                .First()
+                .ToRound();
 
             var interestRate = _random.GenerateNormal(
                 isCrisis ? _parameters.InterestRateCrisisMean : _parameters.InterestRateNonCrisisMean,
-                _parameters.InterestRateDeviation).First();
+                _parameters.InterestRateDeviation)
+                .First()
+                .ToRound();
 
             var unemploymentRate = Math.Max(0.0,
                 _random.GenerateNormal(
                     isCrisis ? _parameters.UnemploymentRateCrisisMean : _parameters.UnemploymentRateNonCrisisMean,
-                    _parameters.UnemploymentRateDeviation).First());
+                    _parameters.UnemploymentRateDeviation).First())
+                .ToRound();
 
-            return new MacroEconomicData(isCrisis, inflationRate, unemploymentRate, interestRate);
+            return new MacroEconomicData(inflationRate, unemploymentRate, interestRate);
         }
     }
 }

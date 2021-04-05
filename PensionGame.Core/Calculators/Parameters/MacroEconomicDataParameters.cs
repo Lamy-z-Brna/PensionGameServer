@@ -2,8 +2,6 @@
 {
     public class MacroEconomicDataParameters : IMacroEconomicDataParameters
     {
-        public double CrisisProbability { get; } = 0.05;
-
         public double InflationRateMean { get; } = 0.02;
         public double InflationRateDeviation { get; } = 0.015;
 
