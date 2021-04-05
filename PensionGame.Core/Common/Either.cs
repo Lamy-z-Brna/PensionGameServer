@@ -38,7 +38,7 @@ namespace PensionGame.Core.Common
 
         public TResult Match<TResult>(Func<TA, TResult> func1, Func<TB, TResult> func2)
         {
-            if (_item == 1 && _a != null) 
+            if (_item == 1 && _a != null)
                 return func1(_a);
             if (_item == 2 && _b != null)
                 return func2(_b);

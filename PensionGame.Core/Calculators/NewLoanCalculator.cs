@@ -35,7 +35,7 @@ namespace PensionGame.Core.Calculators
             var totalToRefinance = new LoanHoldings(loansByRefinance[true]).TotalLoanValue;
 
             var result = loansByRefinance[false]
-                .Append(new LoanHolding(totalToRefinance, loanInterestRate))                    
+                .Append(new LoanHolding(totalToRefinance, loanInterestRate))
                 .Where(loan => loan.Amount > 0)
                 .ToLoans();
 

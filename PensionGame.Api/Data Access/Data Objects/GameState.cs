@@ -1,9 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 
-namespace PensionGame.Api.Data_Access.DTO
+namespace PensionGame.Api.Data_Access.Data_Objects
 {
     public sealed class GameState
     {

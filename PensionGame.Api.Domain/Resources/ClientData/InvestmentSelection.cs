@@ -4,7 +4,7 @@
     {
         public int StockValue { get; init; }
 
-        public int BondValue { get; init; } 
+        public int BondValue { get; init; }
 
         public int SavingsAccountValue { get; init; }
 

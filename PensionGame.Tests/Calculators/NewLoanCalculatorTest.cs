@@ -38,9 +38,9 @@ namespace PensionGame.Tests.Calculators
 
             var expectedLoanHoldings = new LoanHoldings
                 (
-                    new[] 
-                    { 
-                        new LoanHolding(2000, 0.07), 
+                    new[]
+                    {
+                        new LoanHolding(2000, 0.07),
                         new LoanHolding(3000, 0.06),
                         new LoanHolding(newLoanValue, newLoanRate)
                     }

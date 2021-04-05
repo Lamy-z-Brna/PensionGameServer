@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Validation;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Calculators.Validation;
 using System.Threading.Tasks;
-using PensionGame.Api.Domain.Validation;
-using PensionGame.Api.Domain.Resources.ClientData;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {
@@ -26,7 +26,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
             var currentClientHoldings = currentGameState.ClientData.ClientHoldings;
 
             var clientData = _mapper.Map<ClientData, Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
-             var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
+            var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
 
             var result = _investmentSelectionValidationCalculator.Calculate
                 (

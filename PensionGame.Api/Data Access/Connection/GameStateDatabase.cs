@@ -1,10 +1,9 @@
 ﻿using MongoDB.Driver;
 using PensionGame.Api.Data_Access.ConnectionSettings;
-using PensionGame.Api.Data_Access.DTO;
+using PensionGame.Api.Data_Access.Data_Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Data_Access.Connection

@@ -12,7 +12,7 @@ namespace PensionGame.Core.Calculators
             var bondPrice = requiredData.Price;
 
             var interestMultiplier = 1 + interestRate;
-            var interestCompound = Math.Pow(interestMultiplier, maturity);           
+            var interestCompound = Math.Pow(interestMultiplier, maturity);
 
             return bondPrice * (interestCompound * interestMultiplier - interestCompound) / (interestCompound - 1);
         }

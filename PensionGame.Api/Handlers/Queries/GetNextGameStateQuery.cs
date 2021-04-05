@@ -5,6 +5,6 @@ using PensionGame.Api.Handlers.Common;
 namespace PensionGame.Api.Handlers.Queries
 {
     public record GetNextGameStateQuery(GameState CurrentGameState, InvestmentSelection InvestmentSelection) : IQuery<GameState>
-    {      
+    {
     }
 }

@@ -7,15 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Api", "PensionG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Core", "PensionGame.Core\PensionGame.Core.csproj", "{85BE100E-056A-4C3F-9C8B-1A3C07F9823F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.DataAccess", "PensionGame.DataAccess\PensionGame.DataAccess.csproj", "{F6895F47-DA8F-4A7E-BBE1-FD43A2864CA7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Host", "PensionGame.Host\PensionGame.Host.csproj", "{2E18AC84-CA73-438D-80D2-6B52C3A63AC6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Tests", "PensionGame.Tests\PensionGame.Tests.csproj", "{28C2B8D4-E1F8-49CF-ADA9-B8E2EB68DAEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Web", "PensionGame.Web\PensionGame.Web.csproj", "{A768D6C2-33EF-4A6B-BD01-EC27492DF239}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PensionGame.Api.Domain", "PensionGame.Api.Domain\PensionGame.Api.Domain.csproj", "{64EB2065-B1C8-4B7B-835B-C3FCD1122807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Api.Domain", "PensionGame.Api.Domain\PensionGame.Api.Domain.csproj", "{64EB2065-B1C8-4B7B-835B-C3FCD1122807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{85BE100E-056A-4C3F-9C8B-1A3C07F9823F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85BE100E-056A-4C3F-9C8B-1A3C07F9823F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85BE100E-056A-4C3F-9C8B-1A3C07F9823F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6895F47-DA8F-4A7E-BBE1-FD43A2864CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6895F47-DA8F-4A7E-BBE1-FD43A2864CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6895F47-DA8F-4A7E-BBE1-FD43A2864CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6895F47-DA8F-4A7E-BBE1-FD43A2864CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E18AC84-CA73-438D-80D2-6B52C3A63AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E18AC84-CA73-438D-80D2-6B52C3A63AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E18AC84-CA73-438D-80D2-6B52C3A63AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU

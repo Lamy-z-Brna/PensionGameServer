@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PensionGame.Api.Data_Access.ConnectionSettings
+﻿namespace PensionGame.Api.Data_Access.ConnectionSettings
 {
     public record GameStateConnectionSettings
     {

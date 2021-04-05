@@ -5,7 +5,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -21,7 +20,6 @@ using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
 using PensionGame.Core.Common;
-using PensionGame.DataAccess;
 using PensionGame.Host.Exception_Handling;
 using PensionGame.Host.Validation;
 using System;
@@ -44,9 +42,6 @@ namespace PensionGame.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PensionGameDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("PensionGameDbConnection"), b => b.MigrationsAssembly("PensionGame.Host")));
-
             services.Configure<GameStateConnectionSettings>(
                 Configuration.GetSection(nameof(GameStateConnectionSettings)));
 
@@ -65,7 +60,7 @@ namespace PensionGame.Host
                 })
                 .AddFluentValidation(fv
                     => fv.RegisterValidatorsFromAssemblyContaining<StartupParametersValidator>());
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(DataObjectsToResourcesProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(CoreToResourcesProfile)));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PensionGame.Host", Version = "v1" });

@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Web.Client;
 using RestSharp;
+using System.Threading.Tasks;
 
 namespace PensionGame.Web.Services
 {

@@ -1,5 +1,5 @@
-﻿using PensionGame.Core.Domain.MarketData;
-using PensionGame.Core.Domain.ClientData;
+﻿using PensionGame.Core.Domain.ClientData;
+using PensionGame.Core.Domain.MarketData;
 using PensionGame.Core.Events.Common;
 using System.Collections.Generic;
 

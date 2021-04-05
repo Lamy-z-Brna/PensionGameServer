@@ -58,7 +58,7 @@ namespace PensionGame.Tests
         {
             var values = new RandomSampler().GenerateBernoulli(p).Take(1000).ToList();
 
-            Assert.AreEqual(p, ((double)values.Count(x => x))/values.Count, 0.04);
+            Assert.AreEqual(p, ((double)values.Count(x => x)) / values.Count, 0.04);
         }
     }
 }

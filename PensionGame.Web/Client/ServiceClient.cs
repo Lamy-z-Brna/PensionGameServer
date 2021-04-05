@@ -1,8 +1,8 @@
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RestSharp;
 
 namespace PensionGame.Web.Client
 {
@@ -62,7 +62,7 @@ namespace PensionGame.Web.Client
             {
                 restRequest.AddParameter("format", "json");
                 restRequest.AddJsonBody(requestBody);
-            }            
+            }
 
             var response = await client.ExecuteAsync(restRequest);
 

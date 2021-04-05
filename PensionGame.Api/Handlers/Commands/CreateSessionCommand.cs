@@ -1,5 +1,5 @@
-﻿using PensionGame.Api.Handlers.Common;
-using PensionGame.Api.Domain.Resources.Session;
+﻿using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Api.Handlers.Common;
 
 namespace PensionGame.Api.Handlers.Commands
 {

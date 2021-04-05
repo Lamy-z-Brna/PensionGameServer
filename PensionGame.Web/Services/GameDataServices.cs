@@ -1,9 +1,9 @@
-using System.Threading.Tasks;
-using RestSharp;
-using PensionGame.Web.Client;
-using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Web.Client;
+using RestSharp;
+using System.Threading.Tasks;
 
 namespace PensionGame.Web.Services
 {
@@ -31,7 +31,7 @@ namespace PensionGame.Web.Services
         public async Task<GameState> GameStateGet(SessionId sessionId)
         {
             return await _client.Request<GameState>("Game", Method.GET,
-                parameters : new() { { "sessionId", sessionId.Id } });
+                parameters: new() { { "sessionId", sessionId.Id } });
         }
     }
 }

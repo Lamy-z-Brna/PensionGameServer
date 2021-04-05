@@ -20,7 +20,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 
         public GetNextGameStateQueryHandler(IMapper mapper,
             IMacroEconomicDataCalculator macroEconomicDataCalculator,
-            IReturnDataCalculator returnDataCalculator, 
+            IReturnDataCalculator returnDataCalculator,
             IClientDataCalculator clientDataCalculator)
         {
             _mapper = mapper;

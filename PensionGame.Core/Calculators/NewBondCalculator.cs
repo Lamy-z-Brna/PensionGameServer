@@ -11,7 +11,7 @@ namespace PensionGame.Core.Calculators
         private readonly INewBondParameters _newBondParameters;
         private readonly IBondPaymentCalculator _bondPaymentCalculator;
 
-        public NewBondCalculator(INewBondParameters newBondParameters, 
+        public NewBondCalculator(INewBondParameters newBondParameters,
             IBondPaymentCalculator bondPaymentCalculator)
         {
             _newBondParameters = newBondParameters;

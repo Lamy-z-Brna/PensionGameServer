@@ -1,9 +1,10 @@
-﻿using PensionGame.Api.Handlers.Commands;
+﻿using PensionGame.Api.Data_Access.Writers.GameData;
+using PensionGame.Api.Domain.Resources.GameData;
+using PensionGame.Api.Exceptions.Session;
+using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
-using PensionGame.Api.Domain.Resources.GameData;
 using System.Threading.Tasks;
-using PensionGame.Api.Data_Access.Writers.GameData;
 
 namespace PensionGame.Api.Handlers.CommandHandlers
 {
@@ -12,7 +13,7 @@ namespace PensionGame.Api.Handlers.CommandHandlers
         private readonly IDispatcher _dispatcher;
         private readonly IGameStateWriter _gameStateWriter;
 
-        public CreateNextStepCommandHandler(IDispatcher dispatcher, 
+        public CreateNextStepCommandHandler(IDispatcher dispatcher,
             IGameStateWriter gameStateWriter)
         {
             _dispatcher = dispatcher;
@@ -21,15 +22,18 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
         public async Task Handle(CreateNextStepCommand command)
         {
-            var sessionId = command.SessionId;           
+            var sessionId = command.SessionId;
             var currentGameState = await _dispatcher
-                .Query<GetGameStateQuery, GameState>
+                .Query<GetGameStateQuery, GameState?>
                 (
                     new GetGameStateQuery
                     (
                         SessionId: sessionId
                     )
                 );
+
+            if (currentGameState == null)
+                throw new SessionDoesNotExistException();
 
             var checkInvestmentSelectionCommand = new CheckInvestmentSelectionCommand(currentGameState, command.InvestmentSelection);
 

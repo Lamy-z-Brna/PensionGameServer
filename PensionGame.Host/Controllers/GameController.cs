@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PensionGame.Api.Handlers.Commands;
-using PensionGame.Api.Handlers.Execution;
-using PensionGame.Api.Handlers.Queries;
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Api.Exceptions.Session;
+using PensionGame.Api.Handlers.Commands;
+using PensionGame.Api.Handlers.Execution;
+using PensionGame.Api.Handlers.Queries;
 using System;
 using System.Threading.Tasks;
 
@@ -51,14 +52,15 @@ namespace PensionGame.Host.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(string sessionId, InvestmentSelection investmentSelection)
+        public async Task<IActionResult> Put(Guid sessionId, InvestmentSelection investmentSelection)
         {
-            Guid.TryParse(sessionId, out var guid);
-
-            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState>
+            var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState?>
                 (
-                    new GetGameStateQuery(new SessionId(guid))                 
+                    new GetGameStateQuery(new SessionId(sessionId))
                 );
+
+            if (currentGameState == null)
+                throw new SessionDoesNotExistException();
 
             await _dispatcher.Dispatch(
                 new CheckInvestmentSelectionCommand
@@ -73,10 +75,14 @@ namespace PensionGame.Host.Controllers
         [HttpGet]
         public async Task<GameState> Get(Guid sessionId)
         {
-            var result = await _dispatcher.Query<GetGameStateQuery, GameState>
+            var result = await _dispatcher.Query<GetGameStateQuery, GameState?>
                 (
                     new GetGameStateQuery(new SessionId(sessionId))
                 );
+
+            if (result == null)
+                throw new SessionDoesNotExistException();
+
             return result;
         }
 

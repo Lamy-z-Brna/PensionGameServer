@@ -12,7 +12,7 @@ namespace PensionGame.Core.Calculators
         private readonly INewBondCalculator _newBondCalculator;
         private readonly INewLoanCalculator _newLoanCalculator;
 
-        public ClientDataCalculator(INewLoanCalculator newLoanCalculator, 
+        public ClientDataCalculator(INewLoanCalculator newLoanCalculator,
             INewBondCalculator newBondCalculator)
         {
             _newLoanCalculator = newLoanCalculator;

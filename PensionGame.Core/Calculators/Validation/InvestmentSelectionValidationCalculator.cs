@@ -22,7 +22,7 @@ namespace PensionGame.Core.Calculators.Validation
                 (
                     new InvestmentSelectionDifferenceRequiredData
                     (
-                        CurrentHoldings: currentClientData.ClientHoldings, 
+                        CurrentHoldings: currentClientData.ClientHoldings,
                         InvestmentSelection: investmentSelection
                     )
                 );
