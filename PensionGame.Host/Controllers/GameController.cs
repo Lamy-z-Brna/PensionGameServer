@@ -23,14 +23,12 @@ namespace PensionGame.Host.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string sessionId, InvestmentSelection investmentSelection)
+        public async Task<IActionResult> Post(Guid sessionId, InvestmentSelection investmentSelection)
         {
-            Guid.TryParse(sessionId, out var guid);
-
             await _dispatcher.Dispatch(
                 new CreateNextStepCommand
                 (
-                    SessionId: new SessionId(guid),
+                    SessionId: new SessionId(sessionId),
                     InvestmentSelection: investmentSelection
                 ));
 

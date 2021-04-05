@@ -11,7 +11,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
     {
         public async Task<GameState> Handle(GetInitialGameStateQuery query)
         {
-            return new GameState
+            var gameState = new GameState
             (
                 Year: 25,
                 ClientData: new ClientData
@@ -59,6 +59,8 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                 IsInitial: true,
                 IsFinished: false
             );
+
+            return await Task.FromResult(gameState);
         }
     }
 }

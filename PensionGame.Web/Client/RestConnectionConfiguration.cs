@@ -4,7 +4,15 @@ namespace PensionGame.Web.Client
 {
     public class RestConnectionConfiguration : IRestConnectionConfiguration
     {
-        private Uri _restApiUri => new("https://pensiongameapi.azurewebsites.net/api/");
-        public Uri RestApiUri => _restApiUri;
+        public Uri RestApiUri => GetUri();
+
+        private static Uri GetUri()
+        {
+#if DEBUG
+            return new("https://localhost:44386/api/");
+#else
+            return new("https://pensiongameapi.azurewebsites.net/api/");
+#endif
+        }
     }
 }

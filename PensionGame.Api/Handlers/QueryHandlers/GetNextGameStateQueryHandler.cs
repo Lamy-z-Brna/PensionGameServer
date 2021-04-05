@@ -14,19 +14,13 @@ namespace PensionGame.Api.Handlers.QueryHandlers
     public sealed class GetNextGameStateQueryHandler : IGetNextGameStateQueryHandler
     {
         private readonly IMapper _mapper;
-        private readonly IMacroEconomicDataCalculator _macroEconomicDataCalculator;
-        private readonly IReturnDataCalculator _returnDataCalculator;
-        private readonly IClientDataCalculator _clientDataCalculator;
+        private readonly INextGameStateCalculator _nextGameStateCalculator;
 
-        public GetNextGameStateQueryHandler(IMapper mapper,
-            IMacroEconomicDataCalculator macroEconomicDataCalculator,
-            IReturnDataCalculator returnDataCalculator,
-            IClientDataCalculator clientDataCalculator)
+        public GetNextGameStateQueryHandler(IMapper mapper, 
+            INextGameStateCalculator nextGameStateCalculator)
         {
             _mapper = mapper;
-            _macroEconomicDataCalculator = macroEconomicDataCalculator;
-            _returnDataCalculator = returnDataCalculator;
-            _clientDataCalculator = clientDataCalculator;
+            _nextGameStateCalculator = nextGameStateCalculator;
         }
 
         public async Task<GameState> Handle(GetNextGameStateQuery query)
@@ -34,28 +28,16 @@ namespace PensionGame.Api.Handlers.QueryHandlers
             var currentGameState = query.CurrentGameState;
             var investmentSelection = query.InvestmentSelection;
 
-            var macroEconomicData = _macroEconomicDataCalculator.Calculate();
-            var returnData = _returnDataCalculator.Calculate(macroEconomicData);
-
-            var previousClientData = _mapper.Map<ClientData, Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
-
-            var clientDataRequiredData = new ClientDataRequiredData
+            var nextGameStateRequiredData = new NextGameStateRequiredData
                 (
-                    PreviousClientData: previousClientData,
-                    PreviousMarketData: _mapper.Map<Core.Domain.MarketData.MarketData>(currentGameState.MarketData),
-                    InvestmentSelection: _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(investmentSelection),
-                    MacroEconomicData: macroEconomicData,
-                    ReturnData: returnData,
-                    Events: Enumerable.Empty<IEvent>()
+                    PreviousGameState: _mapper.Map<Core.Domain.GameData.GameState>(currentGameState),
+                    InvestmentSelection: _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(investmentSelection)
                 );
 
-            var clientData = _clientDataCalculator.Calculate(clientDataRequiredData);
-            var newClientData = _mapper.Map<Domain.Resources.ClientData.ClientData>(clientData);
-            var newMarketData = new MarketData(_mapper.Map<MacroEconomicData>(macroEconomicData), _mapper.Map<ReturnData>(returnData));
+            var gameState = _nextGameStateCalculator.Calculate(nextGameStateRequiredData);
+            var nextGameState = _mapper.Map<GameState>(gameState);
 
-            var newGameState = new GameState(currentGameState.Year + 1, newClientData, newMarketData, false, currentGameState.Year + 1 >= 65);
-
-            return await Task.FromResult(newGameState);
+            return await Task.FromResult(nextGameState);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PensionGame.Api.Domain.Resources.ClientData;
+using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.MarketData;
 using System.Collections.Generic;
@@ -44,6 +45,8 @@ namespace PensionGame.Api.Common.Profiles
             CreateMap<ReturnData, Core.Domain.MarketData.ReturnData>();
 
             CreateMap<MarketData, Core.Domain.MarketData.MarketData>();
+
+            CreateMap<GameState, Core.Domain.GameData.GameState>();                
         }
     }
 }
