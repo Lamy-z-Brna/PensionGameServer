@@ -29,6 +29,11 @@ namespace PensionGame.Web.Pages
 
         private EditContext editContext = new EditContext(new InvestmentSelection());
 
+        private const string StocksInfo = "Stocks are a highly volatile liquid investment that has a high average returns. The price of stock market unit can vary widely from year to year, however you are able to buy and sell down units freely.";
+        private const string BondsInfo = "Bonds are a long term investment with above average returns, but low liquidity. Bonds yield coupons of the same amount every year until they expire (10 years). You cannot disinvest bonds and have to wait until they expire.";
+        private const string SavingsAccountInfo = "An investment with very small but guaranteed returns. You can add and withdraw your investment at any moment, making it highly liquid. Any remaining disposable income will be automatically invested here.";
+        private const string LoansInfo = "A very expensive way to get extra money for investments. Interest will be charged every year until you pay your loans back.";
+
         protected override async void OnInitialized()
         {
             if (string.IsNullOrEmpty(sessionId))
