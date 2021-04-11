@@ -87,7 +87,7 @@
         </thead>
         <tbody>
             <tr>
-                <td class="data-table-name">Stocks</td>
+                <td class="data-table-name">Stocks <Tooltip Text="@StocksInfo">&#65110</Tooltip></td>
                 <td>
                     @gameData?.ClientData.ClientHoldings.Stocks.Value
                     (@gameData?.ClientData.ClientHoldings.Stocks.UnitsHeld units per @gameData?.ClientData.ClientHoldings.Stocks.UnitPrice)
@@ -101,7 +101,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="data-table-name">Bonds</td>
+                <td class="data-table-name">Bonds <Tooltip Text="@BondsInfo">&#65110</Tooltip></td>
                 <td>
                     @if (gameData != null && gameData?.ClientData.ClientHoldings.Bonds.Count() > 0)
                     {
@@ -129,7 +129,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="data-table-name">Savings Account</td>
+                <td class="data-table-name">Savings Account <Tooltip Text="@SavingsAccountInfo">&#65110</Tooltip></td>
                 <td>@gameData?.ClientData.ClientHoldings.SavingsAccount.Amount</td>
                 <td>
                     <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
@@ -140,7 +140,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="data-table-name">Loans</td>
+                <td class="data-table-name">Loans <Tooltip Text="@LoansInfo">&#65110</Tooltip></td>
                 <td>
                     @gameData?.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
                     @if (gameData != null)
