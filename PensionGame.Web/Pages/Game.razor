@@ -102,7 +102,26 @@
             </tr>
             <tr>
                 <td class="invesment-selection-table-name">Bonds</td>
-                <td>@gameData?.ClientData.ClientHoldings.Bonds.Count() bonds</td>
+                <td>
+                    @if (gameData != null && gameData?.ClientData.ClientHoldings.Bonds.Count() > 0)
+                    {
+                        <span>
+                            @gameData.ClientData.ClientHoldings.Bonds.Count() bonds, @gameData.ClientData.ClientHoldings.Bonds.Sum(b => b.YearlyPayment) yearly
+                        </span>
+                        <ul>
+                            @foreach (var bond in gameData.ClientData.ClientHoldings.Bonds)
+                            {
+                                <li>@bond.YearlyPayment yearly (expires in @bond.YearsToExpiration years)</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>
+                            0 bonds
+                        </span>
+                    }
+                </td>
                 <td><InputNumber @bind-Value="investmentSelection.BondValue" /></td>
                 <td>
                     <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
