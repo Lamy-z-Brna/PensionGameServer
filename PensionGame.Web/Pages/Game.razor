@@ -70,7 +70,7 @@
 
         <h3>Portfolio</h3>
 
-@*        <table>
+        <table class="invesment-selection-table">
             <thead>
                 <tr>
                     <th>Product</th>
@@ -81,29 +81,65 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Stocks</td>
-                    <td>10,000 (2000 units per 5)</td>
-                    <td>12,000</td>
+                    <td class="invesment-selection-table-name">Stocks</td>
+                    <td>
+                        @gameData?.ClientData.ClientHoldings.Stocks.Value 
+                        (@gameData?.ClientData.ClientHoldings.Stocks.UnitsHeld units per @gameData?.ClientData.ClientHoldings.Stocks.UnitPrice)
+                    </td>
+                    <td>
+                        <InputNumber @bind-Value="investmentSelection.StockValue" />
+                    </td>
+                    <td>
+                        <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
+                        (last year's return rate)
+                    </td>
                 </tr>
                 <tr>
-                    <td>Bonds</td>
-                    <td>3 bonds</td>
-                    <td>3,000</td>
+                    <td class="invesment-selection-table-name">Bonds</td>
+                    <td>@gameData?.ClientData.ClientHoldings.Bonds.Count() bonds</td>
+                    <td><InputNumber @bind-Value="investmentSelection.BondValue" /></td>
+                    <td>
+                        <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
+                        (return rate)
+                    </td>
                 </tr>
                 <tr>
-                    <td>Savings Account</td>
-                    <td>8,000</td>
-                    <td>5,500</td>
+                    <td class="invesment-selection-table-name">Savings Account</td>
+                    <td>@gameData?.ClientData.ClientHoldings.SavingsAccount.Amount</td>
+                    <td>
+                        <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
+                    </td>
+                    <td>
+                        <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
+                        (interest rate)
+                    </td>
                 </tr>
                 <tr>
-                    <td>Loans</td>
-                    <td>7,000 (3 loans with 6 %, 5 % and 4.5 % interest rates)</td>
-                    <td>3,000</td>
+                    <td class="invesment-selection-table-name">Loans</td>
+                    <td>
+                        @gameData?.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+                        @if(gameData != null)
+                        {
+                            <ul>
+                                @foreach (var loan in gameData.ClientData.ClientHoldings.Loans)
+                                {
+                                    <li>@loan.Amount (@loan.InterestRate.ToString("P1"))</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                    <td>
+                        <InputNumber @bind-Value="investmentSelection.LoanValue" />
+                    </td>
+                    <td>
+                        <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
+                        (loan interest rate)
+                    </td>
                 </tr>
             </tbody>
-        </table>*@
+        </table>
 
-    <p>
+@*    <p>
         <div class="d-inline-block">
             <div>
                 Stocks:
@@ -176,17 +212,28 @@
                 <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
             </div>
         </div>
-    </p>
+    </p>*@
+
     @if (gameData != null)
     {
-        <p>
+        @*<p>
             <label>
                 Remaining Cash-flow:
             </label>
             <div>
                 @RemainingCashFlow
             </div>
-        </p>
+        </p>*@
+            <div>
+                <div class="game-state-info">
+                    <label>
+                        Remaining Cash-flow:
+                    </label>
+                    <h4>
+                        @RemainingCashFlow
+                    </h4>
+                </div>
+            </div>
     }
     <button type="submit">Submit</button>
 </EditForm>

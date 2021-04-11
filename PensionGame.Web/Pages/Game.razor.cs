@@ -6,6 +6,7 @@ using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Web.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Linq;
 
 namespace PensionGame.Web.Pages
 {
@@ -30,8 +31,6 @@ namespace PensionGame.Web.Pages
 
         protected override async void OnInitialized()
         {
-            editContext = new EditContext(investmentSelection);
-
             if (string.IsNullOrEmpty(sessionId))
                 return; //TODO vypisat nejaku hlasku
 
@@ -41,6 +40,17 @@ namespace PensionGame.Web.Pages
             currentSessionId = new SessionId(sessionGuid);
 
             gameData = await GameService.GameStateGet(currentSessionId);
+
+            investmentSelection = new InvestmentSelectionModel(new InvestmentSelection() 
+            {
+                StockValue = gameData.ClientData.ClientHoldings.Stocks.Value,
+                BondValue = 0,
+                SavingsAccountValue = gameData.ClientData.ClientHoldings.SavingsAccount.Amount,
+                LoanValue = gameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+            });
+
+            //TODO VB default values from gameData
+            editContext = new EditContext(investmentSelection);
 
             editContext.OnFieldChanged += editContext_OnFieldChanged;
 
