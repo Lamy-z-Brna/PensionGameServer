@@ -39,7 +39,7 @@ namespace PensionGame.Web.Pages
 
             currentSessionId = new SessionId(sessionGuid);
 
-            LoadPageBySessionId(currentSessionId);
+            await LoadPageBySessionId(currentSessionId);
         }
 
         protected async void editContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
@@ -58,11 +58,11 @@ namespace PensionGame.Web.Pages
             {
                 success = await GameService.InvestmentSelectionSubmit(currentSessionId, investmentSelection);
 
-                LoadPageBySessionId(currentSessionId);
+                await LoadPageBySessionId(currentSessionId);
             }
         }
 
-        private async void LoadPageBySessionId(SessionId sessionId)
+        private async Task LoadPageBySessionId(SessionId sessionId)
         {
             gameData = await GameService.GameStateGet(sessionId);
 

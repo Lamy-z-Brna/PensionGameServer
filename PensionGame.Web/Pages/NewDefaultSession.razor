@@ -5,10 +5,3 @@
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
 
-@code {
-    protected override async void OnInitialized()
-    {
-        var sessionId = await SessionService.CreateDefaultSession();
-        navigationManager.NavigateTo($"/game/{sessionId.Id}");
-    }
-}
