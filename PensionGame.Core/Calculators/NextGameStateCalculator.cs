@@ -40,8 +40,16 @@ namespace PensionGame.Core.Calculators
                 );
 
             var (newClientData, clientEvents) = _clientDataCalculator.Calculate(clientDataRequiredData);
+            var newYear = previousGameState.Year + 1;
 
-            return new GameState(previousGameState.Year + 1, newClientData, newMarketData, previousGameState.Year + 1 >= 65, clientDataEvents.Union(clientEvents));
+            return new GameState
+                (
+                    Year: newYear,
+                    RetirementYear: previousGameState.RetirementYear, 
+                    ClientData: newClientData, 
+                    MarketData: newMarketData,
+                    Events: clientDataEvents.Union(clientEvents)
+                );
         }
     }
 }

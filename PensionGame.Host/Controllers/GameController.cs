@@ -107,7 +107,7 @@ namespace PensionGame.Host.Controllers
         {
             var result = await _dispatcher.Query<GetInitialGameStateQuery, GameState>
                 (
-                    new GetInitialGameStateQuery()
+                    new GetInitialGameStateQuery(null)
                 );
             return result;
         }

@@ -3,6 +3,7 @@ using PensionGame.Api.Domain.Resources.Events;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.MarketData;
+using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Handlers.Queries;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +14,12 @@ namespace PensionGame.Api.Handlers.QueryHandlers
     {
         public async Task<GameState> Handle(GetInitialGameStateQuery query)
         {
+            var (income, expenses, year, retirementYear) = query.StartupParameters ?? new StartupParameters(175000, 100000, 25, 65);
+
             var gameState = new GameState
             (
-                Year: 25,
+                Year: year,
+                RetirementYear: retirementYear,
                 ClientData: new ClientData
                 (
                     ClientHoldings: new ClientHoldings
@@ -29,15 +33,15 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                     {
                         ChildrenExpenses = 0,
                         ExtraExpenses = 0,
-                        LifeExpenses = 100000,
+                        LifeExpenses = expenses,
                         Rent = 0
                     },
                     IncomeData: new IncomeData
                     {
                         BondInterest = 0,
                         ExtraIncome = 0,
-                        ExpectedSalary = 175000,
-                        ActualSalary = 175000,
+                        ExpectedSalary = income,
+                        ActualSalary = income,
                         SavingsAccountInterest = 0
                     }
                 ),
@@ -59,7 +63,6 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                     )
                 ),
                 IsInitial: true,
-                IsFinished: false,
                 Events: Enumerable.Empty<Event>()
             );
 
