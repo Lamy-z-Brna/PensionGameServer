@@ -25,10 +25,10 @@ namespace PensionGame.Web.Pages
 
         private static string RandName()
         {
-            string[] names_1 = new string[] { "Shymo", "Anička", "Adam", "Bači", "Miki", "Matovič", "Sulík", "Ciťo", "Peťo 2D", "Peťo 3D", "Donald Trump", "Joe Biden", "Babiš", "Your mom", "A scientist", "An epidemologist", "My boss" };
-            string[] names_2 = new string[] { "is", "is best in", "is looking forward to", "is cooking up", "has", "took a photo of", "found a photo of", "doesn't have", "fixed", "created", "found", "knows nothing about", "predicts", "issued a warning about", "waits for", "saves for", "wants", "lost", "won", "won 6 times", "is looking for", "looks like", "caught", "cares about", "doesn't give a fuck about", "would like" };
-            string[] names_3 = new string[] { "a huge", "an expensive", "a dirty", "a toy", "a cheap", "a fancy", "a godlike", "a tiny", "an overpriced", "a bad", "a sleepy", "a malicious", "a stolen", "a massive", "your" };
-            string[] names_4 = new string[] { "vaccine", "vagina", "pension", "Sputnik", "covid", "something", "dick", "bitch", "pussy", "election", "election result", "election fraud", "joke", "result", "mom", "victory", "loss" };
+            string[] names_1 = new string[] { "Shymo", "Anička", "Adam", "Bači", "Miki", "Matovič", "Zeman", "Sulík", "Ciťo", "Peťo 2D", "Peťo 3D", "Jesus", "Donald Trump", "Joe Biden", "Babiš", "Your mom", "A scientist", "An epidemologist", "My boss" };
+            string[] names_2 = new string[] { "is", "is best in", "ordered", "maintains", "is looking forward to", "loves", "approves of", "smells like", "is cooking up", "has", "took a photo of", "found a photo of", "doesn't have", "fixed", "created", "found", "knows nothing about", "predicts", "issued a warning about", "waits for", "saves for", "wants", "lost", "won", "won 6 times", "is looking for", "looks like", "caught", "cares about", "doesn't give a fuck about", "would like" };
+            string[] names_3 = new string[] { "a huge", "an expensive", "a dirty", "a used", "a toy", "a not great not terrible", "best in covid", "a crazy", "a dangerous", "an overly sexual", "an annoying", "no", "inappropriate", "a cheap", "a fancy", "a godlike", "a tiny", "an overpriced", "a bad", "a sleepy", "a malicious", "a stolen", "a massive", "your" };
+            string[] names_4 = new string[] { "vaccine", "lock-down", "vagina", "pension", "face mask", "Sputnik", "covid", "something", "dick", "bitch", "shit", "sense of humour", "bug", "pussy", "election", "election result", "election fraud", "joke", "result", "mom", "victory", "loss" };
 
             Random rand = new Random();
             var name_1 = names_1[rand.Next(0, names_1.Length)];
