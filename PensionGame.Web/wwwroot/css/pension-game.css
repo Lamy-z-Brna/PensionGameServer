@@ -1,0 +1,8 @@
+
+.game-state-info {
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    background: #ccb9ea;
+    padding: 10px 10px 2px 10px;
+    width: 150px;
+}
