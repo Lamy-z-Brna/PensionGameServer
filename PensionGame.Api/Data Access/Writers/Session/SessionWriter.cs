@@ -14,7 +14,7 @@ namespace PensionGame.Api.Data_Access.Writers.Session
             _sessionDatabase = sessionDatabase;
         }
 
-        public async Task<SessionId> Create(int Income, int Expenses, int Year, int RetirementYear, string Name)
+        public async Task<SessionId> Create(string Name, StartupParameters? startupParameters)
         {
             var sessionId = new SessionId(Guid.NewGuid());
 
@@ -25,13 +25,7 @@ namespace PensionGame.Api.Data_Access.Writers.Session
                     SessionId: sessionId,
                     DateStarted: DateTime.Now,
                     Name: Name,
-                    StartupParameters: new StartupParameters
-                    (
-                        Income,
-                        Expenses,
-                        Year,
-                        RetirementYear
-                    )
+                    StartupParameters: startupParameters
                 )
             });
 

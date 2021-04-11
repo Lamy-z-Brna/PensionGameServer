@@ -30,11 +30,17 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
         public async Task<SessionId> Handle(CreateSessionCommand command)
         {
-            var startupParameters = command.StartupParameters ?? new StartupParameters(123456, 23456, 20, 65);
-            var result = await _sessionWriter.Create(startupParameters.Income, startupParameters.Expenses, startupParameters.Year, startupParameters.RetirementYear, command.Name);
+            var (name, startupParameters) = command;
+            var result = await _sessionWriter.Create(name, startupParameters);
 
             var sessionId = _mapper.Map<SessionId>(result);
-            var initialGameState = await _dispatcher.Query<GetInitialGameStateQuery, GameState>(new GetInitialGameStateQuery());
+            var initialGameState = await _dispatcher.Query<GetInitialGameStateQuery, GameState>
+                (
+                    new GetInitialGameStateQuery
+                    (
+                        StartupParameters: startupParameters
+                    )
+                );
 
             await _gameStateWriter.Create(sessionId, initialGameState);
 

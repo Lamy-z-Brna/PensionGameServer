@@ -25,9 +25,9 @@ namespace PensionGame.Api.Common.Mappers
             return new Core.Domain.GameData.GameState
                 (
                     Year: gameState.Year,
+                    RetirementYear: gameState.RetirementYear,
                     ClientData: _mapper.Map<Core.Domain.ClientData.ClientData>(gameState.ClientData),
                     MarketData: _mapper.Map<Core.Domain.MarketData.MarketData>(gameState.MarketData),
-                    IsFinished: gameState.IsFinished,
                     Events: Enumerable.Empty<IEvent>()
                 );
         }
@@ -37,9 +37,9 @@ namespace PensionGame.Api.Common.Mappers
             return new GameState
                 (
                     Year: gameState.Year,
+                    RetirementYear: gameState.RetirementYear,
                     ClientData: _mapper.Map<ClientData>(gameState.ClientData),
                     MarketData: _mapper.Map<MarketData>(gameState.MarketData),
-                    IsFinished: gameState.IsFinished,
                     Events: _eventMapper.Map(gameState.Events)
                 );
         }
