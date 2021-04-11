@@ -1,7 +1,6 @@
 ﻿using PensionGame.Core.Calculators.Parameters;
 using PensionGame.Core.Common;
 using PensionGame.Core.Events.PreMacroEconomicEvents;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

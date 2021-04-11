@@ -1,0 +1,11 @@
+﻿using PensionGame.Api.Domain.Common;
+using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Api.Handlers.Common;
+using PensionGame.Api.Handlers.Queries;
+
+namespace PensionGame.Api.Handlers.QueryHandlers
+{
+    public interface IGetSessionsQueryHandler : IQueryHandler<GetSessionsQuery, PaginationResult<Session>>
+    {
+    }
+}

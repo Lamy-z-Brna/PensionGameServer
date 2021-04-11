@@ -45,9 +45,16 @@ namespace PensionGame.Host
             services.Configure<GameStateConnectionSettings>(
                 Configuration.GetSection(nameof(GameStateConnectionSettings)));
 
+            services.Configure<SessionConnectionSettings>(
+                Configuration.GetSection(nameof(SessionConnectionSettings)));
+
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<GameStateConnectionSettings>>().Value);
 
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<SessionConnectionSettings>>().Value);
+
             services.AddSingleton<GameStateDatabase>();
+
+            services.AddSingleton<SessionDatabase>();
 
             services.AddControllers(options =>
                 {

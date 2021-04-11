@@ -3,7 +3,6 @@ using PensionGame.Core.Common;
 using PensionGame.Core.Domain.MarketData;
 using PensionGame.Core.Events;
 using PensionGame.Core.Events.PreClientDataEvents;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

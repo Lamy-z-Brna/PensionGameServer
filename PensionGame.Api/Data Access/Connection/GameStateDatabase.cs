@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 
 namespace PensionGame.Api.Data_Access.Connection
 {
-    public sealed class GameStateDatabase
+    public sealed class GameStateDatabase : Database<GameState>
     {
-        private readonly IMongoCollection<GameState> _gameStates;
+        private IMongoCollection<GameState> GameStates => ObjectCollection;
 
-        public GameStateDatabase(GameStateConnectionSettings pensionGameConnectionSettings)
+        public GameStateDatabase(GameStateConnectionSettings pensionGameConnectionSettings) : base(pensionGameConnectionSettings)
         {
-            var client = new MongoClient(pensionGameConnectionSettings.ConnectionString);
-            var database = client.GetDatabase(pensionGameConnectionSettings.DatabaseName);
-
-            _gameStates = database.GetCollection<GameState>(pensionGameConnectionSettings.CollectionName);
         }
 
         public async Task Create(Guid sessionId, Domain.Resources.GameData.GameState gameState)
@@ -28,12 +24,12 @@ namespace PensionGame.Api.Data_Access.Connection
                 Game = gameState
             };
 
-            await _gameStates.InsertOneAsync(newGameState);
+            await GameStates.InsertOneAsync(newGameState);
         }
 
         public async Task<IEnumerable<GameState>> GetAll(Guid guid)
         {
-            var result = await _gameStates.FindAsync(gameState => gameState.Guid == guid);
+            var result = await GameStates.FindAsync(gameState => gameState.Guid == guid);
 
             return result.ToList();
         }

@@ -2,7 +2,7 @@
 
 namespace PensionGame.Api.Domain.Resources.Session
 {
-    public record Session(DateTime DateStarted)
+    public record Session(SessionId SessionId, DateTime DateStarted, string? Name, StartupParameters StartupParameters)
     {
     }
 }
