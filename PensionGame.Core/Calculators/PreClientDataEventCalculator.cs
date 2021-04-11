@@ -22,6 +22,12 @@ namespace PensionGame.Core.Calculators
 
         public IEnumerable<IPreClientDataEvent> Calculate(MacroEconomicData macroEconomicData)
         {
+            var result = CalculateInternally(macroEconomicData).ToList();
+            return result;
+        }
+
+        private IEnumerable<IPreClientDataEvent> CalculateInternally(MacroEconomicData macroEconomicData)
+        {
             var isUnemployed = _random.GenerateBernoulli(macroEconomicData.UnemploymentRate)
                 .First();
 

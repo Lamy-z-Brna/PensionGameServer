@@ -43,7 +43,7 @@ namespace PensionGame.Core.Calculators
                     isCrisis ? _parameters.BondDefaultRateCrisisMean : _parameters.BondDefaultRateNonCrisisMean,
                     _parameters.BondDefaultRateDeviation).First());
 
-            var savingsAccountRate = macroEconomicData.InterestRate;
+            var savingsAccountRate = Math.Max(0.0, macroEconomicData.InterestRate);
 
             var loanRateRiskRate = isCrisis ? _parameters.LoanRateCrisisRiskRate : _parameters.LoanRateNonCrisisRiskRate;
             var loanRateMean = macroEconomicData.InterestRate + loanRateRiskRate;

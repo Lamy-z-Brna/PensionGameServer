@@ -1,11 +1,10 @@
 ﻿using PensionGame.Core.Calculators.RequiredData;
-using PensionGame.Core.Domain.ClientData;
 
 namespace PensionGame.Core.Calculators
 {
     public sealed class InvestmentSelectionDifferenceCalculator : IInvestmentSelectionDifferenceCalculator
     {
-        public InvestmentSelectionDifference Calculate(InvestmentSelectionDifferenceRequiredData requiredData)
+        public (int StockChange, int BondChange, int SavingsAccountChange, int LoanChange) Calculate(InvestmentSelectionDifferenceRequiredData requiredData)
         {
             var currentHoldings = requiredData.CurrentHoldings;
             var investmentSelection = requiredData.InvestmentSelection;
@@ -15,12 +14,12 @@ namespace PensionGame.Core.Calculators
             var savingsChange = investmentSelection.SavingsAccountValue - currentHoldings.SavingsAccount.Amount;
             var loanChange = investmentSelection.LoanValue - currentHoldings.TotalLoanValue;
 
-            return new InvestmentSelectionDifference
+            return new 
                 (
-                    StockChange: stockChange,
-                    BondChange: bondChange,
-                    SavingsAccountChange: savingsChange,
-                    LoanChange: loanChange
+                    stockChange,
+                    bondChange,
+                    savingsChange,
+                    loanChange
                 );
         }
     }

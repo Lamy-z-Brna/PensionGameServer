@@ -5,6 +5,7 @@ using PensionGame.Core.Domain.Holdings;
 using PensionGame.Core.Events;
 using PensionGame.Core.Events.Common;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PensionGame.Core.Calculators
@@ -12,16 +13,19 @@ namespace PensionGame.Core.Calculators
     public sealed class ClientDataCalculator : IClientDataCalculator
     {
         private readonly INewBondCalculator _newBondCalculator;
+        private readonly INewSavingsAccountCalculator _newSavingsAccountCalculator;
         private readonly INewLoanCalculator _newLoanCalculator;
 
         public ClientDataCalculator(INewLoanCalculator newLoanCalculator,
+            INewSavingsAccountCalculator newSavingsAccountCalculator,
             INewBondCalculator newBondCalculator)
         {
             _newLoanCalculator = newLoanCalculator;
+            _newSavingsAccountCalculator = newSavingsAccountCalculator;
             _newBondCalculator = newBondCalculator;
         }
 
-        public ClientData Calculate(ClientDataRequiredData requiredData)
+        public (ClientData, IEnumerable<IEvent>) Calculate(ClientDataRequiredData requiredData)
         {
             var (previousClientData, previousMarketData, investmentSelection, marketData, events) = requiredData;
             var previousReturnData = previousMarketData.ReturnData;
@@ -43,6 +47,17 @@ namespace PensionGame.Core.Calculators
                         BondDefaultRate: returnData.BondDefaultRate
                     )
                 );
+
+            var (newSavingsAccountHoldings, savingsAccountEvents) = _newSavingsAccountCalculator.Calculate
+                (
+                    new NewSavingsAccountRequiredData
+                    (
+                        CurrentClientData: previousClientData,
+                        InvestmentSelection: investmentSelection
+                    )
+                );
+
+            var savingsAccountInterest = Rounder.Round(newSavingsAccountHoldings.Amount * previousReturnData.SavingsAccountRate);
 
             var loanInterest = previousHoldings.Loans
                 .Sum(loans => loans.Amount * loans.InterestRate);
@@ -70,7 +85,7 @@ namespace PensionGame.Core.Calculators
                         ExpectedSalary: expectedSalary,
                         ActualSalary: actualSalary,
                         BondInterest: bondInterest,
-                        SavingsAccountInterest: Rounder.Round(investmentSelection.SavingsAccountValue * previousReturnData.SavingsAccountRate),
+                        SavingsAccountInterest: savingsAccountInterest,
                         ExtraIncome: 0
                     ),
                     ExpenseData: new ExpenseData
@@ -85,12 +100,12 @@ namespace PensionGame.Core.Calculators
                     (
                         Stocks: new StockHolding(stockPrice, stocksUnits),
                         Bonds: new BondHoldings(bonds),
-                        SavingsAccount: new SavingsAccountHoldings(investmentSelection.SavingsAccountValue),
+                        SavingsAccount: newSavingsAccountHoldings,
                         Loans: loans
                     )
                 );
 
-            return clientData;
+            return (clientData, savingsAccountEvents);
         }
     }
 }

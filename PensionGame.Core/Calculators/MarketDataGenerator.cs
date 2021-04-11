@@ -30,7 +30,7 @@ namespace PensionGame.Core.Calculators
 
             var newMacroEconomicData = _macroEconomicDataCalculator.Calculate(new MacroEconomicDataRequiredData(preMacroEconomicEvents));
 
-            var preReturnsEvents = _preReturnsEventGenerator.Generate().Union(preMacroEconomicEvents).ToList();           
+            var preReturnsEvents = _preReturnsEventGenerator.Generate().Union(preMacroEconomicEvents);           
 
             var newReturnData = _returnDataCalculator.Calculate(new ReturnDataRequiredData(newMacroEconomicData, preReturnsEvents));
 

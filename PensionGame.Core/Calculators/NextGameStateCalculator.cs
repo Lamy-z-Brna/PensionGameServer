@@ -28,7 +28,7 @@ namespace PensionGame.Core.Calculators
 
             var (newMarketData, events) = _marketDataGenerator.Generate();
 
-            var clientDataEvents = _preClientDataEventCalculator.Calculate(newMarketData.MacroEconomicData).Union(events).ToList();
+            var clientDataEvents = _preClientDataEventCalculator.Calculate(newMarketData.MacroEconomicData).Union(events);
 
             var clientDataRequiredData = new ClientDataRequiredData
                 (
@@ -39,9 +39,9 @@ namespace PensionGame.Core.Calculators
                     Events: clientDataEvents
                 );
 
-            var newClientData = _clientDataCalculator.Calculate(clientDataRequiredData);
+            var (newClientData, clientEvents) = _clientDataCalculator.Calculate(clientDataRequiredData);
 
-            return new GameState(previousGameState.Year + 1, newClientData, newMarketData, previousGameState.Year + 1 >= 65, clientDataEvents);
+            return new GameState(previousGameState.Year + 1, newClientData, newMarketData, previousGameState.Year + 1 >= 65, clientDataEvents.Union(clientEvents));
         }
     }
 }

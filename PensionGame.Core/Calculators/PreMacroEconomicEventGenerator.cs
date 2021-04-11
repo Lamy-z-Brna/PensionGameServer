@@ -19,6 +19,12 @@ namespace PensionGame.Core.Calculators
 
         public IEnumerable<IPreMacroEconomicEvent> Generate()
         {
+            var result = GenerateInternally().ToList();
+            return result;
+        }
+
+        private IEnumerable<IPreMacroEconomicEvent> GenerateInternally()
+        {
             var isCrisis = _random.GenerateBernoulli(_parameters.CrisisProbability)
                 .First();
 

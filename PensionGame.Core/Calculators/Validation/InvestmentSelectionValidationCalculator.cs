@@ -6,19 +6,30 @@ namespace PensionGame.Core.Calculators.Validation
 {
     public sealed class InvestmentSelectionValidationCalculator : IInvestmentSelectionValidationCalculator
     {
+        private readonly IAvailableToInvestCalculator _availableToInvestCalculator;
         private readonly IInvestmentSelectionDifferenceCalculator _investmentSelectionDifferenceCalculator;
 
-        public InvestmentSelectionValidationCalculator(IInvestmentSelectionDifferenceCalculator investmentSelectionDifferenceCalculator)
+        public InvestmentSelectionValidationCalculator(IAvailableToInvestCalculator availableToInvestCalculator, 
+            IInvestmentSelectionDifferenceCalculator investmentSelectionDifferenceCalculator)
         {
+            _availableToInvestCalculator = availableToInvestCalculator;
             _investmentSelectionDifferenceCalculator = investmentSelectionDifferenceCalculator;
         }
 
         public ValidationResult<InvestmentSelection> Calculate(InvestmentSelectionValidationRequiredData requiredData)
         {
-            var currentClientData = requiredData.CurrentClientData;
-            var investmentSelection = requiredData.InvestmentSelection;
+            var (currentClientData, investmentSelection) = requiredData;
 
-            var holdingChanges = _investmentSelectionDifferenceCalculator.Calculate
+            var availableToInvest = _availableToInvestCalculator.Calculate
+                (
+                    new AvailableToInvestRequiredData
+                    (
+                        CurrentClientData: currentClientData, 
+                        InvestmentSelection: investmentSelection
+                    )
+                );
+
+            var (stockChange, bondChange, savingsAccountChange, loanChange) = _investmentSelectionDifferenceCalculator.Calculate
                 (
                     new InvestmentSelectionDifferenceRequiredData
                     (
@@ -27,13 +38,15 @@ namespace PensionGame.Core.Calculators.Validation
                     )
                 );
 
-            if (currentClientData.DisposableIncome + holdingChanges.LoanChange - holdingChanges.StockChange - holdingChanges.SavingsAccountChange - holdingChanges.BondChange < 0)
-            {
-                var totalInvested = holdingChanges.StockChange + holdingChanges.SavingsAccountChange + holdingChanges.BondChange;
+            var requiresNewLoan = loanChange > 0;
 
-                var errorMessage = holdingChanges.LoanChange >= 0
-                    ? $"Total income usable of {currentClientData.DisposableIncome + holdingChanges.LoanChange} is not enough to cover investments totalling {totalInvested}"
-                    : $"Total disposable income of {currentClientData.DisposableIncome} is not enough to cover investments and repayments totalling {totalInvested - holdingChanges.LoanChange}";
+            if (availableToInvest < 0)
+            {
+                var totalInvested = stockChange + bondChange + savingsAccountChange;
+
+                var errorMessage = requiresNewLoan
+                    ? $"Total income usable of {currentClientData.DisposableIncome + loanChange} is not enough to cover investments totalling {totalInvested}"
+                    : $"Total disposable income of {currentClientData.DisposableIncome} is not enough to cover investments and repayments totalling {totalInvested - loanChange}";
 
                 return new ValidationResult<InvestmentSelection>
                 (
@@ -44,12 +57,12 @@ namespace PensionGame.Core.Calculators.Validation
                 );
             }
 
-            if (holdingChanges.LoanChange > 0 && currentClientData.IncomeData.TotalIncome < investmentSelection.LoanValue)
+            if (requiresNewLoan && currentClientData.IncomeData.TotalIncome < investmentSelection.LoanValue)
                 return new ValidationResult<InvestmentSelection>
                     (
                         new ValidationError
                         (
-                            $"The requested loan value of {investmentSelection.LoanValue} would exceed the maximum of {currentClientData.IncomeData.TotalIncome}"
+                            $"The requested loan value of {investmentSelection.LoanValue} would exceed the maximum of {currentClientData.IncomeData.TotalIncome} equal to Total Income"
                         )
                     );
 
