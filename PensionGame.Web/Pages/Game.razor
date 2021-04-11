@@ -34,6 +34,12 @@
 
     @if (gameData != null)
     {
+        <div class="alert-info">
+            @foreach (var @event in gameData.Events)
+            {
+                <p>@(@event.DisplayMessage)</p>
+            }
+        </div>
         <div class="game-state-info">
             <label>
                 Year:
@@ -68,172 +74,172 @@
         </div>
     }
 
-        <h3>Portfolio</h3>
+    <h3>Portfolio</h3>
 
-        <table class="invesment-selection-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Current Holdings</th>
-                    <th>Investment Selection</th>
-                    <th>Rates</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="invesment-selection-table-name">Stocks</td>
-                    <td>
-                        @gameData?.ClientData.ClientHoldings.Stocks.Value 
-                        (@gameData?.ClientData.ClientHoldings.Stocks.UnitsHeld units per @gameData?.ClientData.ClientHoldings.Stocks.UnitPrice)
-                    </td>
-                    <td>
-                        <InputNumber @bind-Value="investmentSelection.StockValue" />
-                    </td>
-                    <td>
-                        <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
-                        (last year's return rate)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="invesment-selection-table-name">Bonds</td>
-                    <td>@gameData?.ClientData.ClientHoldings.Bonds.Count() bonds</td>
-                    <td><InputNumber @bind-Value="investmentSelection.BondValue" /></td>
-                    <td>
-                        <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
-                        (return rate)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="invesment-selection-table-name">Savings Account</td>
-                    <td>@gameData?.ClientData.ClientHoldings.SavingsAccount.Amount</td>
-                    <td>
-                        <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
-                    </td>
-                    <td>
-                        <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
-                        (interest rate)
-                    </td>
-                </tr>
-                <tr>
-                    <td class="invesment-selection-table-name">Loans</td>
-                    <td>
-                        @gameData?.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
-                        @if(gameData != null)
-                        {
-                            <ul>
-                                @foreach (var loan in gameData.ClientData.ClientHoldings.Loans)
-                                {
-                                    <li>@loan.Amount (@loan.InterestRate.ToString("P1"))</li>
-                                }
-                            </ul>
-                        }
-                    </td>
-                    <td>
-                        <InputNumber @bind-Value="investmentSelection.LoanValue" />
-                    </td>
-                    <td>
-                        <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
-                        (loan interest rate)
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="invesment-selection-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Current Holdings</th>
+                <th>Investment Selection</th>
+                <th>Rates</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="invesment-selection-table-name">Stocks</td>
+                <td>
+                    @gameData?.ClientData.ClientHoldings.Stocks.Value
+                    (@gameData?.ClientData.ClientHoldings.Stocks.UnitsHeld units per @gameData?.ClientData.ClientHoldings.Stocks.UnitPrice)
+                </td>
+                <td>
+                    <InputNumber @bind-Value="investmentSelection.StockValue" />
+                </td>
+                <td>
+                    <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
+                    (last year's return rate)
+                </td>
+            </tr>
+            <tr>
+                <td class="invesment-selection-table-name">Bonds</td>
+                <td>@gameData?.ClientData.ClientHoldings.Bonds.Count() bonds</td>
+                <td><InputNumber @bind-Value="investmentSelection.BondValue" /></td>
+                <td>
+                    <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
+                    (return rate)
+                </td>
+            </tr>
+            <tr>
+                <td class="invesment-selection-table-name">Savings Account</td>
+                <td>@gameData?.ClientData.ClientHoldings.SavingsAccount.Amount</td>
+                <td>
+                    <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
+                </td>
+                <td>
+                    <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
+                    (interest rate)
+                </td>
+            </tr>
+            <tr>
+                <td class="invesment-selection-table-name">Loans</td>
+                <td>
+                    @gameData?.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+                    @if (gameData != null)
+                    {
+                        <ul>
+                            @foreach (var loan in gameData.ClientData.ClientHoldings.Loans)
+                            {
+                                <li>@loan.Amount (@loan.InterestRate.ToString("P1"))</li>
+                            }
+                        </ul>
+                    }
+                </td>
+                <td>
+                    <InputNumber @bind-Value="investmentSelection.LoanValue" />
+                </td>
+                <td>
+                    <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
+                    (loan interest rate)
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-@*    <p>
-        <div class="d-inline-block">
-            <div>
-                Stocks:
+    @*    <p>
+            <div class="d-inline-block">
+                <div>
+                    Stocks:
+                </div>
+                <div>
+                    <InputNumber @bind-Value="investmentSelection.StockValue" />
+                </div>
             </div>
-            <div>
-                <InputNumber @bind-Value="investmentSelection.StockValue" />
+            <div class="d-inline-block" style="margin-left: 10px">
+                <div>
+                    Last year's return rate:
+                </div>
+                <div>
+                    <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
+                </div>
             </div>
-        </div>
-        <div class="d-inline-block" style="margin-left: 10px">
-            <div>
-                Last year's return rate:
+        </p>
+        <p>
+            <div class="d-inline-block">
+                <div>
+                    Bonds:
+                </div>
+                <div>
+                    <InputNumber @bind-Value="investmentSelection.BondValue" />
+                </div>
             </div>
-            <div>
-                <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
+            <div class="d-inline-block" style="margin-left: 10px">
+                <div>
+                    Return rate:
+                </div>
+                <div>
+                    <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
+                </div>
             </div>
-        </div>
-    </p>
-    <p>
-        <div class="d-inline-block">
-            <div>
-                Bonds:
+        </p>
+        <p>
+            <div class="d-inline-block">
+                <div>
+                    Savings account:
+                </div>
+                <div>
+                    <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
+                </div>
             </div>
-            <div>
-                <InputNumber @bind-Value="investmentSelection.BondValue" />
+            <div class="d-inline-block" style="margin-left: 10px">
+                <div>
+                    Interest rate:
+                </div>
+                <div>
+                    <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
+                </div>
             </div>
-        </div>
-        <div class="d-inline-block" style="margin-left: 10px">
-            <div>
-                Return rate:
-            </div>
-            <div>
-                <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
-            </div>
-        </div>
-    </p>
-    <p>
-        <div class="d-inline-block">
-            <div>
-                Savings account:
-            </div>
-            <div>
-                <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
-            </div>
-        </div>
-        <div class="d-inline-block" style="margin-left: 10px">
-            <div>
-                Interest rate:
-            </div>
-            <div>
-                <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
-            </div>
-        </div>
-    </p>
+        </p>
 
-    <h3>Would you like to take a loan?</h3>
-    <p>
-        <div class="d-inline-block">
-            <div>
-                Loan:
+        <h3>Would you like to take a loan?</h3>
+        <p>
+            <div class="d-inline-block">
+                <div>
+                    Loan:
+                </div>
+                <div>
+                    <InputNumber @bind-Value="investmentSelection.LoanValue" />
+                </div>
             </div>
-            <div>
-                <InputNumber @bind-Value="investmentSelection.LoanValue" />
+            <div class="d-inline-block" style="margin-left: 10px">
+                <div>
+                    Loan interest rate:
+                </div>
+                <div>
+                    <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
+                </div>
             </div>
-        </div>
-        <div class="d-inline-block" style="margin-left: 10px">
-            <div>
-                Loan interest rate:
-            </div>
-            <div>
-                <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
-            </div>
-        </div>
-    </p>*@
+        </p>*@
 
     @if (gameData != null)
     {
         @*<p>
-            <label>
-                Remaining Cash-flow:
-            </label>
-            <div>
-                @RemainingCashFlow
-            </div>
-        </p>*@
-            <div>
-                <div class="game-state-info">
-                    <label>
-                        Remaining Cash-flow:
-                    </label>
-                    <h4>
-                        @RemainingCashFlow
-                    </h4>
+                <label>
+                    Remaining Cash-flow:
+                </label>
+                <div>
+                    @RemainingCashFlow
                 </div>
+            </p>*@
+        <div>
+            <div class="game-state-info">
+                <label>
+                    Remaining Cash-flow:
+                </label>
+                <h4>
+                    @RemainingCashFlow
+                </h4>
             </div>
+        </div>
     }
     <button type="submit">Submit</button>
 </EditForm>
