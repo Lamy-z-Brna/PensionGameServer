@@ -2,20 +2,20 @@ using PensionGame.Api.Domain.Resources.Session;
 
 namespace PensionGame.Web.Data
 {
-    public class StartupParametersModel
+    public class NewSessionModel
     {
-        public StartupParametersModel(StartupParameters investmentSelection)
+        public StartupParameters StartupParametersModel => new StartupParameters(Income, Expenses, Year, RetirementYear);
+
+        public NewSessionModel(StartupParameters investmentSelection, string name)
         {
             Income = investmentSelection.Income;
             Expenses = investmentSelection.Expenses;
             Year = investmentSelection.Year;
             RetirementYear = investmentSelection.RetirementYear;
+            Name = name;
         }
 
-        public static implicit operator StartupParameters(StartupParametersModel model)
-        {
-            return new(model.Income, model.Expenses, model.Year, model.RetirementYear);
-        }
+        public string Name { get; set; }
 
         public int Income { get; set; }
 

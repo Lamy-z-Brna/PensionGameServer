@@ -27,7 +27,7 @@ namespace PensionGame.Web.Pages
         bool? success = null;
         bool validationOkay = true;
 
-        private EditContext editContext = new EditContext(new InvestmentSelection());
+        EditContext editContext = new EditContext(new InvestmentSelection());
 
         protected override async void OnInitialized()
         {

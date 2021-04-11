@@ -21,9 +21,10 @@ namespace PensionGame.Web.Services
             return await _client.Request<SessionId>("Session/Default", Method.POST);
         }
 
-        public async Task<SessionId> CreateSession(StartupParameters session)
+        public async Task<SessionId> CreateSession(StartupParameters session, string name)
         {
-            return await _client.Request<SessionId>("Session/New", Method.POST, session);
+            return await _client.Request<SessionId>("Session/New", Method.POST, session,
+                new Dictionary<string, object> { { "name", name } });
         }
 
         public async Task<PaginationResult<Session>> GetAllSessions()

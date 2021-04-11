@@ -50,14 +50,14 @@ namespace PensionGame.Web.Client
             {
                 foreach (var parameter in parameters)
                 {
-                    if (parameter.Key == "sessionId")
-                    {
+                    //if (parameter.Key == "sessionId")
+                    //{
                         restRequest.AddQueryParameter(parameter.Key, parameter.Value.ToString() ?? string.Empty);
-                    }
-                    else
-                    {
-                        restRequest.AddParameter(parameter.Key, parameter.Value);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    restRequest.AddParameter(parameter.Key, parameter.Value);
+                    //}
                 }
             }
 

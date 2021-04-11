@@ -9,10 +9,18 @@
 
 <h1>New game session!</h1>
 
-<EditForm Model="@session" OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
+    <p>
+        <label>
+            Game Session Name:
+        </label>
+        <div>
+            <InputText @bind-Value="session.Name" style="width: 400px" />
+        </div>
+    </p>
     <p>
         <label>
             Income:
@@ -49,12 +57,3 @@
     <button type="submit">Submit</button>
 </EditForm>
 
-@code {
-    StartupParametersModel session = new StartupParametersModel(new StartupParameters(30000, 20000, 65, 25));
-
-    private async Task HandleValidSubmit()
-    {
-        var sessionId = await SessionService.CreateSession(session);
-        navigationManager.NavigateTo($"/game/{sessionId.Id}");
-    }
-}
