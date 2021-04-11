@@ -1,7 +1,9 @@
 using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Api.Domain.Common;
 using PensionGame.Web.Client;
 using RestSharp;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace PensionGame.Web.Services
 {
@@ -22,6 +24,12 @@ namespace PensionGame.Web.Services
         public async Task<SessionId> CreateSession(StartupParameters session)
         {
             return await _client.Request<SessionId>("Session/New", Method.POST, session);
+        }
+
+        public async Task<PaginationResult<Session>> GetAllSessions()
+        {
+            return await _client.Request<PaginationResult<Session>>("Session/GetAll", Method.GET,
+                parameters: new Dictionary<string, object> { { "page", 1 }, { "pageSize", 1000 } });
         }
     }
 }

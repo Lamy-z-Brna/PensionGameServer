@@ -1,0 +1,31 @@
+﻿@page "/allsessions"
+@using PensionGame.Web.Services
+
+@inject SessionDataServices SessionService
+
+@if (Sessions != null)
+{
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Started</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var session in Sessions.Items)
+            {
+                <tr>
+                    <td class="data-table-name">
+                        <a href="/game/@session.SessionId.Id">
+                            @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
+                        </a>
+                    </td>
+                    <td>
+                        @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
