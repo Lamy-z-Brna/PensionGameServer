@@ -20,7 +20,10 @@ namespace PensionGame.Web.Client
         {
             var response = await RequestInner(requestAddress, method, requestBody, parameters);
 
-            var result = JsonConvert.DeserializeObject<T>(response.Content);
+            T? result = JsonConvert.DeserializeObject<T>(response.Content);
+
+            if (result == null)
+                throw new Exception($"Response failed to be deserialized: {response.Content}");
 
             return result;
         }
