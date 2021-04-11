@@ -10,6 +10,7 @@ on:
   workflow_dispatch:
 env:
   WORKING_DIRECTORY: PensionGame.Host
+  SOLUTION_PATH: PensionGameServer.sln
   TESTS_DIRECTORY: PensionGame.Tests
 jobs:
   build-and-deploy:
@@ -22,6 +23,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
+
+    - name: Clean
+      run: dotnet clean ${{ env.SOLUTION_PATH}} --configuration Release && dotnet nuget locals all --clear
 
     - name: Build with dotnet
       run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration Release
