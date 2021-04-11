@@ -30,3 +30,12 @@
 .data-table-name {
     font-weight: bold;
 }
+
+.sidebar {
+    background: #7763a9;
+}
+
+.content {
+    margin: auto;
+    max-width: 900px;
+}
