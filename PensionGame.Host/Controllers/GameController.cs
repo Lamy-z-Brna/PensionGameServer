@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
+using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Exceptions.Session;
 using PensionGame.Api.Handlers.Commands;
@@ -68,6 +69,22 @@ namespace PensionGame.Host.Controllers
                 ));
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("AvailableToInvest")]
+        public async Task<AvailableToInvest?> CheckAvailableBalance(Guid sessionId, InvestmentSelection investmentSelection)
+        {
+            var result = await _dispatcher.Query<GetAvailableToInvestFromSessionQuery, AvailableToInvest?>
+                (
+                    new GetAvailableToInvestFromSessionQuery
+                    (
+                        SessionId: new SessionId(sessionId),
+                        InvestmentSelection: investmentSelection
+                    )
+                );
+
+            return result;
         }
 
         [HttpGet]

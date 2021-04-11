@@ -7,26 +7,26 @@
     width: 190px;
 }
 
-.invesment-selection-table {
+.data-table {
     margin: 10px -5px;
     border-spacing: 5px;
     border-collapse: separate;
 }
 
-.invesment-selection-table td, .invesment-selection-table th {
+.data-table td, .data-table th {
     padding: 10px;
 }
 
-.invesment-selection-table td {
+.data-table td {
     background: #ece6ee;
 }
 
-.invesment-selection-table th {
+.data-table th {
     background: #bba8c2;
     font-size: 1.4rem;
     font-weight: normal;
 }
 
-.invesment-selection-table-name {
+.data-table-name {
     font-weight: bold;
 }

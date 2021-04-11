@@ -27,7 +27,7 @@ namespace PensionGame.Web.Pages
         bool? success = null;
         bool validationOkay = true;
 
-        private EditContext editContext = new EditContext(new InvestmentSelection());
+        EditContext editContext = new EditContext(new InvestmentSelection());
 
         private const string StocksInfo = "Stocks are a highly volatile liquid investment that has a high average returns. The price of stock market unit can vary widely from year to year, however you are able to buy and sell down units freely.";
         private const string BondsInfo = "Bonds are a long term investment with above average returns, but low liquidity. Bonds yield coupons of the same amount every year until they expire (10 years). You cannot disinvest bonds and have to wait until they expire.";
