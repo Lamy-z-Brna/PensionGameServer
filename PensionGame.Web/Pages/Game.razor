@@ -142,7 +142,7 @@
             <tr>
                 <td class="data-table-name">Loans <Tooltip Text="@LoansInfo">&#65110</Tooltip></td>
                 <td>
-                    @gameData?.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+                    @gameData?.ClientData.ClientHoldings.Loans.TotalLoanValue
                     @if (gameData != null)
                     {
                         <ul>

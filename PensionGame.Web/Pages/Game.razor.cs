@@ -21,7 +21,7 @@ namespace PensionGame.Web.Pages
 
         SessionId? currentSessionId;
 
-        int TotalCashFlow => gameData?.ClientData.DisposableIncome + investmentSelection.LoanValue ?? 0;
+        int TotalCashFlow => gameData?.ClientData.DisposableIncome + investmentSelection.LoanValue - gameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
         int RemainingCashFlow => TotalCashFlow - (investmentSelection.BondValue + investmentSelection.StockValue + investmentSelection.SavingsAccountValue);
 
         bool? success = null;

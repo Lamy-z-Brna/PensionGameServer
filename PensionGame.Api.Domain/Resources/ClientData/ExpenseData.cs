@@ -12,6 +12,6 @@
 
         public int ExtraExpenses { get; init; }
 
-        public int TotalExpenses => LifeExpenses + Rent + ChildrenExpenses + ExtraExpenses;
+        public int TotalExpenses => LifeExpenses + LoanExpenses + Rent + ChildrenExpenses + ExtraExpenses;
     }
 }
