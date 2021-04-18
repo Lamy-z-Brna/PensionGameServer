@@ -5,7 +5,7 @@ namespace PensionGame.Web.Pages
 {
     public partial class AllSessions
     {
-        PaginationResult<Session>? Sessions;
+        PaginatedCollection<SessionInfo>? Sessions;
 
         protected override async void OnInitialized()
         {

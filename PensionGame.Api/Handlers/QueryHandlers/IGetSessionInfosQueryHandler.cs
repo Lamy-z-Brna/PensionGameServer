@@ -5,7 +5,7 @@ using PensionGame.Api.Handlers.Queries;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
 {
-    public interface IGetSessionsQueryHandler : IQueryHandler<GetSessionsQuery, PaginationResult<Session>>
+    public interface IGetSessionInfosQueryHandler : IQueryHandler<GetSessionInfosQuery, PaginatedCollection<SessionInfo>>
     {
     }
 }

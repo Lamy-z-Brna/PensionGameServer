@@ -2,7 +2,7 @@
 
 namespace PensionGame.Api.Common.Mappers
 {
-    public interface IPaginationResultMapper<TIn, TOut>: IMapper<PaginationResult<TIn>, PaginationResult<TOut>>
+    public interface IPaginationResultMapper<TIn, TOut>: IMapper<PaginatedCollection<TIn>, PaginatedCollection<TOut>>
     {
     }
 }

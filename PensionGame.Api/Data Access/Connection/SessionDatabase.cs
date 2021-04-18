@@ -21,7 +21,7 @@ namespace PensionGame.Api.Data_Access.Connection
             await Sessions.InsertOneAsync(session);
         }
 
-        public async Task<PaginationResult<Session>> Get(int page, int pageSize)
+        public async Task<PaginatedCollection<Session>> Get(int page, int pageSize)
         {
             var result = await Sessions
                 .AggregateByPage(
@@ -33,7 +33,7 @@ namespace PensionGame.Api.Data_Access.Connection
 
             var (totalPages, totalCount, data) = result;
 
-            return new PaginationResult<Session>(data, page, data.Count(), totalCount, totalPages);
+            return new PaginatedCollection<Session>(data, page, data.Count(), totalCount, totalPages);
         }
     }
 }

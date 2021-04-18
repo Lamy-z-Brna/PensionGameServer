@@ -27,9 +27,9 @@ namespace PensionGame.Web.Services
                 new Dictionary<string, object> { { "name", name } });
         }
 
-        public async Task<PaginationResult<Session>> GetAllSessions()
+        public async Task<PaginatedCollection<SessionInfo>> GetAllSessions()
         {
-            return await _client.Request<PaginationResult<Session>>("Session/GetAll", Method.GET,
+            return await _client.Request<PaginatedCollection<SessionInfo>>("Session/GetAll", Method.GET,
                 parameters: new Dictionary<string, object> { { "page", 1 }, { "pageSize", 1000 } });
         }
     }

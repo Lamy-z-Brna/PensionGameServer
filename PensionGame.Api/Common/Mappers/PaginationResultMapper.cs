@@ -12,9 +12,9 @@ namespace PensionGame.Api.Common.Mappers
             _mapper = mapper;
         }
 
-        public PaginationResult<TOut> Map(PaginationResult<TIn> source)
+        public PaginatedCollection<TOut> Map(PaginatedCollection<TIn> source)
         {
-            return new PaginationResult<TOut>
+            return new PaginatedCollection<TOut>
                 (
                     Items: _mapper.Map(source.Items),
                     CurrentPage: source.CurrentPage,

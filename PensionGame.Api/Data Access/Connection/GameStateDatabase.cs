@@ -33,5 +33,14 @@ namespace PensionGame.Api.Data_Access.Connection
 
             return result.ToList();
         }
+
+        public async Task<IEnumerable<GameState>> GetAll(IEnumerable<Guid> guids)
+        {
+            var filter = Builders<GameState>.Filter.In(gameState => gameState.Guid, guids.Cast<Guid?>());
+
+            var result = await GameStates.FindAsync(filter);
+
+            return result.ToList();
+        }
     }
 }

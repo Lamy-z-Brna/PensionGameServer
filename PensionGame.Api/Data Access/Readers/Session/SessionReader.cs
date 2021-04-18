@@ -17,7 +17,7 @@ namespace PensionGame.Api.Data_Access.Readers.Session
             _sessionMapper = sessionMapper;
         }
 
-        public async Task<PaginationResult<Domain.Resources.Session.Session>> GetAll(int page, int pageSize)
+        public async Task<PaginatedCollection<Domain.Resources.Session.Session>> GetAll(int page, int pageSize)
         {
             var result = await _sessionDatabase.Get(page, pageSize);
 

@@ -41,11 +41,11 @@ namespace PensionGame.Host.Controllers
 
         [HttpGet]
         [ActionName("GetAll")]
-        public async Task<PaginationResult<Session>> GetAll(int page, int pageSize)
+        public async Task<PaginatedCollection<SessionInfo>> GetAll(int? page, int? pageSize)
         {
-            var query = new GetSessionsQuery(page, pageSize);
+            var query = new GetSessionInfosQuery(page, pageSize);
 
-            var result = await _dispatcher.Query<GetSessionsQuery, PaginationResult<Session>>(query);
+            var result = await _dispatcher.Query<GetSessionInfosQuery, PaginatedCollection<SessionInfo>>(query);
 
             return result;
         }

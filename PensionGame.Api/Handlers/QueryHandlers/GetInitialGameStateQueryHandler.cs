@@ -6,7 +6,6 @@ using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Handlers.Queries;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
