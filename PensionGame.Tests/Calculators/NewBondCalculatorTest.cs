@@ -5,7 +5,11 @@ using PensionGame.Core.Calculators.Parameters;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Domain.Holdings;
+using PensionGame.Core.Events;
+using PensionGame.Core.Common;
 using System.Linq;
+using System;
+using PensionGame.Core.Events.Common;
 
 namespace PensionGame.Tests.Calculators
 {
@@ -26,7 +30,15 @@ namespace PensionGame.Tests.Calculators
                 .Setup(x => x.Calculate(It.IsAny<BondPaymentRequiredData>()))
                 .Returns<BondPaymentRequiredData>(required => required.Price);
 
-            UnderTest = new NewBondCalculator(mockedBondParameters.Object, mockedBondPaymentCalculator.Object);
+            var mockedBondDefaultCalculator = new Mock<IBondDefaultCalculator>();
+
+            mockedBondDefaultCalculator
+                .Setup(x => x.Calculate(It.IsAny<BondDefaultRequiredData>()))
+                .Returns<BondDefaultRequiredData>(required =>
+                    required.BondDefaultRate > 0.5 ? new Either<BondHolding, BondDefaultEvent>(new BondDefaultEvent(required.BondHolding)) : new Either<BondHolding, BondDefaultEvent>(required.BondHolding));
+
+
+            UnderTest = new NewBondCalculator(mockedBondParameters.Object, mockedBondPaymentCalculator.Object, mockedBondDefaultCalculator.Object);
         }
 
         [Test]
@@ -46,7 +58,7 @@ namespace PensionGame.Tests.Calculators
                     BondDefaultRate: 0.07
                 );
 
-            var result = UnderTest.Calculate(requiredData);
+            var (result, _) = UnderTest.Calculate(requiredData);
             var expirationYears = result
                 .Select(bond => bond.YearsToExpiration)
                 .ToArray();
@@ -71,7 +83,7 @@ namespace PensionGame.Tests.Calculators
                     BondDefaultRate: 0.07
                 );
 
-            var result = UnderTest.Calculate(requiredData);
+            var (result, _) = UnderTest.Calculate(requiredData);
             var expirationYears = result
                 .Select(bond => bond.YearsToExpiration)
                 .ToArray();
@@ -98,10 +110,54 @@ namespace PensionGame.Tests.Calculators
                     BondDefaultRate: 0.07
                 );
 
-            var result = UnderTest.Calculate(requiredData);
+            var (result, _) = UnderTest.Calculate(requiredData);
             var expirationYears = result.Skip(2).First();
 
             Assert.AreEqual(new BondHolding(newBondPaymentValue, BondDefaultMaturity), expirationYears);
+        }
+
+        [Test]
+        public void WhenBondDefaults_EventIsGenerated()
+        {
+            var requiredData = new NewBondRequiredData
+                (
+                    CurrentBonds: new BondHoldings
+                    (
+                        new[] { new BondHolding(2500, 12) }
+                    ),
+                    InvestmentSelection: new InvestmentSelection
+                    (
+                        3000, 0, 800, 3200
+                    ),
+                    BondInterestRate: 0.03,
+                    BondDefaultRate: 0.9
+                );
+
+            var (_, events) = UnderTest.Calculate(requiredData);
+
+            Assert.AreEqual(new[] { new BondDefaultEvent(new BondHolding(2500, 11)) }, events);
+        }
+
+        [Test]
+        public void WhenBondDefaultsAndExpires_NoEventGenerated()
+        {
+            var requiredData = new NewBondRequiredData
+                (
+                    CurrentBonds: new BondHoldings
+                    (
+                        new[] { new BondHolding(2500, 1) }
+                    ),
+                    InvestmentSelection: new InvestmentSelection
+                    (
+                        3000, 0, 800, 3200
+                    ),
+                    BondInterestRate: 0.03,
+                    BondDefaultRate: 0.9
+                );
+
+            var (_, events) = UnderTest.Calculate(requiredData);
+
+            Assert.AreEqual(Array.Empty<IEvent>(), events);
         }
     }
 }

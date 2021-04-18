@@ -17,7 +17,7 @@ namespace PensionGame.Core.Calculators
         private readonly IBondDefaultCalculator _bondDefaultCalculator;
 
         public NewBondCalculator(INewBondParameters newBondParameters,
-            IBondPaymentCalculator bondPaymentCalculator, 
+            IBondPaymentCalculator bondPaymentCalculator,
             IBondDefaultCalculator bondDefaultCalculator)
         {
             _newBondParameters = newBondParameters;
@@ -69,8 +69,10 @@ namespace PensionGame.Core.Calculators
 
         private static (BondHoldings, IReadOnlyCollection<IEvent>) DefaultBonds(BondHoldings bondHoldings, Func<BondHolding, IEither<BondHolding, BondDefaultEvent>> defaultCalculator)
         {
-            var (bonds, events) = bondHoldings.Select(defaultCalculator)
-                .ToTuple();
+            var eithers = bondHoldings.Select(defaultCalculator)
+                .ToList();
+
+            var (bonds, events) = eithers.ToTuple();
 
             return new(new BondHoldings(bonds), events);
         }
