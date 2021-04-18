@@ -4,20 +4,20 @@ using PensionGame.Core.Events.PreMacroEconomicEvents;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Events
 {
-    public sealed class PreMacroEconomicEventGenerator : IPreMacroEconomicEventGenerator
+    public sealed class PreMacroEconomicEventCalculator : IPreMacroEconomicEventCalculator
     {
         private readonly IRandomSampler _random;
         private readonly IPreMacroEconomicEventParameters _parameters;
 
-        public PreMacroEconomicEventGenerator(IRandomSampler random, IPreMacroEconomicEventParameters parameters)
+        public PreMacroEconomicEventCalculator(IRandomSampler random, IPreMacroEconomicEventParameters parameters)
         {
             _random = random;
             _parameters = parameters;
         }        
 
-        public IReadOnlyCollection<IPreMacroEconomicEvent> Generate()
+        public IReadOnlyCollection<IPreMacroEconomicEvent> Calculate()
         {
             var result = GenerateInternally().ToList();
             return result;

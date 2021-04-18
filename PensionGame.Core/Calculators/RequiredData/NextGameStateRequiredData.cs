@@ -3,7 +3,7 @@ using PensionGame.Core.Domain.GameData;
 
 namespace PensionGame.Core.Calculators.RequiredData
 {
-    public record NextGameStateRequiredData(GameState PreviousGameState, InvestmentSelection InvestmentSelection)
+    public record NextGameStateRequiredData(Domain.GameData.GameState PreviousGameState, InvestmentSelection InvestmentSelection)
     {
     }
 }

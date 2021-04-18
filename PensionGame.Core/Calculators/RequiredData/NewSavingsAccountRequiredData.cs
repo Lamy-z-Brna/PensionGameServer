@@ -2,7 +2,7 @@
 
 namespace PensionGame.Core.Calculators.RequiredData
 {
-    public record NewSavingsAccountRequiredData(ClientData CurrentClientData, InvestmentSelection InvestmentSelection)
+    public record NewSavingsAccountRequiredData(Domain.ClientData.ClientData CurrentClientData, InvestmentSelection InvestmentSelection)
     {
     }
 }

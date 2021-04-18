@@ -1,4 +1,5 @@
-﻿using PensionGame.Core.Calculators.RequiredData;
+﻿using PensionGame.Core.Calculators.Holdings;
+using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Domain.Holdings;
@@ -8,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.ClientData
 {
     public sealed class ClientDataCalculator : IClientDataCalculator
     {
@@ -25,7 +26,7 @@ namespace PensionGame.Core.Calculators
             _newBondCalculator = newBondCalculator;
         }
 
-        public (ClientData, IReadOnlyCollection<IEvent>) Calculate(ClientDataRequiredData requiredData)
+        public (Domain.ClientData.ClientData, IReadOnlyCollection<IEvent>) Calculate(ClientDataRequiredData requiredData)
         {
             var (previousClientData, previousMarketData, investmentSelection, marketData, events) = requiredData;
             var previousReturnData = previousMarketData.ReturnData;
@@ -76,7 +77,7 @@ namespace PensionGame.Core.Calculators
             var unemploymentEvent = events.GetEvent<UnemploymentEvent>();
             var actualSalary = unemploymentEvent != null ? Rounder.Round(expectedSalary * (1 - unemploymentEvent.IncomeLoss)) : expectedSalary;
 
-            var clientData = new ClientData
+            var clientData = new Domain.ClientData.ClientData
                 (
                     IncomeData: new IncomeData
                     (

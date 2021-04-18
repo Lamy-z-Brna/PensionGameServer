@@ -3,7 +3,7 @@ using PensionGame.Core.Domain.MarketData;
 using PensionGame.Core.Events.PreClientDataEvents;
 using System.Collections.Generic;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Events
 {
     public interface IPreClientDataEventCalculator : ICalculator<MacroEconomicData, IReadOnlyCollection<IPreClientDataEvent>>
     {

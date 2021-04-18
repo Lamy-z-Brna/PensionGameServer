@@ -112,7 +112,7 @@ namespace PensionGame.Host
             RegisterAllImplementing<IReader>();
             RegisterAllImplementing<IWriter>();
             RegisterAllImplementing(typeof(ICalculatorParameters));
-            RegisterAllImplementing(typeof(IGenerator<>));
+            RegisterAllImplementing(typeof(ICalculator<>));
             RegisterAllImplementing(typeof(ICalculator<,>));
             RegisterAllImplementing(typeof(IMapper<,>));
             RegisterAllImplementing(typeof(IQueryHandler<,>));

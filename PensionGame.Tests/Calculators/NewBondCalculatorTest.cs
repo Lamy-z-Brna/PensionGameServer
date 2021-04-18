@@ -10,6 +10,7 @@ using PensionGame.Core.Common;
 using System.Linq;
 using System;
 using PensionGame.Core.Events.Common;
+using PensionGame.Core.Calculators.Holdings;
 
 namespace PensionGame.Tests.Calculators
 {

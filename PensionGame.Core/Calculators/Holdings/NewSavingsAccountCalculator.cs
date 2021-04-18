@@ -5,7 +5,7 @@ using PensionGame.Core.Events.PreClientDataEvents;
 using System;
 using System.Collections.Generic;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Holdings
 {
     public sealed class NewSavingsAccountCalculator : INewSavingsAccountCalculator
     {

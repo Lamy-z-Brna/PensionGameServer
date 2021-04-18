@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Holdings
 {
     public sealed class NewBondCalculator : INewBondCalculator
     {

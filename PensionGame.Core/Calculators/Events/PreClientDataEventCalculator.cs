@@ -6,7 +6,7 @@ using PensionGame.Core.Events.PreClientDataEvents;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Events
 {
     public sealed class PreClientDataEventCalculator : IPreClientDataEventCalculator
     {

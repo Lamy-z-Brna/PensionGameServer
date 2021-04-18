@@ -7,9 +7,8 @@ using PensionGame.Core.Events.PreMacroEconomicEvents;
 using System;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.MarketData
 {
-    //TODO VB unit tests?
     public class ReturnDataCalculator : IReturnDataCalculator
     {
         private readonly IRandomSampler _random;

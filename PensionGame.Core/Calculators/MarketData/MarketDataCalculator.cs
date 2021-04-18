@@ -1,22 +1,22 @@
-﻿using PensionGame.Core.Calculators.RequiredData;
-using PensionGame.Core.Domain.MarketData;
+﻿using PensionGame.Core.Calculators.Events;
+using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Events.PreClientDataEvents;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.MarketData
 {
-    public sealed class MarketDataGenerator : IMarketDataGenerator
+    public sealed class MarketDataCalculator : IMarketDataCalculator
     {
-        private readonly IPreMacroEconomicEventGenerator _preMacroEconomicEventGenerator;
+        private readonly IPreMacroEconomicEventCalculator _preMacroEconomicEventGenerator;
         private readonly IMacroEconomicDataCalculator _macroEconomicDataCalculator;
-        private readonly IPreReturnsEventGenerator _preReturnsEventGenerator;
+        private readonly IPreReturnsEventCalculator _preReturnsEventGenerator;
         private readonly IReturnDataCalculator _returnDataCalculator;
 
-        public MarketDataGenerator(IMacroEconomicDataCalculator macroEconomicDataCalculator,
+        public MarketDataCalculator(IMacroEconomicDataCalculator macroEconomicDataCalculator,
             IReturnDataCalculator returnDataCalculator,
-            IPreMacroEconomicEventGenerator preMacroEconomicEventGenerator, 
-            IPreReturnsEventGenerator preReturnsEventCalculator)
+            IPreMacroEconomicEventCalculator preMacroEconomicEventGenerator, 
+            IPreReturnsEventCalculator preReturnsEventCalculator)
         {
             _macroEconomicDataCalculator = macroEconomicDataCalculator;
             _returnDataCalculator = returnDataCalculator;
@@ -24,20 +24,20 @@ namespace PensionGame.Core.Calculators
             _preReturnsEventGenerator = preReturnsEventCalculator;
         }
 
-        public (MarketData, IReadOnlyCollection<IPreClientDataEvent>) Generate()
+        public (Domain.MarketData.MarketData, IReadOnlyCollection<IPreClientDataEvent>) Calculate()
         {
-            var preMacroEconomicEvents = _preMacroEconomicEventGenerator.Generate().ToList();
+            var preMacroEconomicEvents = _preMacroEconomicEventGenerator.Calculate();
 
             var newMacroEconomicData = _macroEconomicDataCalculator.Calculate(new MacroEconomicDataRequiredData(preMacroEconomicEvents));
 
             var preReturnsEvents = _preReturnsEventGenerator
-                .Generate()
+                .Calculate()
                 .Union(preMacroEconomicEvents)
                 .ToList();           
 
             var newReturnData = _returnDataCalculator.Calculate(new ReturnDataRequiredData(newMacroEconomicData, preReturnsEvents));
 
-            return (new MarketData(newMacroEconomicData, newReturnData), preReturnsEvents);
+            return (new (newMacroEconomicData, newReturnData), preReturnsEvents);
         }
     }
 }

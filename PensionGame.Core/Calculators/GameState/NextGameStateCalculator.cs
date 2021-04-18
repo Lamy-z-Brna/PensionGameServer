@@ -1,16 +1,18 @@
-﻿using PensionGame.Core.Calculators.RequiredData;
-using PensionGame.Core.Domain.GameData;
+﻿using PensionGame.Core.Calculators.ClientData;
+using PensionGame.Core.Calculators.Events;
+using PensionGame.Core.Calculators.MarketData;
+using PensionGame.Core.Calculators.RequiredData;
 using System.Linq;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.GameState
 {
     public sealed class NextGameStateCalculator : INextGameStateCalculator
     {
-        private readonly IMarketDataGenerator _marketDataGenerator;
+        private readonly IMarketDataCalculator _marketDataGenerator;
         private readonly IClientDataCalculator _clientDataCalculator;
         private readonly IPreClientDataEventCalculator _preClientDataEventCalculator;
 
-        public NextGameStateCalculator(IMarketDataGenerator marketDataCalculator,
+        public NextGameStateCalculator(IMarketDataCalculator marketDataCalculator,
             IClientDataCalculator clientDataCalculator,
             IPreClientDataEventCalculator preClientDataEventCalculator)
         {
@@ -19,14 +21,14 @@ namespace PensionGame.Core.Calculators
             _preClientDataEventCalculator = preClientDataEventCalculator;
         }
 
-        public GameState Calculate(NextGameStateRequiredData requiredData)
+        public Domain.GameData.GameState Calculate(NextGameStateRequiredData requiredData)
         {
             var (previousGameState, investmentSelection) = requiredData;
 
             if (previousGameState.IsFinished)
                 return previousGameState;
 
-            var (newMarketData, events) = _marketDataGenerator.Generate();
+            var (newMarketData, events) = _marketDataGenerator.Calculate();
 
             var clientDataEvents = _preClientDataEventCalculator
                 .Calculate(newMarketData.MacroEconomicData)
@@ -45,7 +47,7 @@ namespace PensionGame.Core.Calculators
             var (newClientData, clientEvents) = _clientDataCalculator.Calculate(clientDataRequiredData);
             var newYear = previousGameState.Year + 1;
 
-            return new GameState
+            return new 
                 (
                     Year: newYear,
                     RetirementYear: previousGameState.RetirementYear, 

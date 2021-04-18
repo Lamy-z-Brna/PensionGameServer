@@ -2,7 +2,7 @@
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Domain.Holdings;
 
-namespace PensionGame.Core.Calculators
+namespace PensionGame.Core.Calculators.Holdings
 {
     public interface INewLoanCalculator : ICalculator<NewLoanRequiredData, LoanHoldings>
     {

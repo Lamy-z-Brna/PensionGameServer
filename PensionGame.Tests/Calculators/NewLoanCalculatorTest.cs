@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using PensionGame.Core.Calculators;
+using PensionGame.Core.Calculators.Holdings;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Domain.Holdings;
