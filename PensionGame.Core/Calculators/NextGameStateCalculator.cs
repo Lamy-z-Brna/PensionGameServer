@@ -11,7 +11,7 @@ namespace PensionGame.Core.Calculators
         private readonly IPreClientDataEventCalculator _preClientDataEventCalculator;
 
         public NextGameStateCalculator(IMarketDataGenerator marketDataCalculator,
-            IClientDataCalculator clientDataCalculator, 
+            IClientDataCalculator clientDataCalculator,
             IPreClientDataEventCalculator preClientDataEventCalculator)
         {
             _marketDataGenerator = marketDataCalculator;

@@ -6,6 +6,7 @@ using PensionGame.Core.Events;
 using PensionGame.Core.Events.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PensionGame.Core.Calculators
 {
@@ -34,7 +35,7 @@ namespace PensionGame.Core.Calculators
             var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice * (1 + returnData.StockRate), 2);
             var stocksUnits = Math.Round(investmentSelection.StockValue / previousHoldings.Stocks.UnitPrice, 2);
            
-            var bonds = _newBondCalculator.Calculate
+            var (bonds, bondEvents) = _newBondCalculator.Calculate
                 (
                     new NewBondRequiredData
                     (
@@ -102,7 +103,7 @@ namespace PensionGame.Core.Calculators
                     )
                 );
 
-            return (clientData, savingsAccountEvents);
+            return (clientData, savingsAccountEvents.Union(bondEvents).ToList());
         }
     }
 }

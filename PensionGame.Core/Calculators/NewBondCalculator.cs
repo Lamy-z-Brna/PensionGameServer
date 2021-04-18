@@ -2,6 +2,10 @@
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.Holdings;
+using PensionGame.Core.Events;
+using PensionGame.Core.Events.Common;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PensionGame.Core.Calculators
@@ -10,19 +14,20 @@ namespace PensionGame.Core.Calculators
     {
         private readonly INewBondParameters _newBondParameters;
         private readonly IBondPaymentCalculator _bondPaymentCalculator;
+        private readonly IBondDefaultCalculator _bondDefaultCalculator;
 
         public NewBondCalculator(INewBondParameters newBondParameters,
-            IBondPaymentCalculator bondPaymentCalculator)
+            IBondPaymentCalculator bondPaymentCalculator, 
+            IBondDefaultCalculator bondDefaultCalculator)
         {
             _newBondParameters = newBondParameters;
             _bondPaymentCalculator = bondPaymentCalculator;
+            _bondDefaultCalculator = bondDefaultCalculator;
         }
 
-        public BondHoldings Calculate(NewBondRequiredData requiredData)
+        public (BondHoldings, IReadOnlyCollection<IEvent>) Calculate(NewBondRequiredData requiredData)
         {
-            var investmentSelection = requiredData.InvestmentSelection;
-            var bondRate = requiredData.BondInterestRate;
-            var currentBonds = requiredData.CurrentBonds;
+            var (currentBonds, investmentSelection, bondRate, bondDefaultRate) = requiredData;
 
             var bondPaymentValue = _bondPaymentCalculator.Calculate
                 (
@@ -35,11 +40,14 @@ namespace PensionGame.Core.Calculators
                 );
 
             BondHoldings addNewBonds(BondHoldings holdings) => AddNewBonds(holdings, bondPaymentValue, _newBondParameters.DefaultMaturity);
+            (BondHoldings, IReadOnlyCollection<IEvent>) defaultBonds(BondHoldings bondHoldings) =>
+                DefaultBonds(bondHoldings, bond => _bondDefaultCalculator.Calculate(new BondDefaultRequiredData(bond, bondDefaultRate)));
 
             return currentBonds.Pipe
                 (
                     MatureBonds,
-                    addNewBonds
+                    addNewBonds,
+                    defaultBonds
                 );
         }
 
@@ -57,6 +65,14 @@ namespace PensionGame.Core.Calculators
                 .Append(new BondHolding(Rounder.Round(yearlyPayment), maturity))
                 .Where(bond => bond.YearlyPayment > 0)
                 .ToBonds();
+        }
+
+        private static (BondHoldings, IReadOnlyCollection<IEvent>) DefaultBonds(BondHoldings bondHoldings, Func<BondHolding, IEither<BondHolding, BondDefaultEvent>> defaultCalculator)
+        {
+            var (bonds, events) = bondHoldings.Select(defaultCalculator)
+                .ToTuple();
+
+            return new(new BondHoldings(bonds), events);
         }
     }
 }
