@@ -7,51 +7,56 @@ using PensionGame.Web.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
+using PensionGame.Api.Domain.Resources.Holdings;
 
 namespace PensionGame.Web.Pages
 {
     public partial class Game
     {
-        [Parameter]
-        public string? sessionId { get; set; }
-
-        InvestmentSelectionModel investmentSelection = new InvestmentSelectionModel(new InvestmentSelection());
-
-        GameState? gameData;
-
-        SessionId? currentSessionId;
-
-        int TotalCashFlow => gameData?.ClientData.DisposableIncome + investmentSelection.LoanValue - gameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
-        int RemainingCashFlow => TotalCashFlow - (investmentSelection.BondValue + investmentSelection.StockValue + investmentSelection.SavingsAccountValue);
-
-        bool? success = null;
-        bool validationOkay = true;
-
-        EditContext editContext = new EditContext(new InvestmentSelection());
-
         private const string StocksInfo = "Stocks are a highly volatile liquid investment that has a high average returns. The price of stock market unit can vary widely from year to year, however you are able to buy and sell down units freely.";
         private const string BondsInfo = "Bonds are a long term investment with above average returns, but low liquidity. Bonds yield coupons of the same amount every year until they expire (10 years). You cannot disinvest bonds and have to wait until they expire.";
         private const string SavingsAccountInfo = "An investment with very small but guaranteed returns. You can add and withdraw your investment at any moment, making it highly liquid. Any remaining disposable income will be automatically invested here.";
         private const string LoansInfo = "A very expensive way to get extra money for investments. Interest will be charged every year until you pay your loans back.";
 
+        [Parameter]
+        public string? SessionId { get; set; }
+
+        private InvestmentSelectionModel InvestmentSelection { get; set; } = new(new InvestmentSelection());
+
+        private GameState? GameData { get; set; }
+
+        private SessionId? CurrentSessionId { get; set; }        
+
+        private bool? Success { get; set; } = null;
+
+        private bool ValidationOkay { get; set; } = true;
+
+        private EditContext EditContext { get; set; } = new(new InvestmentSelection());
+
+        private int TotalCashFlow => GameData?.ClientData.DisposableIncome + InvestmentSelection.LoanValue - GameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
+
+        private int RemainingCashFlow => TotalCashFlow - (InvestmentSelection.BondValue + InvestmentSelection.StockValue + InvestmentSelection.SavingsAccountValue);
+
+        private ClientHoldings? ClientHoldings => GameData?.ClientData.ClientHoldings;
+
         protected override async void OnInitialized()
         {
-            if (string.IsNullOrEmpty(sessionId))
+            if (string.IsNullOrEmpty(SessionId))
                 return; //TODO vypisat nejaku hlasku
 
-            if (!Guid.TryParse(sessionId, out var sessionGuid))
+            if (!Guid.TryParse(SessionId, out var sessionGuid))
                 return; //TODO vypisat nejaku inu hlasku
 
-            currentSessionId = new SessionId(sessionGuid);
+            CurrentSessionId = new SessionId(sessionGuid);
 
-            await LoadPageBySessionId(currentSessionId);
+            await LoadPageBySessionId(CurrentSessionId);
         }
 
         protected async void editContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
         {
-            if (currentSessionId != null)
+            if (CurrentSessionId != null)
             {
-                validationOkay = await GameService.InvestmentSelectionValidate(currentSessionId, investmentSelection);
+                ValidationOkay = await GameService.InvestmentSelectionValidate(CurrentSessionId, InvestmentSelection);
 
                 StateHasChanged();
             }
@@ -59,29 +64,29 @@ namespace PensionGame.Web.Pages
 
         private async Task HandleValidSubmit()
         {
-            if (currentSessionId != null)
+            if (CurrentSessionId != null)
             {
-                success = await GameService.InvestmentSelectionSubmit(currentSessionId, investmentSelection);
+                Success = await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
 
-                await LoadPageBySessionId(currentSessionId);
+                await LoadPageBySessionId(CurrentSessionId);
             }
         }
 
         private async Task LoadPageBySessionId(SessionId sessionId)
         {
-            gameData = await GameService.GameStateGet(sessionId);
+            GameData = await GameService.GameStateGet(sessionId);
 
-            investmentSelection = new InvestmentSelectionModel(new InvestmentSelection()
+            InvestmentSelection = new InvestmentSelectionModel(new InvestmentSelection()
             {
-                StockValue = gameData.ClientData.ClientHoldings.Stocks.Value,
+                StockValue = GameData.ClientData.ClientHoldings.Stocks.Value,
                 BondValue = 0,
-                SavingsAccountValue = gameData.ClientData.ClientHoldings.SavingsAccount.Amount,
-                LoanValue = gameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+                SavingsAccountValue = GameData.ClientData.ClientHoldings.SavingsAccount.Amount,
+                LoanValue = GameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
             });
 
-            editContext = new EditContext(investmentSelection);
+            EditContext = new EditContext(InvestmentSelection);
 
-            editContext.OnFieldChanged += editContext_OnFieldChanged;
+            EditContext.OnFieldChanged += editContext_OnFieldChanged;
 
             StateHasChanged();
         }

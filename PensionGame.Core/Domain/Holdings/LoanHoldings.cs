@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PensionGame.Core.Common;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,8 @@ namespace PensionGame.Core.Domain.Holdings
     public sealed record LoanHoldings(IEnumerable<LoanHolding> Loans) : IEnumerable<LoanHolding>
     {
         public int TotalLoanValue => Loans.Sum(loan => loan.Amount);
+
+        public int TotalInterestValue => Loans.Sum(loan => Rounder.Round(loan.Amount * loan.InterestRate));
 
         public IEnumerator<LoanHolding> GetEnumerator()
         {

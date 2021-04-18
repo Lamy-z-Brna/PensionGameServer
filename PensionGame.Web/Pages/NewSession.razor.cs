@@ -8,18 +8,18 @@ namespace PensionGame.Web.Pages
 {
     public partial class NewSession
     {
-        readonly NewSessionModel session = new NewSessionModel(new StartupParameters(30000, 20000, 25, 65), RandName());
+        private NewSessionModel Session { get; } = new(new StartupParameters(30000, 20000, 25, 65), RandName());
 
-        EditContext editContext = new EditContext(new object());
+        private EditContext EditContext { get; set; } = new(new object());
 
         protected override async void OnInitialized()
         {
-            editContext = new EditContext(session);
+            EditContext = new EditContext(Session);
         }
 
         private async Task HandleValidSubmit()
         {
-            var sessionId = await SessionService.CreateSession(session.StartupParametersModel, session.Name);
+            var sessionId = await SessionService.CreateSession(Session.StartupParametersModel, Session.Name);
             navigationManager.NavigateTo($"/game/{sessionId.Id}");
         }
 

@@ -6,12 +6,12 @@
 
 <h1>Pension game</h1>
 
-@if (success.HasValue)
+@if (Success.HasValue)
 {
-    if (success.Value)
+    if (Success.Value)
     {
         <p class="alert-success">
-            Step executed successfuly!
+            Step executed Successfuly!
         </p>
     }
     else
@@ -21,21 +21,21 @@
         </p>
     }
 }
-@if (!validationOkay)
+@if (!ValidationOkay)
 {
     <p class="alert-danger">
         Incorrect values!
     </p>
 }
-<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
 
-    @if (gameData != null)
+    @if (GameData != null)
     {
         <div class="alert-info">
-            @foreach (var @event in gameData.Events)
+            @foreach (var @event in GameData.Events)
             {
                 <p>@(@event.DisplayMessage)</p>
             }
@@ -45,7 +45,7 @@
                 Year:
             </label>
             <h4>
-                @gameData.Year
+                @GameData.Year
             </h4>
         </div>
         <div class="game-state-info">
@@ -53,16 +53,28 @@
                 Income:
             </label>
             <h4>
-                @gameData.ClientData.IncomeData.TotalIncome
+                @GameData.ClientData.IncomeData.TotalIncome
             </h4>
+            <ul>
+                <li>Salary paid out: @GameData.ClientData.IncomeData.ActualSalary</li>
+                <li>Bond interest: @GameData.ClientData.IncomeData.BondInterest</li>
+                <li>Savings account interest: @GameData.ClientData.IncomeData.SavingsAccountInterest</li>
+                <li>Additional income: @GameData.ClientData.IncomeData.ExtraIncome</li>
+            </ul>
         </div>
         <div class="game-state-info">
             <label>
                 Expenses:
             </label>
             <h4>
-                @gameData.ClientData.ExpenseData.TotalExpenses
+                @GameData.ClientData.ExpenseData.TotalExpenses
             </h4>
+            <ul>
+                <li>Life expenses: @GameData.ClientData.ExpenseData.LifeExpenses</li>
+                <li>Loan interest: @GameData.ClientData.ExpenseData.LoanExpenses</li>
+                <li>Rent: @GameData.ClientData.ExpenseData.Rent</li>
+                <li>Extra expenses: @GameData.ClientData.ExpenseData.ExtraExpenses</li>
+            </ul>
         </div>
         <div class="game-state-info">
             <label>
@@ -89,29 +101,29 @@
             <tr>
                 <td class="data-table-name">Stocks <Tooltip Text="@StocksInfo">&#65110</Tooltip></td>
                 <td>
-                    @gameData?.ClientData.ClientHoldings.Stocks.Value
-                    (@gameData?.ClientData.ClientHoldings.Stocks.UnitsHeld units per @gameData?.ClientData.ClientHoldings.Stocks.UnitPrice)
+                    @ClientHoldings?.Stocks.Value
+                    (@ClientHoldings?.Stocks.UnitsHeld units per @ClientHoldings?.Stocks.UnitPrice)
                 </td>
                 <td>
-                    <InputNumber @bind-Value="investmentSelection.StockValue" />
+                    <InputNumber @bind-Value="InvestmentSelection.StockValue" />
                 </td>
                 <td>
-                    <strong>@gameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
+                    <strong>@GameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
                     (last year's return rate)
                 </td>
             </tr>
             <tr>
                 <td class="data-table-name">Bonds <Tooltip Text="@BondsInfo">&#65110</Tooltip></td>
                 <td>
-                    @if (gameData != null && gameData?.ClientData.ClientHoldings.Bonds.Count() > 0)
+                    @if (ClientHoldings != null && ClientHoldings.Bonds.Any())
                     {
                         <span>
-                            @gameData.ClientData.ClientHoldings.Bonds.Count() bonds, @gameData.ClientData.ClientHoldings.Bonds.Sum(b => b.YearlyPayment) yearly
+                            @ClientHoldings.Bonds.Count() bonds, @ClientHoldings.Bonds.Sum(b => b.YearlyPayment) yearly
                         </span>
                         <ul>
-                            @foreach (var bond in gameData.ClientData.ClientHoldings.Bonds)
+                            @foreach (var bond in ClientHoldings.Bonds)
                             {
-                                <li>@bond.YearlyPayment yearly (expires in @bond.YearsToExpiration years)</li>
+                                <li>@bond.YearlyPayment yearly (expires @(bond.YearsToExpiration == 1 ? "this year" : $"in {bond.YearsToExpiration} years")</li>
                             }
                         </ul>
                     }
@@ -122,31 +134,31 @@
                         </span>
                     }
                 </td>
-                <td><InputNumber @bind-Value="investmentSelection.BondValue" /></td>
+                <td><InputNumber @bind-Value="InvestmentSelection.BondValue" /></td>
                 <td>
-                    <strong>@gameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
+                    <strong>@GameData?.MarketData.ReturnData.BondRate.ToString("P1")</strong>
                     (return rate)
                 </td>
             </tr>
             <tr>
                 <td class="data-table-name">Savings Account <Tooltip Text="@SavingsAccountInfo">&#65110</Tooltip></td>
-                <td>@gameData?.ClientData.ClientHoldings.SavingsAccount.Amount</td>
+                <td>@ClientHoldings?.SavingsAccount.Amount</td>
                 <td>
-                    <InputNumber @bind-Value="investmentSelection.SavingsAccountValue" />
+                    <InputNumber @bind-Value="InvestmentSelection.SavingsAccountValue" />
                 </td>
                 <td>
-                    <strong>@gameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
+                    <strong>@GameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
                     (interest rate)
                 </td>
             </tr>
             <tr>
                 <td class="data-table-name">Loans <Tooltip Text="@LoansInfo">&#65110</Tooltip></td>
                 <td>
-                    @gameData?.ClientData.ClientHoldings.Loans.TotalLoanValue
-                    @if (gameData != null)
+                    @ClientHoldings?.Loans.TotalLoanValue
+                    @if (GameData != null)
                     {
                         <ul>
-                            @foreach (var loan in gameData.ClientData.ClientHoldings.Loans)
+                            @foreach (var loan in GameData.ClientData.ClientHoldings.Loans)
                             {
                                 <li>@loan.Amount (@loan.InterestRate.ToString("P1"))</li>
                             }
@@ -154,17 +166,17 @@
                     }
                 </td>
                 <td>
-                    <InputNumber @bind-Value="investmentSelection.LoanValue" />
+                    <InputNumber @bind-Value="InvestmentSelection.LoanValue" />
                 </td>
                 <td>
-                    <strong>@gameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
+                    <strong>@GameData?.MarketData.ReturnData.LoanRate.ToString("P1")</strong>
                     (loan interest rate)
                 </td>
             </tr>
         </tbody>
     </table>
 
-    @if (gameData != null)
+    @if (GameData != null)
     {
         <div>
             <div class="game-state-info">

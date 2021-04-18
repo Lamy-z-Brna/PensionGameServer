@@ -5,10 +5,6 @@ using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
 using PensionGame.Core.Calculators;
 using PensionGame.Core.Calculators.RequiredData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers

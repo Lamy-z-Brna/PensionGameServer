@@ -21,9 +21,9 @@ namespace PensionGame.Core.Calculators
                     InvestmentSelection: investmentSelection
                 );
 
-            var holdingChanges = _investmentSelectionDifferenceCalculator.Calculate(differenceRequiredData);
+            var (stockChange, bondChange, savingsAccountChange, loanChange) = _investmentSelectionDifferenceCalculator.Calculate(differenceRequiredData);
 
-            return currentClientData.DisposableIncome + holdingChanges.LoanChange - holdingChanges.StockChange - holdingChanges.SavingsAccountChange - holdingChanges.BondChange;
+            return currentClientData.DisposableIncome + loanChange - stockChange - bondChange - savingsAccountChange;
         }
     }
 }

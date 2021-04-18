@@ -1,4 +1,4 @@
-﻿@page "/newsession"
+﻿@page "/newSession"
 @using PensionGame.Web.Services
 @using PensionGame.Web.Data
 @using PensionGame.Api.Domain.Resources.Session
@@ -7,9 +7,9 @@
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
 
-<h1>New game session!</h1>
+<h1>New game Session!</h1>
 
-<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -18,7 +18,7 @@
             Game Session Name:
         </label>
         <div>
-            <InputText @bind-Value="session.Name" style="width: 400px" />
+            <InputText @bind-Value="Session.Name" style="width: 400px" />
         </div>
     </p>
     <p>
@@ -26,7 +26,7 @@
             Income:
         </label>
         <div>
-            <InputNumber @bind-Value="session.Income" />
+            <InputNumber @bind-Value="Session.Income" />
         </div>
     </p>
     <p>
@@ -34,7 +34,7 @@
             Expenses:
         </label>
         <div>
-            <InputNumber @bind-Value="session.Expenses" />
+            <InputNumber @bind-Value="Session.Expenses" />
         </div>
     </p>
     <p>
@@ -42,7 +42,7 @@
             Age:
         </label>
         <div>
-            <InputNumber @bind-Value="session.Year" />
+            <InputNumber @bind-Value="Session.Year" />
         </div>
     </p>
     <p>
@@ -50,7 +50,7 @@
             Retirement age:
         </label>
         <div>
-            <InputNumber @bind-Value="session.RetirementYear" />
+            <InputNumber @bind-Value="Session.RetirementYear" />
         </div>
     </p>
 
