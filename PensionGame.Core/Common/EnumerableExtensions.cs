@@ -1,6 +1,5 @@
 ﻿using PensionGame.Core.Domain.Holdings;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PensionGame.Core.Common
 {
