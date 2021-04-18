@@ -32,7 +32,7 @@ namespace PensionGame.Core.Calculators
         private static LoanHoldings Refinance(LoanHoldings currentLoans, double loanInterestRate)
         {
             var loansByRefinance = currentLoans.ToLookup(loan => loan.InterestRate > loanInterestRate);
-            var totalToRefinance = new LoanHoldings(loansByRefinance[true]).TotalLoanValue;
+            var totalToRefinance = new LoanHoldings(loansByRefinance[true].ToList()).TotalLoanValue;
 
             var result = loansByRefinance[false]
                 .Append(new LoanHolding(totalToRefinance, loanInterestRate))

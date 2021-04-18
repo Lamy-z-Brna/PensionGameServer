@@ -4,9 +4,13 @@ using System.Linq;
 
 namespace PensionGame.Core.Domain.Holdings
 {
-    public sealed record BondHoldings(IEnumerable<BondHolding> Bonds) : IEnumerable<BondHolding>
+    public sealed record BondHoldings(IReadOnlyCollection<BondHolding> Bonds) : IReadOnlyCollection<BondHolding>
     {
+        public BondHoldings(IEnumerable<BondHolding> bonds) : this(bonds.ToList()) { }
+
         public int TotalPayments => Bonds.Sum(bond => bond.YearlyPayment);
+
+        public int Count => Bonds.Count;
 
         public IEnumerator<BondHolding> GetEnumerator()
         {

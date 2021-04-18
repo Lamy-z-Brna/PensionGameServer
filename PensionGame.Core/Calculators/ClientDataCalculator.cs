@@ -24,7 +24,7 @@ namespace PensionGame.Core.Calculators
             _newBondCalculator = newBondCalculator;
         }
 
-        public (ClientData, IEnumerable<IEvent>) Calculate(ClientDataRequiredData requiredData)
+        public (ClientData, IReadOnlyCollection<IEvent>) Calculate(ClientDataRequiredData requiredData)
         {
             var (previousClientData, previousMarketData, investmentSelection, marketData, events) = requiredData;
             var previousReturnData = previousMarketData.ReturnData;

@@ -2,8 +2,8 @@
 using PensionGame.Core.Domain.Holdings;
 using PensionGame.Core.Events.Common;
 using PensionGame.Core.Events.PreClientDataEvents;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PensionGame.Core.Calculators
 {
@@ -16,7 +16,7 @@ namespace PensionGame.Core.Calculators
             _availableToInvestCalculator = availableToInvestCalculator;
         }
 
-        public (SavingsAccountHoldings SavingsAccountHoldings, IEnumerable<IEvent> Events) Calculate(NewSavingsAccountRequiredData requiredData)
+        public (SavingsAccountHoldings SavingsAccountHoldings, IReadOnlyCollection<IEvent> Events) Calculate(NewSavingsAccountRequiredData requiredData)
         {
             var (currentClientData, investmentSelection) = requiredData;
 
@@ -36,7 +36,7 @@ namespace PensionGame.Core.Calculators
                     new SavingsAccountHoldings(newSavingsAccountValue),
                     availableToInvest > 0 
                         ? new[] { new AutomaticSavingsAccountInvestmentEvent(amountRequested, availableToInvest) }
-                        : Enumerable.Empty<IEvent>()
+                        : Array.Empty<IEvent>()
                 );
         }
     }

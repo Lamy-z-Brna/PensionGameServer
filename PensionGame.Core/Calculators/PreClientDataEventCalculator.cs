@@ -20,7 +20,7 @@ namespace PensionGame.Core.Calculators
             _preClientDataEventParameters = preClientDataEventParameters;
         }
 
-        public IEnumerable<IPreClientDataEvent> Calculate(MacroEconomicData macroEconomicData)
+        public IReadOnlyCollection<IPreClientDataEvent> Calculate(MacroEconomicData macroEconomicData)
         {
             var result = CalculateInternally(macroEconomicData).ToList();
             return result;

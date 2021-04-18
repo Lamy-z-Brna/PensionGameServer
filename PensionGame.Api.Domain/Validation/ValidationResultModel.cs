@@ -8,7 +8,7 @@ namespace PensionGame.Api.Domain.Validation
     {
         public static string Message => "Validation Failed";
 
-        public IEnumerable<ValidationErrorModel> Errors { get; }
+        public IReadOnlyCollection<ValidationErrorModel> Errors { get; }
 
         public ValidationResultModel(ModelStateDictionary modelState)
         {
@@ -22,9 +22,9 @@ namespace PensionGame.Api.Domain.Validation
             Errors = new[] { new ValidationErrorModel(errorMessage) };
         }
 
-        public ValidationResultModel(IEnumerable<string> errorMessages)
+        public ValidationResultModel(IReadOnlyCollection<string> errorMessages)
         {
-            Errors = errorMessages.Select(errorMessage => new ValidationErrorModel(errorMessage));
+            Errors = errorMessages.Select(errorMessage => new ValidationErrorModel(errorMessage)).ToList();
         }
     }
 }

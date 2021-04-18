@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators
 {
-    public interface IPreMacroEconomicEventGenerator : IGenerator<IEnumerable<IPreMacroEconomicEvent>>
+    public interface IPreMacroEconomicEventGenerator : IGenerator<IReadOnlyCollection<IPreMacroEconomicEvent>>
     {
     }
 }

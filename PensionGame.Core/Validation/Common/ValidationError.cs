@@ -5,7 +5,7 @@ namespace PensionGame.Core.Validation.Common
 {
     public record ValidationError
     {
-        public IEnumerable<string> ErrorMessages { get; init; }
+        public IReadOnlyCollection<string> ErrorMessages { get; init; }
 
         public bool IsValid => !ErrorMessages.Any();
 
@@ -14,7 +14,7 @@ namespace PensionGame.Core.Validation.Common
             ErrorMessages = new List<string> { message };
         }
 
-        public ValidationError(IEnumerable<string> messages)
+        public ValidationError(IReadOnlyCollection<string> messages)
         {
             ErrorMessages = messages;
         }

@@ -12,7 +12,7 @@ namespace PensionGame.Core.Common
         }
 
         //TODO VB implement + unit test
-        //public IEnumerable<double> GenerateLogNormal(double mu, double sigma)
+        //public IReadOnlyCollection<double> GenerateLogNormal(double mu, double sigma)
         //{
         //    return GenerateWithDistribution(new LogNormal(mu, sigma));
         //}

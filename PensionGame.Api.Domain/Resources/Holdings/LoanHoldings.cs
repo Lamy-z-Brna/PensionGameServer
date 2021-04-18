@@ -1,14 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PensionGame.Api.Domain.Resources.Holdings
 {
-    public record LoanHoldings(IEnumerable<LoanHolding> Loans) : IEnumerable<LoanHolding>
+    public record LoanHoldings(IReadOnlyCollection<LoanHolding> Loans) : IReadOnlyCollection<LoanHolding>
     {
-        public LoanHoldings() : this(Enumerable.Empty<LoanHolding>()) { }
+        public LoanHoldings(IEnumerable<LoanHolding> loans) : this(loans.ToList()) { }
 
-        public int TotalLoanValue => Loans.Sum(loan => loan.Amount);        
+        public LoanHoldings() : this(Array.Empty<LoanHolding>()) { }
+
+        public int TotalLoanValue => Loans.Sum(loan => loan.Amount);
+
+        public int Count => Loans.Count;
 
         public IEnumerator<LoanHolding> GetEnumerator()
         {

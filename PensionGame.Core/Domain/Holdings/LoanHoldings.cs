@@ -5,11 +5,15 @@ using System.Linq;
 
 namespace PensionGame.Core.Domain.Holdings
 {
-    public sealed record LoanHoldings(IEnumerable<LoanHolding> Loans) : IEnumerable<LoanHolding>
+    public sealed record LoanHoldings(IReadOnlyCollection<LoanHolding> Loans) : IReadOnlyCollection<LoanHolding>
     {
+        public LoanHoldings(IEnumerable<LoanHolding> loans) : this(loans.ToList()) { }
+
         public int TotalLoanValue => Loans.Sum(loan => loan.Amount);
 
         public int TotalInterestValue => Loans.Sum(loan => Rounder.Round(loan.Amount * loan.InterestRate));
+
+        public int Count => Loans.Count;
 
         public IEnumerator<LoanHolding> GetEnumerator()
         {

@@ -4,7 +4,7 @@ using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Core.Events.Common;
-using System.Linq;
+using System;
 
 namespace PensionGame.Api.Common.Mappers
 {
@@ -28,7 +28,7 @@ namespace PensionGame.Api.Common.Mappers
                     RetirementYear: gameState.RetirementYear,
                     ClientData: _mapper.Map<Core.Domain.ClientData.ClientData>(gameState.ClientData),
                     MarketData: _mapper.Map<Core.Domain.MarketData.MarketData>(gameState.MarketData),
-                    Events: Enumerable.Empty<IEvent>()
+                    Events: Array.Empty<IEvent>()
                 );
         }
 

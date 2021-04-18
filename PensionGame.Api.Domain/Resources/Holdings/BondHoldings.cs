@@ -1,12 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PensionGame.Api.Domain.Resources.Holdings
 {
-    public record BondHoldings(IEnumerable<BondHolding> Bonds) : IEnumerable<BondHolding>
+    public record BondHoldings(IReadOnlyCollection<BondHolding> Bonds) : IReadOnlyCollection<BondHolding>
     {
-        public BondHoldings() : this(Enumerable.Empty<BondHolding>()) { }
+        public BondHoldings(IEnumerable<BondHolding> bonds) : this(bonds.ToList()) { }
+
+        public BondHoldings() : this(Array.Empty<BondHolding>()) { }
+
+        public int Count => Bonds.Count;
 
         public IEnumerator<BondHolding> GetEnumerator()
         {

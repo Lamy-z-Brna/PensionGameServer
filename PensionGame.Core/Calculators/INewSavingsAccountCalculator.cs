@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators
 {
-    public interface INewSavingsAccountCalculator : ICalculator<NewSavingsAccountRequiredData, (SavingsAccountHoldings SavingsAccountHoldings, IEnumerable<IEvent> Events)>
+    public interface INewSavingsAccountCalculator : ICalculator<NewSavingsAccountRequiredData, (SavingsAccountHoldings SavingsAccountHoldings, IReadOnlyCollection<IEvent> Events)>
     {
     }
 }

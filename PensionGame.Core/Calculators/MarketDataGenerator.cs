@@ -24,13 +24,16 @@ namespace PensionGame.Core.Calculators
             _preReturnsEventGenerator = preReturnsEventCalculator;
         }
 
-        public (MarketData, IEnumerable<IPreClientDataEvent>) Generate()
+        public (MarketData, IReadOnlyCollection<IPreClientDataEvent>) Generate()
         {
             var preMacroEconomicEvents = _preMacroEconomicEventGenerator.Generate().ToList();
 
             var newMacroEconomicData = _macroEconomicDataCalculator.Calculate(new MacroEconomicDataRequiredData(preMacroEconomicEvents));
 
-            var preReturnsEvents = _preReturnsEventGenerator.Generate().Union(preMacroEconomicEvents);           
+            var preReturnsEvents = _preReturnsEventGenerator
+                .Generate()
+                .Union(preMacroEconomicEvents)
+                .ToList();           
 
             var newReturnData = _returnDataCalculator.Calculate(new ReturnDataRequiredData(newMacroEconomicData, preReturnsEvents));
 

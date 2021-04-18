@@ -17,7 +17,7 @@ namespace PensionGame.Core.Calculators
             _parameters = parameters;
         }        
 
-        public IEnumerable<IPreMacroEconomicEvent> Generate()
+        public IReadOnlyCollection<IPreMacroEconomicEvent> Generate()
         {
             var result = GenerateInternally().ToList();
             return result;

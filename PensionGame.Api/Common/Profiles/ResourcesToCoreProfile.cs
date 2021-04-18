@@ -29,11 +29,11 @@ namespace PensionGame.Api.Common.Profiles
 
             CreateMap<LoanHoldings, Core.Domain.Holdings.LoanHoldings>();
 
-            CreateMap<IEnumerable<BondHolding>, Core.Domain.Holdings.BondHoldings>()
-                .ConvertUsing((src, _, context) => new Core.Domain.Holdings.BondHoldings(src.Select(bond => context.Mapper.Map<BondHolding, Core.Domain.Holdings.BondHolding>(bond))));
+            CreateMap<IReadOnlyCollection<BondHolding>, Core.Domain.Holdings.BondHoldings>()
+                .ConvertUsing((src, _, context) => new Core.Domain.Holdings.BondHoldings(src.Select(bond => context.Mapper.Map<BondHolding, Core.Domain.Holdings.BondHolding>(bond)).ToList()));
 
-            CreateMap<IEnumerable<LoanHolding>, Core.Domain.Holdings.LoanHoldings>()
-                .ConvertUsing((src, _, context) => new Core.Domain.Holdings.LoanHoldings(src.Select(loan => context.Mapper.Map<LoanHolding, Core.Domain.Holdings.LoanHolding>(loan))));
+            CreateMap<IReadOnlyCollection<LoanHolding>, Core.Domain.Holdings.LoanHoldings>()
+                .ConvertUsing((src, _, context) => new Core.Domain.Holdings.LoanHoldings(src.Select(loan => context.Mapper.Map<LoanHolding, Core.Domain.Holdings.LoanHolding>(loan)).ToList()));
 
             CreateMap<ClientHoldings, Core.Domain.Holdings.ClientHoldings>();
 
