@@ -57,12 +57,12 @@ namespace PensionGame.Core.Calculators.Validation
                 );
             }
 
-            if (requiresNewLoan && currentClientData.IncomeData.TotalIncome < investmentSelection.LoanValue)
+            if (requiresNewLoan && currentClientData.IncomeData.ActualSalary < investmentSelection.LoanValue)
                 return new ValidationResult<InvestmentSelection>
                     (
                         new ValidationError
                         (
-                            $"The requested loan value of {investmentSelection.LoanValue} would exceed the maximum of {currentClientData.IncomeData.TotalIncome} equal to Total Income"
+                            $"The requested loan value of {investmentSelection.LoanValue} would exceed the maximum of {currentClientData.IncomeData.ActualSalary} equal to current salary"
                         )
                     );
 
