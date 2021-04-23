@@ -4,6 +4,7 @@ using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
+using System;
 using System.Threading.Tasks;
 
 namespace PensionGame.Host.Controllers
@@ -37,6 +38,17 @@ namespace PensionGame.Host.Controllers
             var result = await _dispatcher.Dispatch<CreateSessionCommand, SessionId>(command);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [ActionName("Get")]
+        public async Task<Session?> Get(Guid sessionId)
+        {
+            var query = new GetSessionQuery(new SessionId(sessionId));
+
+            var result = await _dispatcher.Query<GetSessionQuery, Session?>(query);
+
+            return result;
         }
 
         [HttpGet]

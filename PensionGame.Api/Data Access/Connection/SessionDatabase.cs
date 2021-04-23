@@ -3,6 +3,7 @@ using PensionGame.Api.Data_Access.ConnectionSettings;
 using PensionGame.Api.Data_Access.Data_Objects;
 using PensionGame.Api.Data_Access.Helpers;
 using PensionGame.Api.Domain.Common;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,14 @@ namespace PensionGame.Api.Data_Access.Connection
             await Sessions.InsertOneAsync(session);
         }
 
+        public async Task<Session?> Get(Guid sessionId)
+        {
+            var result = await Sessions
+                .FindAsync(session => session.Object != null && session.Object.SessionId.Id == sessionId);           
+
+            return result.FirstOrDefault();
+        }
+
         public async Task<PaginatedCollection<Session>> Get(int page, int pageSize)
         {
             var result = await Sessions
@@ -33,7 +42,7 @@ namespace PensionGame.Api.Data_Access.Connection
 
             var (totalPages, totalCount, data) = result;
 
-            return new PaginatedCollection<Session>(data, page, data.Count(), totalCount, totalPages);
+            return new PaginatedCollection<Session>(data, page, data.Count, totalCount, totalPages);
         }
     }
 }

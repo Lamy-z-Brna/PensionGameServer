@@ -8,7 +8,7 @@ namespace PensionGame.Api.Common.Helpers
     {
         public static IReadOnlyCollection<TDest> Map<TSource, TDest>(this IMapper<TSource, TDest> mapper, IEnumerable<TSource> source)
         {
-            return source.Select(mapper.Map).ToList();
+            return source.Select(mapper.Map)!.ToList();
         }
     }
 }

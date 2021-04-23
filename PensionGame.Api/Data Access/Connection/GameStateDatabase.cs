@@ -31,7 +31,7 @@ namespace PensionGame.Api.Data_Access.Connection
         {
             var result = await GameStates.FindAsync(gameState => gameState.Guid == guid);
 
-            return result.ToList();
+            return result.ToEnumerable();
         }
 
         public async Task<IEnumerable<GameState>> GetAll(IEnumerable<Guid> guids)
@@ -40,7 +40,7 @@ namespace PensionGame.Api.Data_Access.Connection
 
             var result = await GameStates.FindAsync(filter);
 
-            return result.ToList();
+            return result.ToEnumerable();
         }
     }
 }

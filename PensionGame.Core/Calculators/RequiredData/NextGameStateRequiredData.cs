@@ -1,5 +1,4 @@
 ﻿using PensionGame.Core.Domain.ClientData;
-using PensionGame.Core.Domain.GameData;
 
 namespace PensionGame.Core.Calculators.RequiredData
 {
