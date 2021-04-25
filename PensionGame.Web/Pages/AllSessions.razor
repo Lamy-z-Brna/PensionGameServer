@@ -7,8 +7,8 @@
 
 @if (Sessions != null)
 {
-    <table class="data-table">
-        <thead>
+    <table class="table">
+        <thead class="thead-dark">
             <tr>
                 <th>Name</th>
                 <th>Started</th>
@@ -18,19 +18,19 @@
         <tbody>
             @foreach (var (session, currentYear) in Sessions.Items)
             {
-            <tr>
-                <td class="data-table-name">
-                    <a href="/game/@session.SessionId.Id">
-                        @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
-                    </a>
-                </td>
-                <td>
-                    @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
-                </td>
-                <td>
-                    @currentYear
-                </td>
-            </tr>
+                <tr>
+                    <td class="data-table-name">
+                        <a href="/game/@session.SessionId.Id">
+                            @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
+                        </a>
+                    </td>
+                    <td>
+                        @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
+                    </td>
+                    <td>
+                        @currentYear
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

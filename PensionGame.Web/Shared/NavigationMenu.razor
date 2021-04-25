@@ -1,5 +1,5 @@
 ﻿
-<nav id="sidebar" class="sidebar @NavMenuCssClass">
+<nav id="sidebar" class="sidebar @(Collapsed ? "collapsed" : string.Empty)">
     <div class="sidebar-content js-simplebar">
 
         <a class="sidebar-brand" href="">
@@ -21,7 +21,3 @@
         </ul>
     </div>
  </nav>
-
-    @code {
-        [Parameter] public string NavMenuCssClass { get; set; } = string.Empty;
-    }

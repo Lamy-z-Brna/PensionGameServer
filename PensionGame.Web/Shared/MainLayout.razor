@@ -1,11 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="wrapper">
-    <NavMenu NavMenuCssClass="@NavMenuCssClass" />
-
-    
+    <NavigationMenu Collapsed="@Collapsed" />
+        
     <div class="main">
-        <NavBar CollapseMenuCallback="@ToggleNavMenu" />
+        <NavigationBar OnClick="@ToggleNavMenu" />
 
         <main class="content">
             @Body
@@ -17,14 +16,11 @@
 
 @code {
 
-    private bool collapseNavMenu = false;
-
-    //private string NavMenuCssClass => collapseNavMenu ? "collapse" : string.Empty;
-    private string NavMenuCssClass => collapseNavMenu ? "collapsed" : string.Empty;
+    private bool Collapsed { get; set; }
 
     void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        Collapsed = !Collapsed;
 
         StateHasChanged();
     }
