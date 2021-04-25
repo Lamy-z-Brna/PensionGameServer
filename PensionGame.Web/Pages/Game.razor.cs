@@ -33,9 +33,9 @@ namespace PensionGame.Web.Pages
 
         private EditContext EditContext { get; set; } = new(new InvestmentSelection());
 
-        private int TotalCashFlow => GameData?.ClientData.DisposableIncome + InvestmentSelection.LoanValue - GameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
+        private int DisposableIncome => GameData?.ClientData.DisposableIncome - GameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
 
-        private int RemainingCashFlow => TotalCashFlow - (InvestmentSelection.BondValue + InvestmentSelection.StockValue + InvestmentSelection.SavingsAccountValue);
+        private int AvailableToInvest { get; set; }
 
         private ClientHoldings? ClientHoldings => GameData?.ClientData.ClientHoldings;
 
@@ -56,6 +56,8 @@ namespace PensionGame.Web.Pages
         {
             if (CurrentSessionId != null)
             {
+                await UpdateRemainingCashFlow(CurrentSessionId, InvestmentSelection);
+
                 ValidationOkay = await GameService.InvestmentSelectionValidate(CurrentSessionId, InvestmentSelection);
 
                 StateHasChanged();
@@ -84,11 +86,20 @@ namespace PensionGame.Web.Pages
                 LoanValue = GameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
             });
 
+            await UpdateRemainingCashFlow(sessionId, InvestmentSelection);
+
             EditContext = new EditContext(InvestmentSelection);
 
             EditContext.OnFieldChanged += editContext_OnFieldChanged;
 
             StateHasChanged();
+        }
+
+        private async Task UpdateRemainingCashFlow(SessionId sessionId, InvestmentSelection investmentSelection)
+        {
+            var availableToInvest = await GameService.GetAvailableToInvest(sessionId, investmentSelection);
+
+            AvailableToInvest = availableToInvest.Amount;
         }
     }
 }

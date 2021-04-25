@@ -1,5 +1,6 @@
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
+using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Web.Client;
 using RestSharp;
@@ -14,6 +15,12 @@ namespace PensionGame.Web.Services
         public GameDataServices(IServiceClient client)
         {
             _client = client;
+        }
+
+        public async Task<AvailableToInvest> GetAvailableToInvest(SessionId sessionId, InvestmentSelection gameUpdate)
+        {
+            return await _client.Request<AvailableToInvest>("Game/AvailableToInvest", Method.PUT, gameUpdate,
+                new() { { "sessionId", sessionId.Id.ToString() } });
         }
 
         public async Task<bool> InvestmentSelectionValidate(SessionId sessionId, InvestmentSelection gameUpdate)

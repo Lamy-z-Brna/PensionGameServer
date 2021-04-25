@@ -20,7 +20,7 @@ namespace PensionGame.Web.Client
         {
             var response = await RequestInner(requestAddress, method, requestBody, parameters);
 
-            T? result = JsonConvert.DeserializeObject<T>(response.Content);
+            var result = JsonConvert.DeserializeObject<T>(response.Content);
 
             if (result == null)
                 throw new Exception($"Response failed to be deserialized: {response.Content}");
@@ -39,7 +39,7 @@ namespace PensionGame.Web.Client
         private async Task<IRestResponse> RequestInner(string requestAddress, Method method, object? requestBody = null,
             Dictionary<string, object>? parameters = null)
         {
-            Uri requestUri = new Uri(_config.RestApiUri, requestAddress);
+            var requestUri = new Uri(_config.RestApiUri, requestAddress);
 
             IRestClient client = new RestClient(requestUri);
             client.AddDefaultHeader("Content-type", "application/json");
