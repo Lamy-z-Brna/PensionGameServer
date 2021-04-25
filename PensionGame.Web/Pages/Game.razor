@@ -107,10 +107,17 @@
                 <td>
                     <InputNumber @bind-Value="InvestmentSelection.StockValue" />
                 </td>
-                <td>
-                    <strong>@GameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
-                    (last year's return rate)
-                </td>
+                @if (!(GameData?.IsInitial ?? true))
+                {
+                    <td>
+                        <strong>@GameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
+                        (last year's return rate)
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
             </tr>
             <tr>
                 <td class="data-table-name">Bonds <Tooltip Text="@BondsInfo">&#65110</Tooltip></td>
