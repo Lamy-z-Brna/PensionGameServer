@@ -102,7 +102,7 @@
                 <td class="data-table-name">Stocks <Tooltip Text="@StocksInfo">&#65110</Tooltip></td>
                 <td>
                     @ClientHoldings?.Stocks.Value
-                    (@ClientHoldings?.Stocks.UnitsHeld units per @ClientHoldings?.Stocks.UnitPrice)
+                    (@ClientHoldings?.Stocks.UnitsHeld units per @ClientHoldings?.Stocks.UnitPrice.Price)
                 </td>
                 <td>
                     <InputNumber @bind-Value="InvestmentSelection.StockValue" />

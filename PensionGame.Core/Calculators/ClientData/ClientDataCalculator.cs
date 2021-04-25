@@ -3,6 +3,7 @@ using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Domain.Holdings;
+using PensionGame.Core.Domain.Holdings.Values;
 using PensionGame.Core.Events;
 using PensionGame.Core.Events.Common;
 using System;
@@ -33,8 +34,8 @@ namespace PensionGame.Core.Calculators.ClientData
             var (previousIncomeData, previousExpenseData, previousHoldings) = previousClientData;
             var (macroEconomicData, returnData) = marketData;
 
-            var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice * (1 + returnData.StockRate), 2);
-            var stocksUnits = Math.Round(investmentSelection.StockValue / previousHoldings.Stocks.UnitPrice, 2);
+            var stockPrice = Math.Round(previousHoldings.Stocks.UnitPrice.Price * (1 + returnData.StockRate), 2);
+            var stocksUnits = Math.Round(investmentSelection.StockValue / previousHoldings.Stocks.UnitPrice.Price, 2);
            
             var (bonds, bondEvents) = _newBondCalculator.Calculate
                 (
@@ -97,7 +98,7 @@ namespace PensionGame.Core.Calculators.ClientData
                     ),
                     ClientHoldings: new ClientHoldings
                     (
-                        Stocks: new StockHolding(stockPrice, stocksUnits),
+                        Stocks: new StockHolding(new StockPrice(stockPrice), stocksUnits),
                         Bonds: new BondHoldings(bonds),
                         SavingsAccount: newSavingsAccountHoldings,
                         Loans: loans
