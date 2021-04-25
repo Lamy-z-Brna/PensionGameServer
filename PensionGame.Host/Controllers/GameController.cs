@@ -8,6 +8,7 @@ using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PensionGame.Host.Controllers
@@ -109,6 +110,20 @@ namespace PensionGame.Host.Controllers
                 (
                     new GetInitialGameStateQuery(null)
                 );
+            return result;
+        }
+
+        [HttpGet]
+        [Route("All")]
+        public async Task<Dictionary<int, GameState>> GetAll(Guid sessionId)
+        {
+            var query = new GetGameStatesQuery(new SessionId(sessionId));
+
+            var result = await _dispatcher.Query<GetGameStatesQuery, Dictionary<int, GameState>>
+                (
+                    query
+                );
+
             return result;
         }
     }

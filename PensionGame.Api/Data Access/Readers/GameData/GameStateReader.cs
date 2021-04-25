@@ -2,6 +2,7 @@
 using PensionGame.Api.Data_Access.Connection;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Session;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,17 @@ namespace PensionGame.Api.Data_Access.Readers.GameData
                 .FirstOrDefault();
 
             return gameState?.Game;
+        }
+
+        public async Task<Dictionary<int, GameState>> Get(SessionId sessionId)
+        {
+            var gameStates = await _gameStateDatabase.GetAll(sessionId.Id);
+            var gameStatesByYear = gameStates
+                .Where(gameState => gameState.Game != null)
+                .GroupBy(gameState => gameState.Game!.Year)
+                .ToDictionary(kv => kv.Key, g => g.Select(gameState => gameState.Game).First()!);
+
+            return gameStatesByYear;
         }
 
         public async Task<GameState?> GetCurrentGameState(SessionId sessionId)
