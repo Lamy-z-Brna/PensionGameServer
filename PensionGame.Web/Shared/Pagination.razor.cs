@@ -1,0 +1,20 @@
+﻿using Microsoft.AspNetCore.Components;
+using PensionGame.Api.Domain.Common;
+using System.Threading.Tasks;
+
+namespace PensionGame.Web.Shared
+{
+    public partial class Pagination<TItem> : ComponentBase
+    {
+        [Parameter]
+        public PaginatedCollection<TItem>? Items { get; set; }
+
+        [Parameter]
+        public EventCallback<int> OnPageClicked { get; set; }
+
+        private async Task InvokeOnPageClicked(int page)
+        {
+            await OnPageClicked.InvokeAsync(page);
+        }
+    }
+}

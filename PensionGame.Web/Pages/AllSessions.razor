@@ -1,5 +1,7 @@
 ﻿@page "/allsessions"
+@using PensionGame.Web.Shared
 @using PensionGame.Web.Services
+@using PensionGame.Api.Domain.Resources.Session
 
 @inject SessionDataServices SessionService
 
@@ -7,6 +9,7 @@
 
 @if (Sessions != null)
 {
+<div class="col-12">
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -24,14 +27,19 @@
                             @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
                         </a>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @currentYear
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    <Pagination TItem="SessionInfo"
+                Items="@Sessions"
+                OnPageClicked="UpdatePage"
+                />
+</div>
 }
