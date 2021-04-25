@@ -6,10 +6,8 @@
 @inject SessionDataServices SessionService
 
 <h1>Game Sessions</h1>
-
 @if (Sessions != null)
 {
-<div class="col-12">
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -40,6 +38,5 @@
     <Pagination TItem="SessionInfo"
                 Items="@Sessions"
                 OnPageClicked="UpdatePage"
-                />
-</div>
+                OnPageSizeChanged="UpdatePageSize" />
 }

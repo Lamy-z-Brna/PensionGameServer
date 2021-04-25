@@ -12,9 +12,17 @@ namespace PensionGame.Web.Shared
         [Parameter]
         public EventCallback<int> OnPageClicked { get; set; }
 
+        [Parameter]
+        public EventCallback<int> OnPageSizeChanged { get; set; }
+
         private async Task InvokeOnPageClicked(int page)
         {
             await OnPageClicked.InvokeAsync(page);
+        }
+
+        private async Task InvokeOnPageSizeChanged(int pageSize)
+        {
+            await OnPageSizeChanged.InvokeAsync(pageSize);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace PensionGame.Api.Data_Access.Readers.Session
                 .Select(session => new SessionInfo(session, gameStateBySessionId[session.SessionId.Id]!.Game!.Year))
                 .ToList();
 
-            return new PaginatedCollection<SessionInfo>(result, sessions.CurrentPage, sessions.CurrentItems, sessions.TotalItems, sessions.TotalPages);
+            return new PaginatedCollection<SessionInfo>(result, sessions.CurrentPage, pageSize, sessions.TotalItems, sessions.TotalPages);
         }
     }
 }

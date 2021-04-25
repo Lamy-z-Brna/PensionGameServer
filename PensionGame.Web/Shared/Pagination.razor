@@ -3,11 +3,21 @@
 @if (@Items != null)
 {
     <div class="fixed-table-pagination" style="">
-        <div class="float-right pagination" >
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @Items.CurrentItems
+            </button>
+            <div class="dropdown-menu" style="">
+                <a class="dropdown-item" href="" @onclick="() => InvokeOnPageSizeChanged(10)" @onclick:preventDefault>10</a>
+                <a class="dropdown-item" href="" @onclick="() => InvokeOnPageSizeChanged(25)" @onclick:preventDefault>25</a>
+                <a class="dropdown-item" href="" @onclick="() => InvokeOnPageSizeChanged(50)" @onclick:preventDefault>50</a>
+            </div>
+        </div>
+        <div class="float-right pagination">
             <div class="btn-group me-2" role="group">
-                @foreach(var item in Enumerable.Range(1, Math.Min(3, Items.TotalPages)))
+                @foreach (var item in Enumerable.Range(1, Math.Min(3, Items.TotalPages)))
                 {
-                    <button type="button" class="btn btn-secondary" @onclick="() => InvokeOnPageClicked(item)" >@item</button>
+                    <button type="button" class="btn btn-secondary" @onclick="() => InvokeOnPageClicked(item)">@item</button>
                 }
             </div>
             @if (Items.TotalPages >= 4)

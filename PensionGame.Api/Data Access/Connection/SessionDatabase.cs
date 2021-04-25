@@ -42,7 +42,7 @@ namespace PensionGame.Api.Data_Access.Connection
 
             var (totalPages, totalCount, data) = result;
 
-            return new PaginatedCollection<Session>(data, page, data.Count, totalCount, totalPages);
+            return new PaginatedCollection<Session>(data, page, pageSize, totalCount, totalPages);
         }
     }
 }
