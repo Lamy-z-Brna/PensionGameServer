@@ -2,6 +2,7 @@
 using PensionGame.Api.Domain.Resources.Events;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
+using PensionGame.Api.Domain.Resources.Holdings.Values;
 using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Handlers.Queries;
@@ -27,7 +28,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                         Bonds: new BondHoldings(),
                         Loans: new LoanHoldings(),
                         SavingsAccount: new SavingsAccountHoldings(),
-                        Stocks: new StockHolding()
+                        Stocks: new StockHolding(new StockPrice(1), 0)
                     ),
                     ExpenseData: new ExpenseData
                     {
