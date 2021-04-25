@@ -1,15 +1,31 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
+<div class="wrapper">
+    <NavMenu NavMenuCssClass="@NavMenuCssClass" />
+
+    
+    <div class="main">
+        <NavBar CollapseMenuCallback="@ToggleNavMenu" />
+
+        <main class="content">
+            @Body
+        </main>
+
+        <Footer />
+    </div>
 </div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
+@code {
 
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+    private bool collapseNavMenu = true;
+
+    //private string NavMenuCssClass => collapseNavMenu ? "collapse" : string.Empty;
+    private string NavMenuCssClass => collapseNavMenu ? "collapsed" : string.Empty;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+
+        StateHasChanged();
+    }
+}

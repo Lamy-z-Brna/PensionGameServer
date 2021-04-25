@@ -14,7 +14,7 @@ namespace PensionGame.Web.Pages
 
         protected override async void OnInitialized()
         {
-            EditContext = new EditContext(Session);
+            EditContext = await Task.FromResult(new EditContext(Session));
         }
 
         private async Task HandleValidSubmit()
@@ -30,7 +30,7 @@ namespace PensionGame.Web.Pages
             string[] names_3 = new string[] { "a huge", "a useless", "an expensive", "a dirty", "a used", "a toy", "a not great not terrible", "best in covid", "a crazy", "a dangerous", "an overly sexual", "an annoying", "no", "an inappropriate", "a cheap", "a fancy", "a godlike", "a tiny", "an overpriced", "a bad", "a significant", "a sleepy", "a malicious", "a stolen", "a massive", "your" };
             string[] names_4 = new string[] { "vaccine", "lock-down", "vagina", "pension", "face mask", "Sputnik", "covid", "something", "dick", "bitch", "shit", "sense of humour", "bug", "pussy", "election", "election result", "election fraud", "joke", "result", "mom", "victory", "loss", "failure", "character" };
 
-            Random rand = new Random();
+            Random rand = new();
             var name_1 = names_1[rand.Next(0, names_1.Length)];
             var name_2 = names_2[rand.Next(0, names_2.Length)];
             var name_3 = names_3[rand.Next(0, names_3.Length)];

@@ -1,37 +1,31 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Hooray for pension!</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+﻿
+<nav id="sidebar" class="sidebar @NavMenuCssClass">
+    <div class="sidebar-content js-simplebar">
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="allsessions">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Game Sessions
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="newsession">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> New Game Session!
-            </NavLink>
-        </li>
-    </ul>
-</div>
+        <a class="sidebar-brand" href="">
+            <span class="align-middle">Hooray for pension!</span>
+        </a>
 
-@code {
-    private bool collapseNavMenu = true;
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                Sessions
+            </li>
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : string.Empty;
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="allsessions">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Game Sessions</span>
+                </a>
+            </li>
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="newsession">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">New Game Session!</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+ </nav>
+
+    @code {
+        [Parameter] public string NavMenuCssClass { get; set; } = string.Empty;
     }
-}
