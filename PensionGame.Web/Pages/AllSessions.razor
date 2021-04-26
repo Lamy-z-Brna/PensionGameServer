@@ -2,10 +2,14 @@
 @using PensionGame.Web.Shared
 @using PensionGame.Web.Services
 @using PensionGame.Api.Domain.Resources.Session
+@using PensionGame.Web.Components
 
 @inject SessionDataServices SessionService
 
 <h1>Game Sessions</h1>
+
+<LoadingOverlay IsLoading="@IsLoading" />
+
 @if (Sessions != null)
 {
     <table class="table">
