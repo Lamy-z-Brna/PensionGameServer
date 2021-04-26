@@ -6,5 +6,8 @@ namespace PensionGame.Web.Shared
     {
         [Parameter]
         public bool Collapsed { get; set; }
+
+        [Parameter]
+        public EventCallback OnItemClicked { get; set; }
     }
 }

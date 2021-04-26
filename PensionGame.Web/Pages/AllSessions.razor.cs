@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using PensionGame.Api.Domain.Common;
 using PensionGame.Api.Domain.Resources.Session;
 using System.Threading.Tasks;

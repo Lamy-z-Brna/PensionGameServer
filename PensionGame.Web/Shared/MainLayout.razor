@@ -1,8 +1,8 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="wrapper">
-    <NavigationMenu Collapsed="@Collapsed" />
-        
+    <NavigationMenu Collapsed="@Collapsed" OnItemClicked="CollapseForSmallScreens" />
+
     <div class="main">
         <NavigationBar OnClick="@ToggleNavMenu" />
 
@@ -13,15 +13,3 @@
         <Footer />
     </div>
 </div>
-
-@code {
-
-    private bool Collapsed { get; set; }
-
-    void ToggleNavMenu()
-    {
-        Collapsed = !Collapsed;
-
-        StateHasChanged();
-    }
-}
