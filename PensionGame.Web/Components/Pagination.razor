@@ -1,4 +1,5 @@
 ﻿@typeparam TItem
+@using Helpers
 
 @if (@Items != null)
 {
@@ -14,24 +15,25 @@
             </div>
         </div>
         <div class="float-right pagination">
-            <div class="btn-group me-2" role="group">
-                @foreach (var item in Enumerable.Range(1, Math.Min(3, Items.TotalPages)))
+            @foreach (var pageGroup in Items.ToPageNumbers())
+            {
+                var (pages, none) = pageGroup;
+                if (pages != null)
                 {
-                    <button type="button" class="btn btn-secondary" @onclick="() => InvokeOnPageClicked(item)">@item</button>
+                    <div class="btn-group me-2" role="group">
+                        @foreach (var item in pages.Value)
+                        {
+                            <button type="button" class="@(Items.CurrentPage == item ? "btn btn-primary" : "btn btn-secondary")" @onclick="() => InvokeOnPageClicked(item)">@item</button>
+                        }
+                    </div>
                 }
+                else
+                {
+                    <div class="btn-group me-2" role="group">
+                        <button type="button" class="btn btn-secondary" disabled>...</button>
+                    </div>
+                }
+            }
             </div>
-            @if (Items.TotalPages >= 4)
-            {
-                <div class="btn-group me-2" role="group">
-                    <button type="button" class="btn btn-secondary" disabled>...</button>
-                </div>
-            }
-            @if (Items.TotalPages >= 4)
-            {
-                <div class="btn-group me-2" role="group">
-                    <button type="button" class="btn btn-secondary" @onclick="() => InvokeOnPageClicked(Items.TotalPages)">@Items.TotalPages</button>
-                </div>
-            }
-        </div>
     </div>
 }

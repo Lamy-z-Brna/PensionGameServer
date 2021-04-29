@@ -1,4 +1,5 @@
-﻿using PensionGame.Core.Domain.Holdings;
+﻿using PensionGame.Common.Functional;
+using PensionGame.Core.Domain.Holdings;
 using System.Collections.Generic;
 
 namespace PensionGame.Core.Common
@@ -15,7 +16,7 @@ namespace PensionGame.Core.Common
             return new LoanHoldings(loanHoldings);
         }
 
-        public static (IReadOnlyCollection<TA>, IReadOnlyCollection<TB>) ToTuple<TA, TB>(this IEnumerable<IEither<TA, TB>> eithers)
+        public static (IReadOnlyCollection<TA>, IReadOnlyCollection<TB>) ToTuple<TA, TB>(this IEnumerable<Union<TA, TB>> eithers)
         {
             var @as = new List<TA>();
             var bs = new List<TB>();

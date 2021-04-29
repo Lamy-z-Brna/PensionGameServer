@@ -10,4 +10,8 @@
     <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PensionGame.Common\PensionGame.Common.csproj" />
+  </ItemGroup>
+
 </Project>

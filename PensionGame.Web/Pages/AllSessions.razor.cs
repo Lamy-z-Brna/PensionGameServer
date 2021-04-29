@@ -36,7 +36,6 @@ namespace PensionGame.Web.Pages
 
             await UpdateSessions();
             IsLoading = false;
-            StateHasChanged();
         }
 
         private async Task UpdatePageSize(int pageSize)
@@ -48,7 +47,6 @@ namespace PensionGame.Web.Pages
             await UpdateSessions();
 
             IsLoading = false;
-            StateHasChanged();
         }
 
         private async Task UpdateSessions()

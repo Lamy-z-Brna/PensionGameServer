@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PensionGame.Core\PensionGame.Core.csproj" />
+    <ProjectReference Include="..\PensionGame.Web\PensionGame.Web.csproj" />
   </ItemGroup>
 
 </Project>

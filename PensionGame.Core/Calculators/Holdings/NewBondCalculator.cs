@@ -1,4 +1,5 @@
-﻿using PensionGame.Core.Calculators.Parameters;
+﻿using PensionGame.Common.Functional;
+using PensionGame.Core.Calculators.Parameters;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.Holdings;
@@ -67,7 +68,7 @@ namespace PensionGame.Core.Calculators.Holdings
                 .ToBonds();
         }
 
-        private static (BondHoldings, IReadOnlyCollection<IEvent>) DefaultBonds(BondHoldings bondHoldings, Func<BondHolding, IEither<BondHolding, BondDefaultEvent>> defaultCalculator)
+        private static (BondHoldings, IReadOnlyCollection<IEvent>) DefaultBonds(BondHoldings bondHoldings, Func<BondHolding, Union<BondHolding, BondDefaultEvent>> defaultCalculator)
         {
             var eithers = bondHoldings.Select(defaultCalculator)
                 .ToList();

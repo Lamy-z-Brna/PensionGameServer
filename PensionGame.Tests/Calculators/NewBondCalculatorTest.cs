@@ -6,7 +6,6 @@ using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Domain.ClientData;
 using PensionGame.Core.Domain.Holdings;
 using PensionGame.Core.Events;
-using PensionGame.Core.Common;
 using System.Linq;
 using System;
 using PensionGame.Core.Events.Common;
@@ -36,7 +35,7 @@ namespace PensionGame.Tests.Calculators
             mockedBondDefaultCalculator
                 .Setup(x => x.Calculate(It.IsAny<BondDefaultRequiredData>()))
                 .Returns<BondDefaultRequiredData>(required =>
-                    required.BondDefaultRate > 0.5 ? new Either<BondHolding, BondDefaultEvent>(new BondDefaultEvent(required.BondHolding)) : new Either<BondHolding, BondDefaultEvent>(required.BondHolding));
+                    required.BondDefaultRate > 0.5 ? new BondDefaultEvent(required.BondHolding) : required.BondHolding);
 
 
             UnderTest = new NewBondCalculator(mockedBondParameters.Object, mockedBondPaymentCalculator.Object, mockedBondDefaultCalculator.Object);

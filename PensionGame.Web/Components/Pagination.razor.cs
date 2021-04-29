@@ -2,7 +2,7 @@
 using PensionGame.Api.Domain.Common;
 using System.Threading.Tasks;
 
-namespace PensionGame.Web.Shared
+namespace PensionGame.Web.Components
 {
     public partial class Pagination<TItem> : ComponentBase
     {

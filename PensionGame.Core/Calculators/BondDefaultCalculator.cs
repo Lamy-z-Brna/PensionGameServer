@@ -1,4 +1,5 @@
-﻿using PensionGame.Core.Calculators.RequiredData;
+﻿using PensionGame.Common.Functional;
+using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Common;
 using PensionGame.Core.Domain.Holdings;
 using PensionGame.Core.Events;
@@ -15,14 +16,14 @@ namespace PensionGame.Core.Calculators
             _randomSampler = randomSampler;
         }
 
-        public IEither<BondHolding, BondDefaultEvent> Calculate(BondDefaultRequiredData requiredData)
+        public Union<BondHolding, BondDefaultEvent> Calculate(BondDefaultRequiredData requiredData)
         {
             var (bond, bondDefaultRate) = requiredData;
 
             var hasDefaulted = _randomSampler.GenerateBernoulli(bondDefaultRate)
                 .First();
 
-            return hasDefaulted ? new Either<BondHolding, BondDefaultEvent>(new BondDefaultEvent(bond)) : new Either<BondHolding, BondDefaultEvent>(bond);
+            return hasDefaulted ? new BondDefaultEvent(bond) : bond;
         }
     }
 }

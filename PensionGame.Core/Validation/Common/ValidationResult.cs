@@ -1,39 +1,21 @@
-﻿using PensionGame.Core.Common;
+﻿using PensionGame.Common.Functional;
 using System;
 
 namespace PensionGame.Core.Validation.Common
 {
-    public sealed class ValidationResult<TObj> : IEither<TObj, ValidationError>
+    public sealed class ValidationResult<TObj> : Union<TObj, ValidationError>
     {
-        private readonly IEither<TObj, ValidationError> _either;
-
-        public ValidationResult(TObj obj)
+        public ValidationResult(TObj obj) : base(obj)
         {
-            _either = new Either<TObj, ValidationError>(obj);
         }
 
-        public ValidationResult(ValidationError error)
+        public ValidationResult(ValidationError error) : base(error)
         {
-            _either = new Either<TObj, ValidationError>(error);
         }
 
-        private ValidationResult(Either<TObj, ValidationError> either)
+        public void OnError(Action<ValidationError> action)
         {
-            _either = either;
+            Do((obj) => { }, action);
         }
-
-        public Either<TObj, ValidationError> Do(Action<TObj> action1, Action<ValidationError> action2)
-        {
-            return _either.Do(action1, action2);
-        }
-
-        public TResult Match<TResult>(Func<TObj, TResult> func1, Func<ValidationError, TResult> func2)
-        {
-            return _either.Match(func1, func2);
-        }
-
-        public ValidationResult<TObj> OnValid(Action<TObj> action) => new(_either.Do(action, (error) => { }));
-
-        public ValidationResult<TObj> OnError(Action<ValidationError> action) => new(_either.Do((_) => { }, action));
     }
 }
