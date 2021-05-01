@@ -10,7 +10,7 @@ namespace PensionGame.Host.Validation
     {
         public ValidationFailedResult(ModelStateDictionary modelState)
             : base(new ValidationResultModel(modelState.Keys
-                    .SelectMany(key => modelState[key].Errors.Select(x => new ValidationErrorModel(key, x.ErrorMessage)))
+                    .SelectMany(key => modelState[key].Errors.Select(x => new ValidationErrorModel(x.ErrorMessage, key)))
                     .ToList()))
         {
             StatusCode = StatusCodes.Status422UnprocessableEntity;

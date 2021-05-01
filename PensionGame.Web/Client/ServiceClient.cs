@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using PensionGame.Api.Domain.Validation;
+using PensionGame.Common.Functional;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -15,22 +17,57 @@ namespace PensionGame.Web.Client
             _config = config;
         }
 
-        public async Task<T?> Request<T>(string requestAddress, Method method, object? requestBody = null,
+        public async Task<ValidationResultModel?> Post(string requestAddress, object? requestBody = null,
             Dictionary<string, object>? parameters = null)
         {
-            var response = await RequestInner(requestAddress, method, requestBody, parameters);
+            var response = await RequestInner(requestAddress, Method.POST, requestBody, parameters);
+
+            var validationResult = JsonConvert.DeserializeObject<ValidationResultModel>(response.Content);
+
+            return validationResult;
+        }
+
+        public async Task<Union<T, ValidationResultModel>> Post<T>(string requestAddress, object? requestBody = null,
+            Dictionary<string, object>? parameters = null)
+        {
+            var response = await RequestInner(requestAddress, Method.POST, requestBody, parameters);
+
+            var validationResult = JsonConvert.DeserializeObject<ValidationResultModel>(response.Content);
+
+            if (validationResult != null && validationResult.IsFailed)
+                return validationResult;
+
+            var result = JsonConvert.DeserializeObject<T>(response.Content);
+
+            return result!;
+        }
+
+        public async Task<ValidationResultModel> Put(string requestAddress, object? requestBody = null, Dictionary<string, object>? parameters = null)
+        {
+            var response = await RequestInner(requestAddress, Method.PUT, requestBody, parameters);
+
+            var validationResult = JsonConvert.DeserializeObject<ValidationResultModel>(response.Content);
+
+            return validationResult!;
+        }
+
+        public async Task<T?> Put<T>(string requestAddress, object? requestBody = null,
+            Dictionary<string, object>? parameters = null)
+        {
+            var response = await RequestInner(requestAddress, Method.PUT, requestBody, parameters);
 
             var result = JsonConvert.DeserializeObject<T>(response.Content);
 
             return result;
         }
 
-        public async Task<bool> Request(string requestAddress, Method method, object? requestBody = null,
-            Dictionary<string, object>? parameters = null)
+        public async Task<T?> Get<T>(string requestAddress, Dictionary<string, object>? parameters = null)
         {
-            var response = await RequestInner(requestAddress, method, requestBody, parameters);
+            var response = await RequestInner(requestAddress, Method.GET, null, parameters);
 
-            return response.IsSuccessful;
+            var result = JsonConvert.DeserializeObject<T>(response.Content);
+
+            return result;
         }
 
         private async Task<IRestResponse> RequestInner(string requestAddress, Method method, object? requestBody = null,
@@ -60,6 +97,6 @@ namespace PensionGame.Web.Client
             var response = await client.ExecuteAsync(restRequest);
 
             return response;
-        }
+        }        
     }
 }

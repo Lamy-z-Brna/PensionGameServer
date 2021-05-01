@@ -1,0 +1,11 @@
+﻿@if (ResultModel != null)
+{
+
+    @foreach (var validationError in ResultModel.Errors)
+    {
+        <p class="alert-danger">
+            @validationError.Message
+        </p>
+    }
+
+}

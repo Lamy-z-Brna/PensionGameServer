@@ -20,26 +20,27 @@ namespace PensionGame.Web.Services
 
         public async Task<AvailableToInvest?> GetAvailableToInvest(SessionId sessionId, InvestmentSelection gameUpdate)
         {
-            return await _client.Request<AvailableToInvest>("Game/AvailableToInvest", Method.PUT, gameUpdate,
+            return await _client.Put<AvailableToInvest>("Game/AvailableToInvest", gameUpdate,
                 new() { { "sessionId", sessionId.Id.ToString() } });
         }
 
         public async Task<ValidationResultModel?> InvestmentSelectionValidate(SessionId sessionId, InvestmentSelection gameUpdate)
         {
-            return await _client.Request<ValidationResultModel>("Game", Method.PUT, gameUpdate,
+            return await _client.Put("Game", gameUpdate,
                 new() { { "sessionId", sessionId.Id.ToString() } });
         }
 
-        public async Task<bool> InvestmentSelectionSubmit(SessionId sessionId, InvestmentSelection gameUpdate)
+        public async Task<ValidationResultModel?> InvestmentSelectionSubmit(SessionId sessionId, InvestmentSelection gameUpdate)
         {
-            return await _client.Request("Game", Method.POST, gameUpdate,
+            var result = await _client.Post("Game",gameUpdate,
                 new() { { "sessionId", sessionId.Id } });
+
+            return result;
         }
 
         public async Task<GameState?> GameStateGet(SessionId sessionId)
         {
-            return await _client.Request<GameState>("Game", Method.GET,
-                parameters: new() { { "sessionId", sessionId.Id } });
+            return await _client.Get<GameState>("Game", parameters: new() { { "sessionId", sessionId.Id } });
         }
     }
 }

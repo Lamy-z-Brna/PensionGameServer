@@ -1,3 +1,5 @@
+using PensionGame.Api.Domain.Validation;
+using PensionGame.Common.Functional;
 using RestSharp;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,10 +8,18 @@ namespace PensionGame.Web.Client
 {
     public interface IServiceClient
     {
-        Task<T?> Request<T>(string requestAddress, Method method, object? requestBody = null,
-            Dictionary<string, object>? parameters = null);       
-
-        Task<bool> Request(string requestAddress, Method method, object? requestBody = null,
+        Task<ValidationResultModel?> Post(string requestAddress, object? requestBody = null,
             Dictionary<string, object>? parameters = null);
+
+        Task<Union<T, ValidationResultModel>> Post<T>(string requestAddress, object? requestBody = null,
+            Dictionary<string, object>? parameters = null);        
+
+        Task<ValidationResultModel> Put(string requestAddress, object? requestBody = null,
+            Dictionary<string, object>? parameters = null);
+
+        Task<T?> Put<T>(string requestAddress, object? requestBody = null,
+            Dictionary<string, object>? parameters = null);
+
+        Task<T?> Get<T>(string requestAddress, Dictionary<string, object>? parameters = null);
     }
 }

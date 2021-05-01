@@ -40,6 +40,13 @@ namespace PensionGame.Host.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        [ActionName("New")]
+        public async Task<IActionResult> PutNew(string? name, [FromBody] StartupParameters startupParameters)
+        {
+            return await Task.FromResult(Ok());
+        }
+
         [HttpGet]
         [ActionName("Get")]
         public async Task<Session?> Get(Guid sessionId)

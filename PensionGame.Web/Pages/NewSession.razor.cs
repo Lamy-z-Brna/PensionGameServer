@@ -3,6 +3,7 @@ using PensionGame.Web.Data;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
+using PensionGame.Api.Domain.Validation;
 
 namespace PensionGame.Web.Pages
 {
@@ -12,15 +13,25 @@ namespace PensionGame.Web.Pages
 
         private EditContext EditContext { get; set; } = new(new object());
 
+        private ValidationResultModel? ValidationResult { get; set; }
+
+        private bool IsValid => ValidationResult == null;
+
         protected override async void OnInitialized()
         {
             EditContext = await Task.FromResult(new EditContext(Session));
+
+            EditContext.OnFieldChanged += EditContext_OnFieldChanged;
         }
 
         private async Task HandleValidSubmit()
         {
-            var sessionId = await SessionService.CreateSession(Session.StartupParametersModel, Session.Name);
-            navigationManager.NavigateTo($"/game/{sessionId?.Id}");
+            var creationResult = await SessionService.CreateSession(Session.StartupParametersModel, Session.Name);
+
+            creationResult.Do(
+                    sessionId => navigationManager.NavigateTo($"/game/{sessionId.Id}"),
+                    validationResult => ValidationResult = validationResult
+                );
         }
 
         private static string RandName()
@@ -37,6 +48,13 @@ namespace PensionGame.Web.Pages
             var name_4 = names_4[rand.Next(0, names_4.Length)];
 
             return $"{name_1} {name_2} {name_3} {name_4}";
+        }
+
+        protected async void EditContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
+        {
+            ValidationResult = await SessionService.ValidateSession(Session.StartupParametersModel, Session.Name);
+
+            StateHasChanged();
         }
     }
 }

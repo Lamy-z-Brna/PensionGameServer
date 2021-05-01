@@ -1,0 +1,13 @@
+﻿<button class="btn btn-primary" type="submit" disabled="@(IsDisabled || IsSubmitted)" @onclick="InvokeOnSubmit">
+    @if (IsSubmitted)
+    {
+        <div>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </div>
+    }
+    else
+    {
+        <div>Submit</div>
+    }
+</button>

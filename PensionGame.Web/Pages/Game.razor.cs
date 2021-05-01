@@ -28,13 +28,9 @@ namespace PensionGame.Web.Pages
 
         private SessionId? CurrentSessionId { get; set; }
 
-        private bool? Success { get; set; } = null;
-
         private ValidationResultModel? ValidationResult { get; set; }
 
         private bool IsValid => ValidationResult == null;
-
-        private bool IsSubmitting { get; set; }
 
         private EditContext EditContext { get; set; } = new(new InvestmentSelection());
 
@@ -57,7 +53,7 @@ namespace PensionGame.Web.Pages
             await LoadPageBySessionId(CurrentSessionId);
         }
 
-        protected async void editContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
+        protected async void EditContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
         {
             if (CurrentSessionId != null)
             {
@@ -73,17 +69,10 @@ namespace PensionGame.Web.Pages
         {
             if (CurrentSessionId != null)
             {
-                IsSubmitting = true;
-                try
-                {
-                    Success = await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
+                //TODO what if this fails? 
+                await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
 
-                    await LoadPageBySessionId(CurrentSessionId);
-                }
-                finally
-                {
-                    IsSubmitting = false;
-                }
+                await LoadPageBySessionId(CurrentSessionId);
             }
         }
 
@@ -106,7 +95,7 @@ namespace PensionGame.Web.Pages
 
             EditContext = new EditContext(InvestmentSelection);
 
-            EditContext.OnFieldChanged += editContext_OnFieldChanged;
+            EditContext.OnFieldChanged += EditContext_OnFieldChanged;
 
             StateHasChanged();
         }

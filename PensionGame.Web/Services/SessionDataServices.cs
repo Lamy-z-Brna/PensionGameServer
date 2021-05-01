@@ -4,10 +4,12 @@ using PensionGame.Web.Client;
 using RestSharp;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using PensionGame.Api.Domain.Validation;
+using PensionGame.Common.Functional;
 
 namespace PensionGame.Web.Services
 {
-    public class SessionDataServices
+    public sealed class SessionDataServices
     {
         private readonly IServiceClient _client;
 
@@ -16,20 +18,21 @@ namespace PensionGame.Web.Services
             _client = client;
         }
 
-        public async Task<SessionId?> CreateDefaultSession()
+        public async Task<Union<SessionId, ValidationResultModel>> CreateSession(StartupParameters session, string name)
         {
-            return await _client.Request<SessionId>("Session/Default", Method.POST);
+            return await _client.Post<SessionId>("Session/New", session,
+                new Dictionary<string, object> { { "name", name } });
         }
 
-        public async Task<SessionId?> CreateSession(StartupParameters session, string name)
+        public async Task<ValidationResultModel> ValidateSession(StartupParameters session, string name)
         {
-            return await _client.Request<SessionId>("Session/New", Method.POST, session,
+            return await _client.Put("Session/New", session,
                 new Dictionary<string, object> { { "name", name } });
         }
 
         public async Task<PaginatedCollection<SessionInfo>?> GetAllSessions(int page = 1, int pageSize = 50)
         {
-            return await _client.Request<PaginatedCollection<SessionInfo>>("Session/GetAll", Method.GET,
+            return await _client.Get<PaginatedCollection<SessionInfo>>("Session/GetAll", 
                 parameters: new Dictionary<string, object> { { "page", page }, { "pageSize", pageSize } });
         }
     }

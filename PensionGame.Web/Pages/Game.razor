@@ -1,41 +1,17 @@
 ﻿@page "/game/{sessionId}"
 @using PensionGame.Web.Services
+@using PensionGame.Web.Components
 
 @inject GameDataServices GameService
 
 
 <h1>Pension game</h1>
 
-@if (Success.HasValue)
-{
-    if (Success.Value)
-    {
-        <p class="alert-success">
-            Step executed Successfuly!
-        </p>
-    }
-    else
-    {
-        <p class="alert-danger">
-            Step failed!
-        </p>
-    }
-}
-@if (ValidationResult != null)
-{
+<ValidationResult ResultModel="@ValidationResult" />
 
-    @foreach (var validationError in ValidationResult.Errors)
-    {
-        <p class="alert-danger">
-            @validationError.Message
-        </p>
-    }
-
-}
-<EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@EditContext">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
 
     @if (GameData != null)
     {
@@ -201,17 +177,6 @@
             </div>
         </div>
     }
-    <button class="btn btn-primary" type="submit" disabled="@(!IsValid || IsSubmitting)">
-        @if (IsSubmitting)
-        {
-        <div>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
-        </div>
-        }
-        else
-        {
-            <div>Submit</div>
-        }
-    </button>
+
+    <SubmitButton IsDisabled="@(!IsValid)" OnSubmit="@HandleValidSubmit" />
 </EditForm>

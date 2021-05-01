@@ -14,11 +14,11 @@ namespace PensionGame.Api.Domain.Validation.Validators
             RuleFor(x => x.Expenses)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(100000000);
-            RuleFor(x => x.Year)
+            RuleFor(x => x.Age)
                  .GreaterThanOrEqualTo(18)
                  .LessThanOrEqualTo(100)
-                 .LessThan(x => x.RetirementYear);
-            RuleFor(x => x.RetirementYear)
+                 .LessThan(x => x.RetirementAge);
+            RuleFor(x => x.RetirementAge)
                 .GreaterThanOrEqualTo(18)
                 .LessThanOrEqualTo(100);
         }

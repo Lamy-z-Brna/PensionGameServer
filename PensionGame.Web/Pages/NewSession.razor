@@ -1,7 +1,6 @@
 ﻿@page "/newSession"
 @using PensionGame.Web.Services
-@using PensionGame.Web.Data
-@using PensionGame.Api.Domain.Resources.Session
+@using PensionGame.Web.Components
 
 @inject SessionDataServices SessionService
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
@@ -9,7 +8,9 @@
 
 <h1>New game Session!</h1>
 
-<EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit">
+<ValidationResult ResultModel="@ValidationResult" />
+
+<EditForm EditContext="@EditContext">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -42,7 +43,7 @@
             Age:
         </label>
         <div>
-            <InputNumber @bind-Value="Session.Year" />
+            <InputNumber @bind-Value="Session.Age" />
         </div>
     </p>
     <p>
@@ -50,10 +51,10 @@
             Retirement age:
         </label>
         <div>
-            <InputNumber @bind-Value="Session.RetirementYear" />
+            <InputNumber @bind-Value="Session.RetirementAge" />
         </div>
     </p>
 
-    <button type="submit">Submit</button>
+    <SubmitButton IsDisabled="@(!IsValid)" OnSubmit="@HandleValidSubmit" />
 </EditForm>
 

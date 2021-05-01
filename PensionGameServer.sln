@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Web", "PensionG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Api.Domain", "PensionGame.Api.Domain\PensionGame.Api.Domain.csproj", "{64EB2065-B1C8-4B7B-835B-C3FCD1122807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PensionGame.Common", "PensionGame.Common\PensionGame.Common.csproj", "{6BE6CD81-7708-426A-9FEF-3478993E2CED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PensionGame.Common", "PensionGame.Common\PensionGame.Common.csproj", "{6BE6CD81-7708-426A-9FEF-3478993E2CED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
