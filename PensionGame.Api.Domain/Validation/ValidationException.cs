@@ -9,7 +9,7 @@ namespace PensionGame.Api.Domain.Validation
 
         public ValidationException(string message) : base(message)
         {
-            ValidationModel = new ValidationResultModel(message);
+            ValidationModel = new ValidationResultModel(new[] { new ValidationErrorModel(message) });
         }
     }
 }

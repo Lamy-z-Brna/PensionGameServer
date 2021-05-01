@@ -21,11 +21,16 @@
         </p>
     }
 }
-@if (!ValidationOkay)
+@if (ValidationResult != null)
 {
-    <p class="alert-danger">
-        Incorrect values!
-    </p>
+
+    @foreach (var validationError in ValidationResult.Errors)
+    {
+        <p class="alert-danger">
+            @validationError.Message
+        </p>
+    }
+
 }
 <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -196,5 +201,17 @@
             </div>
         </div>
     }
-    <button type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit" disabled="@(!IsValid || IsSubmitting)">
+        @if (IsSubmitting)
+        {
+        <div>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </div>
+        }
+        else
+        {
+            <div>Submit</div>
+        }
+    </button>
 </EditForm>

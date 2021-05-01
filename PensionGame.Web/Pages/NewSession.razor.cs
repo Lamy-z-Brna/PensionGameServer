@@ -20,7 +20,7 @@ namespace PensionGame.Web.Pages
         private async Task HandleValidSubmit()
         {
             var sessionId = await SessionService.CreateSession(Session.StartupParametersModel, Session.Name);
-            navigationManager.NavigateTo($"/game/{sessionId.Id}");
+            navigationManager.NavigateTo($"/game/{sessionId?.Id}");
         }
 
         private static string RandName()

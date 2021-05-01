@@ -16,18 +16,18 @@ namespace PensionGame.Web.Services
             _client = client;
         }
 
-        public async Task<SessionId> CreateDefaultSession()
+        public async Task<SessionId?> CreateDefaultSession()
         {
             return await _client.Request<SessionId>("Session/Default", Method.POST);
         }
 
-        public async Task<SessionId> CreateSession(StartupParameters session, string name)
+        public async Task<SessionId?> CreateSession(StartupParameters session, string name)
         {
             return await _client.Request<SessionId>("Session/New", Method.POST, session,
                 new Dictionary<string, object> { { "name", name } });
         }
 
-        public async Task<PaginatedCollection<SessionInfo>> GetAllSessions(int page = 1, int pageSize = 50)
+        public async Task<PaginatedCollection<SessionInfo>?> GetAllSessions(int page = 1, int pageSize = 50)
         {
             return await _client.Request<PaginatedCollection<SessionInfo>>("Session/GetAll", Method.GET,
                 parameters: new Dictionary<string, object> { { "page", page }, { "pageSize", pageSize } });

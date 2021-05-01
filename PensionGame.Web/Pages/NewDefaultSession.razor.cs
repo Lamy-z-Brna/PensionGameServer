@@ -6,7 +6,7 @@ namespace PensionGame.Web.Pages
         protected override async void OnInitialized()
         {
             var sessionId = await SessionService.CreateDefaultSession();
-            navigationManager.NavigateTo($"/game/{sessionId.Id}");
+            navigationManager.NavigateTo($"/game/{sessionId?.Id}");
         }
     }
 }

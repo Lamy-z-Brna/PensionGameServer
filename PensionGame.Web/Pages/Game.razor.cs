@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PensionGame.Api.Domain.Resources.Holdings;
+using PensionGame.Api.Domain.Validation;
 
 namespace PensionGame.Web.Pages
 {
@@ -25,11 +26,15 @@ namespace PensionGame.Web.Pages
 
         private GameState? GameData { get; set; }
 
-        private SessionId? CurrentSessionId { get; set; }        
+        private SessionId? CurrentSessionId { get; set; }
 
         private bool? Success { get; set; } = null;
 
-        private bool ValidationOkay { get; set; } = true;
+        private ValidationResultModel? ValidationResult { get; set; }
+
+        private bool IsValid => ValidationResult == null;
+
+        private bool IsSubmitting { get; set; }
 
         private EditContext EditContext { get; set; } = new(new InvestmentSelection());
 
@@ -58,7 +63,7 @@ namespace PensionGame.Web.Pages
             {
                 await UpdateRemainingCashFlow(CurrentSessionId, InvestmentSelection);
 
-                ValidationOkay = await GameService.InvestmentSelectionValidate(CurrentSessionId, InvestmentSelection);
+                ValidationResult = await GameService.InvestmentSelectionValidate(CurrentSessionId, InvestmentSelection);
 
                 StateHasChanged();
             }
@@ -68,15 +73,26 @@ namespace PensionGame.Web.Pages
         {
             if (CurrentSessionId != null)
             {
-                Success = await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
+                IsSubmitting = true;
+                try
+                {
+                    Success = await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
 
-                await LoadPageBySessionId(CurrentSessionId);
+                    await LoadPageBySessionId(CurrentSessionId);
+                }
+                finally
+                {
+                    IsSubmitting = false;
+                }
             }
         }
 
         private async Task LoadPageBySessionId(SessionId sessionId)
         {
             GameData = await GameService.GameStateGet(sessionId);
+
+            if (GameData == null)
+                return; //TODO vypisat nejaku inu hlasku
 
             InvestmentSelection = new InvestmentSelectionModel(new InvestmentSelection()
             {
@@ -99,7 +115,7 @@ namespace PensionGame.Web.Pages
         {
             var availableToInvest = await GameService.GetAvailableToInvest(sessionId, investmentSelection);
 
-            AvailableToInvest = availableToInvest.Amount;
+            AvailableToInvest = availableToInvest?.Amount ?? 0;
         }
     }
 }

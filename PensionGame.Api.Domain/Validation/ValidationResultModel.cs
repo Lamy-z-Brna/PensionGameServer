@@ -1,30 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace PensionGame.Api.Domain.Validation
 {
-    public sealed class ValidationResultModel
+    public sealed record ValidationResultModel(IReadOnlyCollection<ValidationErrorModel> Errors)
     {
-        public static string Message => "Validation Failed";
-
-        public IReadOnlyCollection<ValidationErrorModel> Errors { get; }
-
-        public ValidationResultModel(ModelStateDictionary modelState)
-        {
-            Errors = modelState.Keys
-                    .SelectMany(key => modelState[key].Errors.Select(x => new ValidationErrorModel(key, x.ErrorMessage)))
-                    .ToList();
-        }
-
-        public ValidationResultModel(string errorMessage)
-        {
-            Errors = new[] { new ValidationErrorModel(errorMessage) };
-        }
-
-        public ValidationResultModel(IReadOnlyCollection<string> errorMessages)
-        {
-            Errors = errorMessages.Select(errorMessage => new ValidationErrorModel(errorMessage)).ToList();
-        }
     }
 }
