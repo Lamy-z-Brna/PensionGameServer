@@ -55,6 +55,11 @@ namespace PensionGame.Web.Pages
 
         protected async void EditContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
         {
+            await ValidateInvestmentSelection();
+        }
+
+        private async Task ValidateInvestmentSelection()
+        {
             if (CurrentSessionId != null)
             {
                 await UpdateRemainingCashFlow(CurrentSessionId, InvestmentSelection);
@@ -91,13 +96,11 @@ namespace PensionGame.Web.Pages
                 LoanValue = GameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
             });
 
-            await UpdateRemainingCashFlow(sessionId, InvestmentSelection);
+            await ValidateInvestmentSelection();
 
             EditContext = new EditContext(InvestmentSelection);
 
             EditContext.OnFieldChanged += EditContext_OnFieldChanged;
-
-            StateHasChanged();
         }
 
         private async Task UpdateRemainingCashFlow(SessionId sessionId, InvestmentSelection investmentSelection)

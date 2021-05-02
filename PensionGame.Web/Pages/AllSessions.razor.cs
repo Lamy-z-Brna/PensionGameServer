@@ -1,10 +1,11 @@
 using PensionGame.Api.Domain.Common;
 using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Web.Infrastructure;
 using System.Threading.Tasks;
 
 namespace PensionGame.Web.Pages
 {
-    public partial class AllSessions
+    public partial class AllSessions : ReloadableComponent
     {
         private const int DefaultPage = 1;
         private const int DefaultPageSize = 10;
@@ -15,38 +16,25 @@ namespace PensionGame.Web.Pages
 
         public int PageSize { get; set; }
 
-        private bool IsLoading { get; set; } = true;
-
         protected override async void OnInitialized()
         {
             Page = DefaultPage;
             PageSize = DefaultPageSize;
-            IsLoading = true;
 
-            await UpdateSessions();
-
-            IsLoading = false;
-            StateHasChanged();
+            await Reload(UpdateSessions);
         }
 
         private async Task UpdatePage(int page)
         {
             Page = page;
-            IsLoading = true;
-
-            await UpdateSessions();
-            IsLoading = false;
+            await Reload(UpdateSessions);
         }
 
         private async Task UpdatePageSize(int pageSize)
         {
             Page = DefaultPage;
             PageSize = pageSize;
-            IsLoading = true;
-
-            await UpdateSessions();
-
-            IsLoading = false;
+            await Reload(UpdateSessions);
         }
 
         private async Task UpdateSessions()

@@ -50,9 +50,9 @@ namespace PensionGame.Web.Helpers
             foreach (var displayedNumber in displayedPageNumbers)
             {
                 if (displayedNumber - previousPageNumber == 2)
-                    yield return Of.Some(previousPageNumber + 1);
+                    yield return previousPageNumber + 1;
 
-                if (displayedNumber - previousPageNumber >= 2)
+                if (displayedNumber - previousPageNumber > 2)
                     yield return Of.None;
 
                 yield return displayedNumber;
