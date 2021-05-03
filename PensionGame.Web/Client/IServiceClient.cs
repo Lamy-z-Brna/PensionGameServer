@@ -1,6 +1,5 @@
 using PensionGame.Api.Domain.Validation;
 using PensionGame.Common.Functional;
-using RestSharp;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

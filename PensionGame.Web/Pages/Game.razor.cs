@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Validation;
+using Blazorise;
+using System.Collections.Generic;
 
 namespace PensionGame.Web.Pages
 {
@@ -40,6 +42,20 @@ namespace PensionGame.Web.Pages
 
         private ClientHoldings? ClientHoldings => GameData?.ClientData.ClientHoldings;
 
+        private Modal? ModalWindow;
+
+        private List<Action> ActionsAfterRender { get; set; } = new List<Action> { };
+
+        private void ShowModal()
+        {
+            ModalWindow?.Show();
+        }
+
+        private void HideModal()
+        {
+            ModalWindow?.Hide();
+        }
+
         protected override async void OnInitialized()
         {
             if (string.IsNullOrEmpty(SessionId))
@@ -51,6 +67,14 @@ namespace PensionGame.Web.Pages
             CurrentSessionId = new SessionId(sessionGuid);
 
             await LoadPageBySessionId(CurrentSessionId);
+        }
+
+        protected override Task OnAfterRenderAsync(bool firstRender)
+        {
+            ActionsAfterRender.ForEach(action => action());
+            ActionsAfterRender.Clear();
+
+            return Task.CompletedTask;
         }
 
         protected async void EditContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
@@ -101,6 +125,8 @@ namespace PensionGame.Web.Pages
             EditContext = new EditContext(InvestmentSelection);
 
             EditContext.OnFieldChanged += EditContext_OnFieldChanged;
+
+            ActionsAfterRender.Add(ShowModal);
         }
 
         private async Task UpdateRemainingCashFlow(SessionId sessionId, InvestmentSelection investmentSelection)

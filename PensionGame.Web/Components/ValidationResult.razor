@@ -1,11 +1,13 @@
 ﻿@if (ResultModel != null)
 {
-
-    @foreach (var validationError in ResultModel.Errors)
-    {
-        <p class="alert-danger">
-            @validationError.Message
-        </p>
-    }
-
+    <div>
+        @foreach (var validationError in ResultModel.Errors)
+        {
+            <div class="alert alert-danger" role="alert">
+                <div class="alert-message">
+                    @validationError.Message
+                </div>
+            </div>
+        }
+    </div>
 }
