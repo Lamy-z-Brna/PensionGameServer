@@ -1,13 +1,9 @@
 ﻿namespace PensionGame.Api.Domain.Resources.ClientData
 {
-    public record InvestmentSelection
+    public record InvestmentSelection(int StockValue, int BondValue, int SavingsAccountValue, int LoanValue)
     {
-        public int StockValue { get; init; }
-
-        public int BondValue { get; init; }
-
-        public int SavingsAccountValue { get; init; }
-
-        public int LoanValue { get; init; }
+        public InvestmentSelection() : this(0, 0, 0, 0)
+        {
+        }
     }
 }

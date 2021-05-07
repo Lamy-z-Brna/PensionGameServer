@@ -1,7 +1,6 @@
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Domain.Common;
 using PensionGame.Web.Client;
-using RestSharp;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using PensionGame.Api.Domain.Validation;

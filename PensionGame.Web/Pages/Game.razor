@@ -1,6 +1,7 @@
 ﻿@page "/game/{sessionId}"
 @using PensionGame.Web.Services
 @using PensionGame.Web.Components
+@using Blazorise
 
 @inject GameDataServices GameService
 
@@ -8,18 +9,46 @@
 
 <ValidationResult ResultModel="@ValidationResult" />
 
+
+
+
+
 <EditForm EditContext="@EditContext">
     <DataAnnotationsValidator />
-    <ValidationSummary />
+    <Blazorise.ValidationSummary />
 
     @if (GameData != null)
     {
-        <div class="alert-info">
-            @foreach (var @event in GameData.Events)
-            {
-                <p>@(@event.DisplayMessage)</p>
-            }
-        </div>
+        @if (!GameData.IsInitial)
+        {            
+            <Modal @ref="ModalWindow">
+                <ModalContent Centered="true">
+                    <ModalHeader>
+                        <ModalTitle>Year: @GameData.Year</ModalTitle>
+                        <CloseButton />
+                    </ModalHeader>
+                    <ModalBody>
+                        @foreach (var @event in GameData.Events)
+                        {
+                            <div class="alert @(@event.EventType == Api.Domain.Resources.Events.EventType.Info
+                                            ? "alert-primary"
+                                            : (@event.EventType == Api.Domain.Resources.Events.EventType.Negative
+                                                ? "alert-danger"
+                                                : "alert-success")) alert-dismissible" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <div class="alert-message">
+                                    <span>@(@event.DisplayMessage)</span>
+                                </div>
+                            </div>
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button Color="Color.Primary" Clicked="@HideModal">OK</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        }
+
         <div class="game-state-info">
             <label>
                 Age:
@@ -64,6 +93,11 @@
                 @DisposableIncome
             </h4>
         </div>
+
+        @if (!GameData.IsInitial)
+        {
+            <button class="btn btn-secondary" @onclick="ShowModal">Display info</button>
+        }
     }
 
     <h3>Portfolio</h3>
@@ -79,7 +113,12 @@
         </thead>
         <tbody>
             <tr>
-                <td class="data-table-name">Stocks <Tooltip Text="@StocksInfo">&#65110</Tooltip></td>
+                <td class="data-table-name">
+                    <span>Stocks </span>
+                    <PensionGame.Web.Components.Tooltip Text="@StocksInfo">
+                        <InfoIcon />
+                    </PensionGame.Web.Components.Tooltip>
+                </td>
                 <td>
                     @ClientHoldings?.Stocks.Value
                     (@ClientHoldings?.Stocks.UnitsHeld units per @ClientHoldings?.Stocks.UnitPrice.Price)
@@ -100,12 +139,17 @@
                 }
             </tr>
             <tr>
-                <td class="data-table-name">Bonds <Tooltip Text="@BondsInfo">&#65110</Tooltip></td>
+                <td class="data-table-name">
+                    <span>Bonds </span>
+                    <PensionGame.Web.Components.Tooltip Text="@BondsInfo">
+                        <InfoIcon />
+                    </PensionGame.Web.Components.Tooltip>
+                </td>
                 <td>
                     @if (ClientHoldings != null && ClientHoldings.Bonds.Any())
                     {
                         <span>
-                            @ClientHoldings.Bonds.Count() bonds, @ClientHoldings.Bonds.Sum(b => b.YearlyPayment) yearly
+                            @ClientHoldings.Bonds.Count bonds, @ClientHoldings.Bonds.Sum(b => b.YearlyPayment) yearly
                         </span>
                         <ul>
                             @foreach (var bond in ClientHoldings.Bonds)
@@ -128,7 +172,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="data-table-name">Savings Account <Tooltip Text="@SavingsAccountInfo">&#65110</Tooltip></td>
+                <td class="data-table-name">
+                    <span>Savings Account</span>
+                    <PensionGame.Web.Components.Tooltip Text="@SavingsAccountInfo">
+                        <InfoIcon />
+                    </PensionGame.Web.Components.Tooltip>
+                </td>
                 <td>@ClientHoldings?.SavingsAccount.Amount</td>
                 <td>
                     <InputNumber @bind-Value="InvestmentSelection.SavingsAccountValue" />
@@ -139,7 +188,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="data-table-name">Loans <Tooltip Text="@LoansInfo">&#65110</Tooltip></td>
+                <td class="data-table-name">
+                    <span>Loans </span>
+                    <PensionGame.Web.Components.Tooltip Text="@LoansInfo">
+                        <InfoIcon />
+                    </PensionGame.Web.Components.Tooltip>
+                </td>
                 <td>
                     @ClientHoldings?.Loans.TotalLoanValue
                     @if (GameData != null)

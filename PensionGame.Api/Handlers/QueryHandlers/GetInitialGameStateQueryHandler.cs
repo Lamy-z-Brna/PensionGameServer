@@ -1,10 +1,5 @@
-﻿using PensionGame.Api.Domain.Resources.ClientData;
-using PensionGame.Api.Domain.Resources.Events;
+﻿using PensionGame.Api.Domain.Resources.Events;
 using PensionGame.Api.Domain.Resources.GameData;
-using PensionGame.Api.Domain.Resources.Holdings;
-using PensionGame.Api.Domain.Resources.Holdings.Values;
-using PensionGame.Api.Domain.Resources.MarketData;
-using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Handlers.Queries;
 using System;
 using System.Threading.Tasks;
@@ -15,52 +10,50 @@ namespace PensionGame.Api.Handlers.QueryHandlers
     {
         public async Task<GameState> Handle(GetInitialGameStateQuery query)
         {
-            var (income, expenses, year, retirementYear) = query.StartupParameters ?? new StartupParameters(175000, 100000, 25, 65);
+            var (income, expenses, year, retirementYear) = query.StartupParameters ?? new (175000, 100000, 25, 65);
 
             var gameState = new GameState
             (
                 Year: year,
                 RetirementYear: retirementYear,
-                ClientData: new ClientData
-                (
-                    ClientHoldings: new ClientHoldings
+                ClientData: new(
+                    ClientHoldings: new
                     (
-                        Bonds: new BondHoldings(),
-                        Loans: new LoanHoldings(),
-                        SavingsAccount: new SavingsAccountHoldings(),
-                        Stocks: new StockHolding(new StockPrice(1), 0)
+                        Bonds: new(),
+                        Loans: new(),
+                        SavingsAccount: new(),
+                        Stocks: new(new(1), 0)
                     ),
-                    ExpenseData: new ExpenseData
-                    {
-                        ChildrenExpenses = 0,
-                        ExtraExpenses = 0,
-                        LifeExpenses = expenses,
-                        Rent = 0
-                    },
-                    IncomeData: new IncomeData
-                    {
-                        BondInterest = 0,
-                        ExtraIncome = 0,
-                        ExpectedSalary = income,
-                        ActualSalary = income,
-                        SavingsAccountInterest = 0
-                    }
+                    ExpenseData: new(
+                        ChildrenExpenses: 0,
+                        ExtraExpenses: 0,
+                        LifeExpenses: expenses,
+                        Rent: 0,
+                        LoanExpenses: 0
+                    ),
+                    IncomeData: new(
+                        BondInterest: 0,
+                        ExtraIncome: 0,
+                        ExpectedSalary: income,
+                        ActualSalary: income,
+                        SavingsAccountInterest: 0
+                    )
                 ),
-                MarketData: new MarketData
+                MarketData: new
                 (
-                    new MacroEconomicData
+                    new
                     (
-                        InflationRate: 0.02,
+                        InflationRate: 0,
                         UnemploymentRate: 0.06,
                         InterestRate: 0.02
                     ),
-                    new ReturnData
+                    new
                     (
-                        StockRate: 0.06,
+                        StockRate: 0,
                         BondRate: 0.03,
-                        BondDefaultRate: 0.02,
+                        BondDefaultRate: 0.005,
                         SavingsAccountRate: 0.01,
-                        LoanRate: 0.09
+                        LoanRate: 0.12
                     )
                 ),
                 IsInitial: true,

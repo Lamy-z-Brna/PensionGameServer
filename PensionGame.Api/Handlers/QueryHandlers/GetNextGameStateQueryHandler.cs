@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using PensionGame.Api.Common.Mappers;
+﻿using PensionGame.Api.Common.Mappers.ClientData;
+using PensionGame.Api.Common.Mappers.GameState;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Handlers.Queries;
 using PensionGame.Core.Calculators.GameState;
@@ -10,15 +10,15 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 {
     public sealed class GetNextGameStateQueryHandler : IGetNextGameStateQueryHandler
     {
-        private readonly IMapper _mapper;
+        private readonly IInvestmentSelectionMapper _investmentSelectionMapper;
         private readonly IGameStateMapper _gameStateMapper;
         private readonly INextGameStateCalculator _nextGameStateCalculator;
 
-        public GetNextGameStateQueryHandler(IMapper mapper, 
+        public GetNextGameStateQueryHandler(IInvestmentSelectionMapper investmentSelectionMapper, 
             IGameStateMapper gameStateMapper,
             INextGameStateCalculator nextGameStateCalculator)
         {
-            _mapper = mapper;
+            _investmentSelectionMapper = investmentSelectionMapper;
             _gameStateMapper = gameStateMapper;
             _nextGameStateCalculator = nextGameStateCalculator;
         }
@@ -31,7 +31,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
             var nextGameStateRequiredData = new NextGameStateRequiredData
                 (
                     PreviousGameState: _gameStateMapper.Map(currentGameState),
-                    InvestmentSelection: _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(investmentSelection)
+                    InvestmentSelection: _investmentSelectionMapper.Map(investmentSelection)
                 );
 
             var gameState = _nextGameStateCalculator.Calculate(nextGameStateRequiredData);

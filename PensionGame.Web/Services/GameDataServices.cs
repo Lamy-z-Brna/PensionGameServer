@@ -4,7 +4,6 @@ using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Domain.Validation;
 using PensionGame.Web.Client;
-using RestSharp;
 using System.Threading.Tasks;
 
 namespace PensionGame.Web.Services

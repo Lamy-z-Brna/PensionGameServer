@@ -1,10 +1,9 @@
-﻿using AutoMapper;
+﻿using PensionGame.Api.Common.Mappers.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Api.Handlers.Queries;
 using PensionGame.Core.Calculators;
-using PensionGame.Core.Calculators.RequiredData;
 using System.Threading.Tasks;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
@@ -12,16 +11,18 @@ namespace PensionGame.Api.Handlers.QueryHandlers
     public class GetAvailableToInvestQueryHandler : IGetAvailableToInvestQueryHandler
     {
         private readonly IAvailableToInvestCalculator _availableToInvestCalculator;
-        private readonly IMapper _mapper;
         private readonly IDispatcher _dispatcher;
+        private readonly IClientDataMapper _clientDataMapper;
+        private readonly IInvestmentSelectionMapper _investmentSelectionMapper;
 
         public GetAvailableToInvestQueryHandler(IAvailableToInvestCalculator availableToInvestCalculator,
-            IMapper mapper, 
-            IDispatcher dispatcher)
+            IDispatcher dispatcher, IClientDataMapper clientDataMapper,
+            IInvestmentSelectionMapper investmentSelectionMapper)
         {
             _availableToInvestCalculator = availableToInvestCalculator;
-            _mapper = mapper;
             _dispatcher = dispatcher;
+            _clientDataMapper = clientDataMapper;
+            _investmentSelectionMapper = investmentSelectionMapper;
         }
 
         public async Task<AvailableToInvest> Handle(GetAvailableToInvestQuery query)
@@ -30,10 +31,9 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 
             var availableToInvest = _availableToInvestCalculator.Calculate
                 (
-                    new AvailableToInvestRequiredData
-                    (
-                        CurrentClientData: _mapper.Map<Core.Domain.ClientData.ClientData>(clientData),
-                        InvestmentSelection: _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(investmentSelection)
+                    new(
+                        CurrentClientData: _clientDataMapper.Map(clientData),
+                        InvestmentSelection: _investmentSelectionMapper.Map(investmentSelection)
                     )
                 );
 
@@ -46,8 +46,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 
             var currentGameState = await _dispatcher.Query<GetGameStateQuery, GameState?>
                 (
-                    new GetGameStateQuery
-                    (
+                    new(
                         SessionId: sessionId
                     )
                 );
@@ -57,8 +56,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 
             var availableToInvest = await _dispatcher.Query<GetAvailableToInvestQuery, AvailableToInvest>
                 (
-                    new GetAvailableToInvestQuery
-                    (
+                    new(
                         ClientData: currentGameState.ClientData,
                         InvestmentSelection: investmentSelection
                     )

@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using PensionGame.Api.Common.Mappers;
-using PensionGame.Api.Common.Profiles;
 using PensionGame.Api.Data_Access.Connection;
 using PensionGame.Api.Data_Access.ConnectionSettings;
 using PensionGame.Api.Data_Access.Readers;
@@ -23,7 +22,6 @@ using PensionGame.Core.Common;
 using PensionGame.Host.Exception_Handling;
 using PensionGame.Host.Validation;
 using System;
-using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace PensionGame.Host
@@ -67,7 +65,7 @@ namespace PensionGame.Host
                 })
                 .AddFluentValidation(fv
                     => fv.RegisterValidatorsFromAssemblyContaining<StartupParametersValidator>());
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(CoreToResourcesProfile)));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PensionGame.Host", Version = "v1" });

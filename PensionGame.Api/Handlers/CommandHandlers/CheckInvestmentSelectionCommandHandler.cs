@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PensionGame.Api.Domain.Resources.ClientData;
+﻿using PensionGame.Api.Common.Mappers.ClientData;
 using PensionGame.Api.Domain.Validation;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Core.Calculators.RequiredData;
@@ -11,13 +10,16 @@ namespace PensionGame.Api.Handlers.CommandHandlers
     public sealed class CheckInvestmentSelectionCommandHandler : ICheckInvestmentSelectionCommandHandler
     {
         private readonly IInvestmentSelectionValidationCalculator _investmentSelectionValidationCalculator;
-        private readonly IMapper _mapper;
+        private readonly IClientDataMapper _clientDataMapper;
+        private readonly IInvestmentSelectionMapper _investmentSelectionMapper;
 
         public CheckInvestmentSelectionCommandHandler(IInvestmentSelectionValidationCalculator investmentSelectionValidationCalculator,
-            IMapper mapper)
+            IClientDataMapper clientDataMapper, 
+            IInvestmentSelectionMapper investmentSelectionMapper)
         {
             _investmentSelectionValidationCalculator = investmentSelectionValidationCalculator;
-            _mapper = mapper;
+            _clientDataMapper = clientDataMapper;
+            _investmentSelectionMapper = investmentSelectionMapper;
         }
 
         public async Task Handle(CheckInvestmentSelectionCommand command)
@@ -25,8 +27,8 @@ namespace PensionGame.Api.Handlers.CommandHandlers
             var currentGameState = command.GameState;
             var currentClientHoldings = currentGameState.ClientData.ClientHoldings;
 
-            var clientData = _mapper.Map<ClientData, Core.Domain.ClientData.ClientData>(currentGameState.ClientData);
-            var investmentSelection = _mapper.Map<Core.Domain.ClientData.InvestmentSelection>(command.InvestmentSelection);
+            var clientData = _clientDataMapper.Map(currentGameState.ClientData);
+            var investmentSelection = _investmentSelectionMapper.Map(command.InvestmentSelection);
 
             var result = await Task.Run(() => _investmentSelectionValidationCalculator.Calculate
                 (
