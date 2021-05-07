@@ -5,7 +5,7 @@ using PensionGame.Core.Events.PreClientDataEvents;
 using PensionGame.Core.Events.PreMacroEconomicEvents;
 using System;
 
-namespace PensionGame.Api.Common.Mappers
+namespace PensionGame.Api.Common.Mappers.Events
 {
     public sealed class EventMapper : IEventMapper
     {

@@ -24,7 +24,7 @@ namespace PensionGame.Web.Pages
         [Parameter]
         public string? SessionId { get; set; }
 
-        private InvestmentSelectionModel InvestmentSelection { get; set; } = new(new InvestmentSelection());
+        private InvestmentSelectionModel InvestmentSelection { get; set; } = new(new());
 
         private GameState? GameData { get; set; }
 
@@ -112,13 +112,12 @@ namespace PensionGame.Web.Pages
             if (GameData == null)
                 return; //TODO vypisat nejaku inu hlasku
 
-            InvestmentSelection = new InvestmentSelectionModel(new InvestmentSelection()
-            {
-                StockValue = GameData.ClientData.ClientHoldings.Stocks.Value,
-                BondValue = 0,
-                SavingsAccountValue = GameData.ClientData.ClientHoldings.SavingsAccount.Amount,
-                LoanValue = GameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
-            });
+            InvestmentSelection = new(new(
+                StockValue: GameData.ClientData.ClientHoldings.Stocks.Value,
+                BondValue: 0,
+                SavingsAccountValue: GameData.ClientData.ClientHoldings.SavingsAccount.Amount,
+                LoanValue: GameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+            ));
 
             await ValidateInvestmentSelection();
 

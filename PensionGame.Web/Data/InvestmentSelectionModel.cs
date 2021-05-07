@@ -2,27 +2,8 @@ using PensionGame.Api.Domain.Resources.ClientData;
 
 namespace PensionGame.Web.Data
 {
-    public class InvestmentSelectionModel
+    public sealed class InvestmentSelectionModel
     {
-        public InvestmentSelectionModel(InvestmentSelection investmentSelection)
-        {
-            StockValue = investmentSelection.StockValue;
-            BondValue = investmentSelection.BondValue;
-            SavingsAccountValue = investmentSelection.SavingsAccountValue;
-            LoanValue = investmentSelection.LoanValue;
-        }
-
-        public static implicit operator InvestmentSelection(InvestmentSelectionModel model)
-        {
-            return new()
-            {
-                StockValue = model.StockValue,
-                BondValue = model.BondValue,
-                SavingsAccountValue = model.SavingsAccountValue,
-                LoanValue = model.LoanValue
-            };
-        }
-
         public int StockValue { get; set; }
 
         public int BondValue { get; set; }
@@ -30,5 +11,20 @@ namespace PensionGame.Web.Data
         public int SavingsAccountValue { get; set; }
 
         public int LoanValue { get; set; }
+
+        public InvestmentSelectionModel(InvestmentSelection investmentSelection)
+        {
+            (StockValue, BondValue, SavingsAccountValue, LoanValue) = investmentSelection;
+        }
+
+        public static implicit operator InvestmentSelection(InvestmentSelectionModel model)
+        {
+            return new(
+                StockValue: model.StockValue,
+                BondValue: model.BondValue,
+                SavingsAccountValue: model.SavingsAccountValue,
+                LoanValue: model.LoanValue
+            );
+        }
     }
 }

@@ -2,9 +2,9 @@
 {
     public sealed class SessionMapper : ISessionMapper
     {
-        public Domain.Resources.Session.Session Map(Data_Access.Data_Objects.Session @in)
+        public Domain.Resources.Session.Session Map(Data_Access.Data_Objects.Session session)
         {
-            return @in.Object!;
+            return session.Object!;
         }
     }
 }
