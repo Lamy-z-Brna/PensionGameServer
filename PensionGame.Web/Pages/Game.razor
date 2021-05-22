@@ -4,6 +4,7 @@
 @using Blazorise
 
 @inject GameDataServices GameService
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 
 <h1>Pension game</h1>
 
@@ -43,7 +44,7 @@
                                          XLabel="Age"
                                          YLabel="Stock Price"
                                          DataLabels="@GameHistory.Keys.Select(key => key.ToString()).ToList()"
-                                         Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()"/>
+                                         Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()" />
                         <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory" />
                     </ModalBody>
                     <ModalFooter>

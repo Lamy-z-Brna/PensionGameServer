@@ -15,7 +15,7 @@ namespace PensionGame.Web.Components
     public partial class ClientHoldingsChart
     {
         [Parameter]
-        public Dictionary<int, ClientHoldings> ClientHoldingsHistory { get; set; } = new();
+        public Dictionary<int, ClientHoldings>? ClientHoldingsHistory { get; set; }
 
         private BarConfig Config { get; } = new()
         {
@@ -28,8 +28,7 @@ namespace PensionGame.Web.Components
                 },
                 Title = new OptionsTitle
                 {
-                    Display = true,
-                    Text = "Your holdings performance"
+                    Display = false
                 },
                 Scales = new BarScales
                 {
@@ -60,7 +59,10 @@ namespace PensionGame.Web.Components
         };
 
         protected override void OnInitialized()
-        {           
+        {
+            if (ClientHoldingsHistory == null)
+                return;
+
             foreach (var dataLabel in ClientHoldingsHistory.Keys)
             {
                 Config.Data.Labels.Add(dataLabel.ToString());

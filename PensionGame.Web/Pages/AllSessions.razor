@@ -22,11 +22,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var (session, currentYear) in Sessions.Items)
+            @foreach (var (session, currentYear, isFinished) in Sessions.Items)
             {
                 <tr>
                     <td class="data-table-name">
-                        <a href="/game/@session.SessionId.Id">
+                        <a href="/@(isFinished ? "finishedgame" : "game")/@session.SessionId.Id">
                             @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
                         </a>
                     </td>

@@ -34,7 +34,11 @@ namespace PensionGame.Api.Data_Access.Readers.Session
             var result = sessions
                 .Items
                 .Where(session => gameStateBySessionId.ContainsKey(session.SessionId.Id))
-                .Select(session => new SessionInfo(session, gameStateBySessionId[session.SessionId.Id]!.Game!.Year))
+                .Select(session => 
+                    {
+                        var gameState = gameStateBySessionId[session.SessionId.Id]!.Game!;
+                        return new SessionInfo(session, gameState.Year, gameState.IsFinished);
+                    })
                 .ToList();
 
             return new PaginatedCollection<SessionInfo>(result, sessions.CurrentPage, pageSize, sessions.TotalItems, sessions.TotalPages);

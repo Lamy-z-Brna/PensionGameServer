@@ -29,7 +29,7 @@ namespace PensionGame.Web.Pages
             var creationResult = await SessionService.CreateSession(Session.StartupParametersModel, Session.Name);
 
             creationResult.Do(
-                    sessionId => navigationManager.NavigateTo($"/game/{sessionId.Id}"),
+                    sessionId => NavigationManager.NavigateTo($"/game/{sessionId.Id}"),
                     validationResult => ValidationResult = validationResult
                 );
         }

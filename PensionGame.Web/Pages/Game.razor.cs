@@ -122,6 +122,9 @@ namespace PensionGame.Web.Pages
             if (GameData == null)
                 return; //TODO vypisat nejaku inu hlasku
 
+            if (GameData.IsFinished)
+                NavigationManager.NavigateTo($"/finishedgame/{sessionId.Id}");
+
             InvestmentSelection = new(new(
                 StockValue: GameData.ClientData.ClientHoldings.Stocks.Value,
                 BondValue: 0,
