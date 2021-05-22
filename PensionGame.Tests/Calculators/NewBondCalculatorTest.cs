@@ -8,7 +8,6 @@ using PensionGame.Core.Domain.Holdings;
 using PensionGame.Core.Events;
 using System.Linq;
 using System;
-using PensionGame.Core.Events.Common;
 using PensionGame.Core.Calculators.Holdings;
 
 namespace PensionGame.Tests.Calculators
@@ -157,7 +156,7 @@ namespace PensionGame.Tests.Calculators
 
             var (_, events) = UnderTest.Calculate(requiredData);
 
-            Assert.AreEqual(Array.Empty<Event>(), events);
+            Assert.AreEqual(Array.Empty<Core.Events.Common.Event>(), events);
         }
     }
 }

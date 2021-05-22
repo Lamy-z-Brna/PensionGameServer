@@ -19,22 +19,19 @@ namespace PensionGame.Core.Events.Serialisation
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             JObject jo = JObject.Load(reader);
-            switch ((EventType)jo["EventType"]!.Value<int>())
+            return Deserialise((EventType)jo["EventType"]!.Value<int>(), jo.ToString());
+        }
+
+        public static object? Deserialise(EventType eventType, string toDeserialise)
+        {
+            return eventType switch
             {
-                case EventType.AutomaticSavingsAccountInvestment:
-                    return JsonConvert.DeserializeObject<AutomaticSavingsAccountInvestmentEvent>(jo.ToString(), SpecifiedSubclassConversion);
-                case EventType.BondDefault:
-                    return JsonConvert.DeserializeObject<BondDefaultEvent>(jo.ToString(), SpecifiedSubclassConversion);
-                case EventType.Unemployment:
-                    return JsonConvert.DeserializeObject<UnemploymentEvent>(jo.ToString(), SpecifiedSubclassConversion);
-                case EventType.Crisis:
-                    return JsonConvert.DeserializeObject<CrisisEvent>(jo.ToString(), SpecifiedSubclassConversion);
-                case EventType.NotSpecified:
-                    break;
-                default:
-                    throw new Exception();
-            }
-            throw new NotImplementedException();
+                EventType.AutomaticSavingsAccountInvestment => JsonConvert.DeserializeObject<AutomaticSavingsAccountInvestmentEvent>(toDeserialise, SpecifiedSubclassConversion),
+                EventType.BondDefault => JsonConvert.DeserializeObject<BondDefaultEvent>(toDeserialise, SpecifiedSubclassConversion),
+                EventType.Unemployment => JsonConvert.DeserializeObject<UnemploymentEvent>(toDeserialise, SpecifiedSubclassConversion),
+                EventType.Crisis => JsonConvert.DeserializeObject<CrisisEvent>(toDeserialise, SpecifiedSubclassConversion),
+                _ => throw new ArgumentOutOfRangeException(nameof(eventType))
+            };
         }
 
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
