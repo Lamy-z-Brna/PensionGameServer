@@ -5,6 +5,7 @@ using ChartJs.Blazor.Common.Enums;
 using ChartJs.Blazor.LineChart;
 using ChartJs.Blazor.Util;
 using Microsoft.AspNetCore.Components;
+using PensionGame.Web.Helpers;
 using System.Collections.Generic;
 
 namespace PensionGame.Web.Components
@@ -92,8 +93,8 @@ namespace PensionGame.Web.Components
             var dataset = new LineDataset<decimal>(Data)
             {
                 Label = Label,
-                BorderColor = ColorUtil.ColorHexString(59, 125, 221),
-                BackgroundColor = ColorUtil.ColorHexString(59, 125, 221),
+                BorderColor = ColorUtil.FromDrawingColor(ColorHelper.Blue),
+                BackgroundColor = ColorUtil.FromDrawingColor(ColorHelper.Blue),
                 Fill = FillingMode.Disabled
             };
 

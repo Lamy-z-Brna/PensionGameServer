@@ -45,9 +45,16 @@
                                              DataLabels="@GameHistory.Keys.Select(key => key.ToString()).ToList()"
                                              Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()" />
                         </PensionGame.Web.Components.Card>
+
                         <PensionGame.Web.Components.Card>
-                            <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory"
-                                                 Title="Portfolio growth" />
+                            <SimplePieChart Title="Current Portfolio"
+                                            DataLabels="@(new [] { "Stocks", "Bonds", "Savings account" })"
+                                            Data="@(new decimal[] 
+                                                    { 
+                                                        GameData.ClientData.ClientHoldings.Stocks.Value, 
+                                                        GameData.ClientData.ClientHoldings.Bonds.Value, 
+                                                        GameData.ClientData.ClientHoldings.SavingsAccount.Amount 
+                                                    })" />
                         </PensionGame.Web.Components.Card>
                     </ModalBody>
                     <ModalFooter>

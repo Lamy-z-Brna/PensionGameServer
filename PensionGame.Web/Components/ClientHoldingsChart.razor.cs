@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
 using System.Collections.Generic;
 using System.Linq;
+using PensionGame.Web.Helpers;
 
 namespace PensionGame.Web.Components
 {
@@ -77,32 +78,32 @@ namespace PensionGame.Web.Components
             var stockData = new BarDataset<int>(ClientHoldingsHistory.Values.Select(holding => holding.Stocks.Value))
             {
                 Label = "Stock holdings",
-                BackgroundColor = ColorUtil.ColorHexString(59, 125, 221),
-                BorderColor = ColorUtil.ColorHexString(59, 125, 221),
+                BackgroundColor = ColorUtil.FromDrawingColor(ColorHelper.Blue),
+                BorderColor = ColorUtil.FromDrawingColor(ColorHelper.Blue),
                 BorderWidth = 1
             };
 
             var bondData = new BarDataset<int>(ClientHoldingsHistory.Values.Select(holding => holding.Bonds.Value))
             {
                 Label = "Bond holdings",
-                BackgroundColor = ColorUtil.ColorHexString(40, 167, 69),
-                BorderColor = ColorUtil.ColorHexString(40, 167, 69),
+                BackgroundColor = ColorUtil.FromDrawingColor(ColorHelper.Green),
+                BorderColor = ColorUtil.FromDrawingColor(ColorHelper.Green),
                 BorderWidth = 1
             };
 
             var savingsAccountData = new BarDataset<int>(ClientHoldingsHistory.Values.Select(holding => holding.SavingsAccount.Amount))
             {
                 Label = "Savings account holdings",
-                BackgroundColor = ColorUtil.ColorHexString(255, 193, 7),
-                BorderColor = ColorUtil.ColorHexString(255, 193, 7),
+                BackgroundColor = ColorUtil.FromDrawingColor(ColorHelper.Yellow),
+                BorderColor = ColorUtil.FromDrawingColor(ColorHelper.Yellow),
                 BorderWidth = 1
             };
 
             var loanData = new BarDataset<int>(ClientHoldingsHistory.Values.Select(holding => -holding.Loans.TotalLoanValue))
             {
                 Label = "Loans",
-                BackgroundColor = ColorUtil.ColorHexString(220, 53, 69),
-                BorderColor = ColorUtil.ColorHexString(220, 53, 69),
+                BackgroundColor = ColorUtil.FromDrawingColor(ColorHelper.Red),
+                BorderColor = ColorUtil.FromDrawingColor(ColorHelper.Red),
                 BorderWidth = 1
             };
 

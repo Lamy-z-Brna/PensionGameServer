@@ -9,52 +9,55 @@
 
 @if (GameData != null)
 {
-    <div class="row">
-        <div class="col-sm-4">
-            <Card>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5 class="card-title mb-2">Age</h5>
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-sm-4">
+                <Card>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="card-title mb-2">Age</h5>
+                        </div>
+
+                        <div class="col-md-6 text-md-end">
+                            <h1 class="mt-1 mb-2">@GameData.Year</h1>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+
+            <div class="col-sm-8">
+                <Card>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="card-title mb-2">Total saved</h5>
+                        </div>
+
+                        <div class="col-md-6 text-md-end">
+                            <h1 class="mt-1 mb-2"><SignedInt Value="@GameData.ClientData.ClientHoldings.Value" /></h1>
+                        </div>
                     </div>
 
-                    <div class="col-md-6 text-md-end">
-                        <h1 class="mt-1 mb-2">@GameData.Year</h1>
-                    </div>
-                </div>
-            </Card>
+                    <ExpandableSection>
+                        <div class="text-md-end">
+                            <p>
+                                Stock value: <SignedInt Value="@GameData.ClientData.ClientHoldings.Stocks.Value" /> <br />
+                                Bond value: <SignedInt Value="@GameData.ClientData.ClientHoldings.Bonds.Value" /> <br />
+                                Savings account value: <SignedInt Value="@GameData.ClientData.ClientHoldings.SavingsAccount.Amount" /> <br />
+                                Loans: <SignedInt Value="@(-GameData.ClientData.ClientHoldings.Loans.TotalLoanValue)" />
+                            </p>
+                        </div>
+                    </ExpandableSection>
+                </Card>
+            </div>
         </div>
 
-        <div class="col-sm-8">
-            <Card>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5 class="card-title mb-2">Total saved</h5>
-                    </div>
-
-                    <div class="col-md-6 text-md-end">
-                        <h1 class="mt-1 mb-2"><SignedInt Value="@GameData.ClientData.ClientHoldings.Value" /></h1>
-                    </div>
-                </div>
-
-                <ExpandableSection>
-                    <div class="text-md-end">
-                        <p>
-                            Stock value: <SignedInt Value="@GameData.ClientData.ClientHoldings.Stocks.Value"/> <br />
-                            Bond value: <SignedInt Value="@GameData.ClientData.ClientHoldings.Bonds.Value" /> <br />
-                            Savings account value: <SignedInt Value="@GameData.ClientData.ClientHoldings.SavingsAccount.Amount" /> <br />
-                            Loans: <SignedInt Value="@(-GameData.ClientData.ClientHoldings.Loans.TotalLoanValue)" />
-                        </p>
-                    </div>
-                </ExpandableSection>
-            </Card>
-        </div>
+        <Card>
+            <h5 class=" card-title mb-2">
+                Holdings in time
+            </h5>
+            <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory" />
+        </Card>
     </div>
-
-    <Card>
-        <h5 class=" card-title mb-2">
-    Holdings in time</h5>
-    <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory" />
-</Card>
 }
 
 <button class="btn btn-primary" @onclick="RedirectToNewSession">Play again!</button>
