@@ -1,37 +1,38 @@
 ﻿@page "/"
 @using PensionGame.Web.Components
 
-<h1>Hello, world!</h1>
+<h1>Welcome!</h1>
 
-Welcome to your new app. Let's save some money!
-
-<div>
-    Forecast for today:
-</div>
-
-<div>
-    Temperature: <SignedInt Value="42" />
-
-    Stocks: <SignedInt Value="-9" />
-
-    Bonds: <SignedInt Value="0" />
-</div>
-
-
-<div>
-    Precise forecast for tomorrow:
-</div>
-
-<div>
-    Temperature: <SignedDouble Value="42.345" />
-
-    Stocks: <SignedDouble Value="-9.3" />
-
-    Bonds: <SignedDouble Value="0" />
-</div>
+Welcome to our app. Let's save some money!
 
 <p>
-<h2>Let's trade!</h2>
+    <h4>
+        Forecast for today:
+    </h4>
+    <div>
+        Temperature: <SignedInt Value="42" />
+        Stocks: <SignedInt Value="-9" />
+        Bonds: <SignedInt Value="0" />
+    </div>
+</p>
+
+<p>
+    <h4>
+        Precise forecast for tomorrow:
+    </h4>
+    Temperature: <SignedDouble Value="42.345" />
+    Stocks: <SignedDouble Value="-9.3" />
+    Bonds: <SignedDouble Value="0" />
+</p>
+
+<p>
+    <h4>Some large numbers</h4>
+    <div>Int: <SignedInt Value="1420908000" /></div>
+    <div>Double: <SignedDouble Value="-1420908000.3453345" /></div>
+</p>
+
+<p>
+    <h4>Let's trade!</h4>
     <div>
         <BinaryButton @ref="TradeButton" OnPositionChanged="@Change" />
     </div>

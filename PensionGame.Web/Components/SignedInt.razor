@@ -5,6 +5,6 @@
 @code {
     [Parameter] public int Value { get; set; }
 
-    public string NumberText => $"{ (Value > 0 ? "+" : string.Empty) }{Value}";
+    public string NumberText => $"{Value:+#,##0;-#,##0;0}";
     public string NumberClass => Value > 0 ? "positive" : (Value < 0 ? "negative" : "zero");
 }
