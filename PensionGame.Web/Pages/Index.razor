@@ -29,3 +29,22 @@ Welcome to your new app. Let's save some money!
 
     Bonds: <SignedDouble Value="0" />
 </div>
+
+<p>
+<h2>Let's trade!</h2>
+    <div>
+        <BinaryButton @ref="TradeButton" OnPositionChanged="@Change" />
+    </div>
+
+    <div>
+        Current position: @TradeButton?.State
+    </div>
+
+    <div>
+        Last change: @LastChange, from @Old to @New
+    </div>
+</p>
+
+<p>
+    <BinaryButton PositiveCaption="Repay" NegativeCaption="Borrow" />
+</p>

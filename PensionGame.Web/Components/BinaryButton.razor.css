@@ -1,0 +1,19 @@
+﻿.binary-button {
+    background-color: darkgray;
+    border-color: darkgray;
+    color: white;
+}
+
+.binary-button:hover {
+    background-color: gray;
+    border-color: gray;
+}
+
+.positive.active {
+    background-color: darkgreen;
+    border-color: darkgreen;
+}
+.negative.active {
+    background-color: darkred;
+    border-color: darkred;
+}
