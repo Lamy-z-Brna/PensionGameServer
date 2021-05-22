@@ -9,18 +9,14 @@
 
 <ValidationResult ResultModel="@ValidationResult" />
 
-
-
-
-
 <EditForm EditContext="@EditContext">
     <DataAnnotationsValidator />
     <Blazorise.ValidationSummary />
 
-    @if (GameData != null)
+    @if (GameData != null && GameHistory != null)
     {
         @if (!GameData.IsInitial)
-        {            
+        {
             <Modal @ref="ModalWindow">
                 <ModalContent Centered="true">
                     <ModalHeader>
@@ -41,6 +37,13 @@
                                 </div>
                             </div>
                         }
+
+                        <SimpleLineChart Title="Stock Performance"
+                                         Label="Stock Price"
+                                         XLabel="Age"
+                                         YLabel="Stock Price"
+                                         DataLabels="@GameHistory.Keys.Select(key => key.ToString()).ToList()"
+                                         Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()"/>
                     </ModalBody>
                     <ModalFooter>
                         <Button Color="Color.Primary" Clicked="@HideModal">OK</Button>

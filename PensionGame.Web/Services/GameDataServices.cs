@@ -4,6 +4,7 @@ using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Domain.Validation;
 using PensionGame.Web.Client;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PensionGame.Web.Services
@@ -37,9 +38,14 @@ namespace PensionGame.Web.Services
             return result;
         }
 
-        public async Task<GameState?> GameStateGet(SessionId sessionId)
+        public async Task<GameState?> Get(SessionId sessionId)
         {
             return await _client.Get<GameState>("Game", parameters: new() { { "sessionId", sessionId.Id } });
+        }
+
+        public async Task<Dictionary<int, GameState>?> GetAll(SessionId sessionId)
+        {
+            return await _client.Get<Dictionary<int, GameState>>("Game/All", parameters: new() { { "sessionId", sessionId.Id } });
         }
     }
 }
