@@ -6,12 +6,11 @@ namespace PensionGame.Web.Components
     {
         public enum Position
         {
-            None,
             Positive,
             Negative
         }
 
-        private Position _state = Position.None;
+        private Position _state = Position.Positive;
         public Position State 
         { 
             get => _state;

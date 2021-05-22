@@ -9,10 +9,15 @@
     border-color: gray;
 }
 
+.binary-button:focus {
+    box-shadow: none;
+}
+
 .positive.active {
     background-color: darkgreen;
     border-color: darkgreen;
 }
+
 .negative.active {
     background-color: darkred;
     border-color: darkred;

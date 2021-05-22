@@ -1,3 +1,29 @@
+/* clear the unnecessary stuff */
+
+h1 {
+    font-size: var(--pf-global--FontSize--4xl);
+}
+h2 {
+    font-size: var(--pf-global--FontSize--3xl);
+}
+h3 {
+    font-size: var(--pf-global--FontSize--2xl);
+}
+h4 {
+    font-size: var(--pf-global--FontSize--xl);
+}
+h5 {
+    font-size: var(--pf-global--FontSize--lg);
+}
+h6 {
+    font-size: var(--pf-global--FontSize--md);
+}
+
+.content {
+    margin: auto;
+    max-width: 800px;
+    width: 100%;
+}
 
 .game-state-info {
     display: inline-block;
@@ -36,11 +62,6 @@
 /*.sidebar {
     background: #7763a9;
 }*/
-
-.content {
-    margin: auto;
-    max-width: 900px;
-}
 
 .loading-overlay {
     position: fixed; /* Sit on top of the page content */
