@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators.Events
 {
-    public interface IPreClientDataEventCalculator : ICalculator<MacroEconomicData, IReadOnlyCollection<IPreClientDataEvent>>
+    public interface IPreClientDataEventCalculator : ICalculator<MacroEconomicData, IReadOnlyCollection<PreClientDataEvent>>
     {
     }
 }

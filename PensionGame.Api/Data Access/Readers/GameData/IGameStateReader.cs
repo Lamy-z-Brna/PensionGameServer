@@ -1,5 +1,5 @@
-﻿using PensionGame.Api.Domain.Resources.GameData;
-using PensionGame.Api.Domain.Resources.Session;
+﻿using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Core.Domain.GameData;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

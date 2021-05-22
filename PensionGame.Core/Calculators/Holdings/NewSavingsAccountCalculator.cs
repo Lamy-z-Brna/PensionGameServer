@@ -16,7 +16,7 @@ namespace PensionGame.Core.Calculators.Holdings
             _availableToInvestCalculator = availableToInvestCalculator;
         }
 
-        public (SavingsAccountHoldings SavingsAccountHoldings, IReadOnlyCollection<IEvent> Events) Calculate(NewSavingsAccountRequiredData requiredData)
+        public (SavingsAccountHoldings SavingsAccountHoldings, IReadOnlyCollection<Event> Events) Calculate(NewSavingsAccountRequiredData requiredData)
         {
             var (currentClientData, investmentSelection) = requiredData;
 
@@ -36,7 +36,7 @@ namespace PensionGame.Core.Calculators.Holdings
                     new SavingsAccountHoldings(newSavingsAccountValue),
                     availableToInvest > 0 
                         ? new[] { new AutomaticSavingsAccountInvestmentEvent(amountRequested, availableToInvest) }
-                        : Array.Empty<IEvent>()
+                        : Array.Empty<Event>()
                 );
         }
     }

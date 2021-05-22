@@ -26,7 +26,7 @@ namespace PensionGame.Core.Calculators.Holdings
             _bondDefaultCalculator = bondDefaultCalculator;
         }
 
-        public (BondHoldings, IReadOnlyCollection<IEvent>) Calculate(NewBondRequiredData requiredData)
+        public (BondHoldings, IReadOnlyCollection<Event>) Calculate(NewBondRequiredData requiredData)
         {
             var (currentBonds, investmentSelection, bondRate, bondDefaultRate) = requiredData;
 
@@ -41,7 +41,7 @@ namespace PensionGame.Core.Calculators.Holdings
                 );
 
             BondHoldings addNewBonds(BondHoldings holdings) => AddNewBonds(holdings, bondPaymentValue, _newBondParameters.DefaultMaturity);
-            (BondHoldings, IReadOnlyCollection<IEvent>) defaultBonds(BondHoldings bondHoldings) =>
+            (BondHoldings, IReadOnlyCollection<Event>) defaultBonds(BondHoldings bondHoldings) =>
                 DefaultBonds(bondHoldings, bond => _bondDefaultCalculator.Calculate(new BondDefaultRequiredData(bond, bondDefaultRate)));
 
             return currentBonds.Pipe
@@ -68,7 +68,7 @@ namespace PensionGame.Core.Calculators.Holdings
                 .ToBonds();
         }
 
-        private static (BondHoldings, IReadOnlyCollection<IEvent>) DefaultBonds(BondHoldings bondHoldings, Func<BondHolding, Union<BondHolding, BondDefaultEvent>> defaultCalculator)
+        private static (BondHoldings, IReadOnlyCollection<Event>) DefaultBonds(BondHoldings bondHoldings, Func<BondHolding, Union<BondHolding, BondDefaultEvent>> defaultCalculator)
         {
             var eithers = bondHoldings.Select(defaultCalculator)
                 .ToList();

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators.ClientData
 {
-    public interface IClientDataCalculator : ICalculator<ClientDataRequiredData, (Domain.ClientData.ClientData, IReadOnlyCollection<IEvent>)>
+    public interface IClientDataCalculator : ICalculator<ClientDataRequiredData, (Domain.ClientData.ClientData, IReadOnlyCollection<Event>)>
     {
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using PensionGame.Api.Data_Access.Connection;
-using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Session;
+using PensionGame.Core.Domain.GameData;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

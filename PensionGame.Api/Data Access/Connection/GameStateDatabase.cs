@@ -16,7 +16,7 @@ namespace PensionGame.Api.Data_Access.Connection
         {
         }
 
-        public async Task Create(Guid sessionId, Domain.Resources.GameData.GameState gameState)
+        public async Task Create(Guid sessionId, Core.Domain.GameData.GameState gameState)
         {
             var newGameState = new GameState
             {

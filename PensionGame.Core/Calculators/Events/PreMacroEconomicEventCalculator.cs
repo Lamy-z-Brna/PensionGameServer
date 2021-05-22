@@ -17,13 +17,13 @@ namespace PensionGame.Core.Calculators.Events
             _parameters = parameters;
         }        
 
-        public IReadOnlyCollection<IPreMacroEconomicEvent> Calculate()
+        public IReadOnlyCollection<PreMacroEconomicEvent> Calculate()
         {
             var result = GenerateInternally().ToList();
             return result;
         }
 
-        private IEnumerable<IPreMacroEconomicEvent> GenerateInternally()
+        private IEnumerable<PreMacroEconomicEvent> GenerateInternally()
         {
             var isCrisis = _random.GenerateBernoulli(_parameters.CrisisProbability)
                 .First();

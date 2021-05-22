@@ -157,7 +157,7 @@ namespace PensionGame.Tests.Calculators
 
             var (_, events) = UnderTest.Calculate(requiredData);
 
-            Assert.AreEqual(Array.Empty<IEvent>(), events);
+            Assert.AreEqual(Array.Empty<Event>(), events);
         }
     }
 }

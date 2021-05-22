@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators.RequiredData
 {
-    public record ReturnDataRequiredData(MacroEconomicData MacroEconomicData, IReadOnlyCollection<IPreReturnsEvent> Events)
+    public record ReturnDataRequiredData(MacroEconomicData MacroEconomicData, IReadOnlyCollection<PreReturnsEvent> Events)
     {
     }
 }

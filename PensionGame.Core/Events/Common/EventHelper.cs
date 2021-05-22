@@ -5,23 +5,29 @@ namespace PensionGame.Core.Events.Common
 {
     public static class EventHelper
     {
-        public static IReadOnlyCollection<T> GetEvents<T>(this IReadOnlyCollection<IEvent> events)
+        public static IReadOnlyCollection<TOut> GetEvents<TIn, TOut>(this IReadOnlyCollection<TIn> events)            
+            where TIn : Event
+            where TOut : Event
         {
             return events
-                .Where(@event => @event is T)
-                .Select(@event => (T)@event)
+                .Where(@event => @event is TOut)
+                .Select(@event => @event as TOut)
+                .Select(@event => @event!)
                 .ToList();
         }
 
-        public static T? GetEvent<T>(this IReadOnlyCollection<IEvent> events)
+        public static TOut? GetEvent<TIn, TOut>(this IReadOnlyCollection<TIn> events)
+            where TIn : Event
+            where TOut : Event
         {
             return events
-                .Where(@event => @event is T)
-                .Select(@event => (T)@event)
+                .Where(@event => @event is TOut)
+                .Select(@event => @event as TOut)
+                .Select(@event => @event!)
                 .FirstOrDefault();
         }
 
-        public static bool AnyEvent<T>(this IReadOnlyCollection<IEvent> events)
+        public static bool AnyEvent<T>(this IReadOnlyCollection<Event> events)
         {
             return events
                 .Where(@event => @event is T)

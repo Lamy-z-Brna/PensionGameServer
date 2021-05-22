@@ -12,6 +12,6 @@ namespace PensionGame.Api.Data_Access.Data_Objects
 
         public Guid? Guid { get; set; }
 
-        public Domain.Resources.GameData.GameState? Game { get; init; }
+        public Core.Domain.GameData.GameState? Game { get; init; }
     }
 }

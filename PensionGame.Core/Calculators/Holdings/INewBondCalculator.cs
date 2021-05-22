@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators.Holdings
 {
-    public interface INewBondCalculator : ICalculator<NewBondRequiredData, (BondHoldings, IReadOnlyCollection<IEvent>)>
+    public interface INewBondCalculator : ICalculator<NewBondRequiredData, (BondHoldings, IReadOnlyCollection<Event>)>
     {
     }
 }

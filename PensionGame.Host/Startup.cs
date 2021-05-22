@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
 using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Data_Access.Connection;
 using PensionGame.Api.Data_Access.ConnectionSettings;
@@ -19,9 +20,11 @@ using PensionGame.Api.Handlers.Common;
 using PensionGame.Api.Handlers.Execution;
 using PensionGame.Core.Calculators.Common;
 using PensionGame.Core.Common;
+using PensionGame.Core.Events.Common;
 using PensionGame.Host.Exception_Handling;
 using PensionGame.Host.Validation;
 using System;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace PensionGame.Host
@@ -78,6 +81,17 @@ namespace PensionGame.Host
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
+            });
+
+            BsonClassMap.RegisterClassMap<Event>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIsRootClass(true);
+
+                var featureType = typeof(Event);
+                featureType.Assembly.GetTypes()
+                    .Where(type => featureType.IsAssignableFrom(type)).ToList()
+                    .ForEach(type => cm.AddKnownType(type));
             });
         }
 

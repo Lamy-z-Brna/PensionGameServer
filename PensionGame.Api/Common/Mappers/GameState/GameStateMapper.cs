@@ -28,7 +28,7 @@ namespace PensionGame.Api.Common.Mappers.GameState
                     RetirementYear: gameState.RetirementYear,
                     ClientData: _clientDataMapper.Map(gameState.ClientData),
                     MarketData: _marketDataMapper.Map(gameState.MarketData),
-                    Events: Array.Empty<IEvent>()
+                    Events: Array.Empty<Event>()
                 );
         }
 

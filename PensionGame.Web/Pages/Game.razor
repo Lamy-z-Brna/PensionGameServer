@@ -26,15 +26,15 @@
                         <CloseButton />
                     </ModalHeader>
                     <ModalBody>
-                        @foreach (var @event in GameData.Events)
+                        @foreach (var (title, displayMessage, type) in GameData.Events)
                         {
-                            <PensionGame.Web.Components.Alert Type="@(@event.EventType == Api.Domain.Resources.Events.EventType.Info
+                            <PensionGame.Web.Components.Alert Type="@(type == Api.Domain.Resources.Events.EventType.Info
                                             ? AlertType.Info
-                                            : (@event.EventType == Api.Domain.Resources.Events.EventType.Negative
+                                            : (type == Api.Domain.Resources.Events.EventType.Negative
                                                 ? AlertType.Danger
                                                 : AlertType.Success))"
-                                                              Title="Event occured"
-                                                              DisplayMessage="@(@event.DisplayMessage)" />
+                                                              Title="@title"
+                                                              DisplayMessage="@displayMessage" />
                         }
 
                         <PensionGame.Web.Components.Card>

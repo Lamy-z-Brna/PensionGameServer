@@ -1,6 +1,5 @@
 ﻿using PensionGame.Api.Data_Access.Writers.GameData;
 using PensionGame.Api.Data_Access.Writers.Session;
-using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Handlers.Commands;
 using PensionGame.Api.Handlers.Execution;
@@ -29,9 +28,9 @@ namespace PensionGame.Api.Handlers.CommandHandlers
             var (name, startupParameters) = command;
             var sessionId = await _sessionWriter.Create(name, startupParameters);
 
-            var initialGameState = await _dispatcher.Query<GetInitialGameStateQuery, GameState>
+            var initialGameState = await _dispatcher.Query<GetInitialCoreGameStateQuery, Core.Domain.GameData.GameState>
                 (
-                    new GetInitialGameStateQuery
+                    new
                     (
                         StartupParameters: startupParameters
                     )

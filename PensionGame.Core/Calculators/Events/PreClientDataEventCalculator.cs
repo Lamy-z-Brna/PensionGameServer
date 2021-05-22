@@ -20,13 +20,13 @@ namespace PensionGame.Core.Calculators.Events
             _preClientDataEventParameters = preClientDataEventParameters;
         }
 
-        public IReadOnlyCollection<IPreClientDataEvent> Calculate(MacroEconomicData macroEconomicData)
+        public IReadOnlyCollection<PreClientDataEvent> Calculate(MacroEconomicData macroEconomicData)
         {
             var result = CalculateInternally(macroEconomicData).ToList();
             return result;
         }
 
-        private IEnumerable<IPreClientDataEvent> CalculateInternally(MacroEconomicData macroEconomicData)
+        private IEnumerable<PreClientDataEvent> CalculateInternally(MacroEconomicData macroEconomicData)
         {
             var isUnemployed = _random.GenerateBernoulli(macroEconomicData.UnemploymentRate)
                 .First();

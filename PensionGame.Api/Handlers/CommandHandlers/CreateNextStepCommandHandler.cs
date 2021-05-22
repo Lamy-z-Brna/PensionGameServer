@@ -1,4 +1,5 @@
-﻿using PensionGame.Api.Data_Access.Writers.GameData;
+﻿using PensionGame.Api.Common.Mappers.GameState;
+using PensionGame.Api.Data_Access.Writers.GameData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Exceptions.Session;
 using PensionGame.Api.Handlers.Commands;
@@ -12,12 +13,15 @@ namespace PensionGame.Api.Handlers.CommandHandlers
     {
         private readonly IDispatcher _dispatcher;
         private readonly IGameStateWriter _gameStateWriter;
+        private readonly IGameStateMapper _gameStateMapper;
 
         public CreateNextStepCommandHandler(IDispatcher dispatcher,
-            IGameStateWriter gameStateWriter)
+            IGameStateWriter gameStateWriter, 
+            IGameStateMapper gameStateMapper)
         {
             _dispatcher = dispatcher;
             _gameStateWriter = gameStateWriter;
+            _gameStateMapper = gameStateMapper;
         }
 
         public async Task Handle(CreateNextStepCommand command)
@@ -39,11 +43,11 @@ namespace PensionGame.Api.Handlers.CommandHandlers
 
             await _dispatcher.Dispatch(checkInvestmentSelectionCommand);
 
-            var newGameState = await _dispatcher.Query<GetNextGameStateQuery, GameState>
+            var newGameState = await _dispatcher.Query<GetNextGameStateQuery, Core.Domain.GameData.GameState>
                 (
                     new GetNextGameStateQuery
                     (
-                        CurrentGameState: currentGameState,
+                        CurrentGameState: _gameStateMapper.Map(currentGameState),
                         InvestmentSelection: command.InvestmentSelection
                     )
                 );

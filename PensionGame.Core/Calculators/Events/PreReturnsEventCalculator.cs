@@ -6,9 +6,9 @@ namespace PensionGame.Core.Calculators.Events
 {
     public sealed class PreReturnsEventCalculator : IPreReturnsEventCalculator
     {
-        public IReadOnlyCollection<IPreReturnsEvent> Calculate()
+        public IReadOnlyCollection<PreReturnsEvent> Calculate()
         {
-            return Array.Empty<IPreReturnsEvent>();
+            return Array.Empty<PreReturnsEvent>();
         }
     }
 }

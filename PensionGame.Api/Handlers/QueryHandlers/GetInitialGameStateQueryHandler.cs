@@ -1,6 +1,8 @@
-﻿using PensionGame.Api.Domain.Resources.Events;
-using PensionGame.Api.Domain.Resources.GameData;
+﻿using PensionGame.Api.Common.Mappers.GameState;
 using PensionGame.Api.Handlers.Queries;
+using PensionGame.Core.Domain.GameData;
+using PensionGame.Core.Domain.Holdings;
+using PensionGame.Core.Events.Common;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +10,14 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 {
     public sealed class GetInitialGameStateQueryHandler : IGetInitialGameStateQueryHandler
     {
-        public async Task<GameState> Handle(GetInitialGameStateQuery query)
+        private readonly IGameStateMapper _gameStateMapper;
+
+        public GetInitialGameStateQueryHandler(IGameStateMapper gameStateMapper)
+        {
+            _gameStateMapper = gameStateMapper;
+        }
+
+        public async Task<GameState> Handle(GetInitialCoreGameStateQuery query)
         {
             var (income, expenses, year, retirementYear) = query.StartupParameters ?? new (175000, 100000, 25, 65);
 
@@ -19,9 +28,9 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                 ClientData: new(
                     ClientHoldings: new
                     (
-                        Bonds: new(),
-                        Loans: new(),
-                        SavingsAccount: new(),
+                        Bonds: new(Array.Empty<BondHolding>()),
+                        Loans: new(Array.Empty<LoanHolding>()),
+                        SavingsAccount: new(0),
                         Stocks: new(new(1), 0)
                     ),
                     ExpenseData: new(
@@ -61,6 +70,13 @@ namespace PensionGame.Api.Handlers.QueryHandlers
             );
 
             return await Task.FromResult(gameState);
+        }
+
+        public async Task<Domain.Resources.GameData.GameState> Handle(GetInitialGameStateQuery query)
+        {
+            var result = await Handle(new GetInitialCoreGameStateQuery(query.StartupParameters));
+
+            return _gameStateMapper.Map(result);
         }
     }
 }

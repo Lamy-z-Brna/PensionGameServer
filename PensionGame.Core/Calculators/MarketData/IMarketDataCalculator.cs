@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PensionGame.Core.Calculators.MarketData
 {
-    public interface IMarketDataCalculator : ICalculator<(Domain.MarketData.MarketData, IReadOnlyCollection<IPreClientDataEvent>)>
+    public interface IMarketDataCalculator : ICalculator<(Domain.MarketData.MarketData, IReadOnlyCollection<PreClientDataEvent>)>
     {
     }
 }

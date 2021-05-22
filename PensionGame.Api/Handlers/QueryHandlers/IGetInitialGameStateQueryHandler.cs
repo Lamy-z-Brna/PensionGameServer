@@ -4,7 +4,7 @@ using PensionGame.Api.Handlers.Queries;
 
 namespace PensionGame.Api.Handlers.QueryHandlers
 {
-    public interface IGetInitialGameStateQueryHandler : IQueryHandler<GetInitialGameStateQuery, GameState>
+    public interface IGetInitialGameStateQueryHandler : IQueryHandler<GetInitialCoreGameStateQuery, Core.Domain.GameData.GameState>, IQueryHandler<GetInitialGameStateQuery, GameState>
     {
     }
 }

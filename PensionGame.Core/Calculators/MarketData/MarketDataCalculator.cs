@@ -24,7 +24,7 @@ namespace PensionGame.Core.Calculators.MarketData
             _preReturnsEventGenerator = preReturnsEventCalculator;
         }
 
-        public (Domain.MarketData.MarketData, IReadOnlyCollection<IPreClientDataEvent>) Calculate()
+        public (Domain.MarketData.MarketData, IReadOnlyCollection<PreClientDataEvent>) Calculate()
         {
             var preMacroEconomicEvents = _preMacroEconomicEventGenerator.Calculate();
 

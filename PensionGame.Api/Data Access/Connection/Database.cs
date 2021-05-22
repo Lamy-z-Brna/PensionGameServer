@@ -16,7 +16,7 @@ namespace PensionGame.Api.Data_Access.Connection
             var client = new MongoClient(databaseConnectionSettings.ConnectionString);
             var database = client.GetDatabase(databaseConnectionSettings.DatabaseName);
 
-            ObjectCollection = database.GetCollection<T>(databaseConnectionSettings.CollectionName);
+            ObjectCollection = database.GetCollection<T>(databaseConnectionSettings.CollectionName);            
         }
     }
 }

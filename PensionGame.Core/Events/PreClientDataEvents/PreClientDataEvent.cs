@@ -2,7 +2,7 @@
 
 namespace PensionGame.Core.Events.PreClientDataEvents
 {
-    public interface IPreClientDataEvent : IEvent
+    public abstract record PreClientDataEvent : Event
     {
     }
 }
