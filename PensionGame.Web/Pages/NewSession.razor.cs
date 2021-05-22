@@ -1,5 +1,4 @@
-﻿using PensionGame.Api.Domain.Resources.Session;
-using PensionGame.Web.Data;
+﻿using PensionGame.Web.Data;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
@@ -9,7 +8,7 @@ namespace PensionGame.Web.Pages
 {
     public partial class NewSession
     {
-        private NewSessionModel Session { get; } = new(new StartupParameters(30000, 20000, 25, 65), RandName());
+        private NewSessionModel Session { get; } = new(new (30000, 20000, 25, 65), RandName());
 
         private EditContext EditContext { get; set; } = new(new object());
 

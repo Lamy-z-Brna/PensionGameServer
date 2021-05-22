@@ -2,16 +2,27 @@
     @if (ClientData != null)
     {
         <div class="row">
-            <div class="col">
+            <div class="col-md-4">
                 <h6 class="card-subtitle mb-2 text-muted">Income</h6>
+            </div>
+            <div class="col-md-4">
+                <h6 class="card-subtitle mb-2 text-muted">Expenses</h6>
+            </div>
+            <div class="col-md-4">
+                <h6 class="card-subtitle mb-2 text-muted">Disposable Income</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
                 <h2><SignedInt Value="@ClientData.IncomeData.TotalIncome"></SignedInt></h2>
             </div>
-            <div class="col">
-                <h6 class="card-subtitle mb-2 text-muted">Expenses</h6>
+            <div class="col-md-4">
                 <h2><SignedInt Value="@(-ClientData.ExpenseData.TotalExpenses)"></SignedInt></h2>
             </div>
-            <div class="col">
-                <h6 class="card-subtitle mb-2 text-muted">Cash-flow</h6>
+            <div class="col-md-1">
+                <h2>=</h2>
+            </div>
+            <div class="col-md-3">
                 <h2><SignedInt Value="@DisposableIncome"></SignedInt></h2>
             </div>
         </div>
