@@ -1,0 +1,10 @@
+﻿<span class="@NumberClass">
+    @NumberText
+</span>
+
+@code {
+    [Parameter] public int Value { get; set; }
+
+    public string NumberText => $"{ (Value > 0 ? "+" : string.Empty) }{Value}";
+    public string NumberClass => Value > 0 ? "positive" : (Value < 0 ? "negative" : "zero");
+}
