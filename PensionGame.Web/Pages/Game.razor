@@ -1,6 +1,7 @@
 ﻿@page "/game/{sessionId}"
 @using PensionGame.Web.Services
 @using PensionGame.Web.Components
+@using PensionGame.Web.Enums
 @using Blazorise
 
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
@@ -21,31 +22,33 @@
             <Modal @ref="ModalWindow">
                 <ModalContent Centered="true">
                     <ModalHeader>
-                        <ModalTitle>Year: @GameData.Year</ModalTitle>
+                        <ModalTitle>Age: @GameData.Year</ModalTitle>
                         <CloseButton />
                     </ModalHeader>
                     <ModalBody>
                         @foreach (var @event in GameData.Events)
                         {
-                            <div class="alert @(@event.EventType == Api.Domain.Resources.Events.EventType.Info
-                                            ? "alert-primary"
+                            <PensionGame.Web.Components.Alert Type="@(@event.EventType == Api.Domain.Resources.Events.EventType.Info
+                                            ? AlertType.Info
                                             : (@event.EventType == Api.Domain.Resources.Events.EventType.Negative
-                                                ? "alert-danger"
-                                                : "alert-success")) alert-dismissible" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <div class="alert-message">
-                                    <span>@(@event.DisplayMessage)</span>
-                                </div>
-                            </div>
+                                                ? AlertType.Danger
+                                                : AlertType.Success))"
+                                                              Title="Event occured"
+                                                              DisplayMessage="@(@event.DisplayMessage)" />
                         }
 
-                        <SimpleLineChart Title="Stock Performance"
-                                         Label="Stock Price"
-                                         XLabel="Age"
-                                         YLabel="Stock Price"
-                                         DataLabels="@GameHistory.Keys.Select(key => key.ToString()).ToList()"
-                                         Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()" />
-                        <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory" />
+                        <PensionGame.Web.Components.Card>
+                            <SimpleLineChart Title="Stock Performance"
+                                             Label="Stock Price"
+                                             XLabel="Age"
+                                             YLabel="Stock Price"
+                                             DataLabels="@GameHistory.Keys.Select(key => key.ToString()).ToList()"
+                                             Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()" />
+                        </PensionGame.Web.Components.Card>
+                        <PensionGame.Web.Components.Card>
+                            <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory"
+                                                 Title="Portfolio growth" />
+                        </PensionGame.Web.Components.Card>
                     </ModalBody>
                     <ModalFooter>
                         <Button Color="Color.Primary" Clicked="@HideModal">OK</Button>
@@ -54,7 +57,7 @@
             </Modal>
         }
 
-        <h4>Year: @GameData.Year</h4>
+        <h4>Age: @GameData.Year</h4>
         <IncomeExpensesCard ClientData="@GameData.ClientData" DisposableIncome="@DisposableIncome"></IncomeExpensesCard>
 
         @if (!GameData.IsInitial)

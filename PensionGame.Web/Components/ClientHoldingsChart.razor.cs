@@ -17,22 +17,33 @@ namespace PensionGame.Web.Components
         [Parameter]
         public Dictionary<int, ClientHoldings>? ClientHoldingsHistory { get; set; }
 
-        private BarConfig Config { get; } = new()
+        [Parameter]
+        public string? Title { get; set; }
+
+        private BarConfig? Config { get; set; }
+
+        protected override void OnInitialized()
         {
-            Options = new BarOptions
+            if (ClientHoldingsHistory == null)
+                return;
+
+            Config = new()
             {
-                Responsive = true,
-                Legend = new Legend
+                Options = new BarOptions
                 {
-                    Position = Position.Bottom
-                },
-                Title = new OptionsTitle
-                {
-                    Display = false
-                },
-                Scales = new BarScales
-                {
-                    XAxes = new List<CartesianAxis>
+                    Responsive = true,
+                    Legend = new Legend
+                    {
+                        Position = Position.Bottom
+                    },
+                    Title = new OptionsTitle
+                    {
+                        Display = Title != null,
+                        Text = Title ?? string.Empty
+                    },
+                    Scales = new BarScales
+                    {
+                        XAxes = new List<CartesianAxis>
                         {
                             new BarCategoryAxis
                             {
@@ -43,7 +54,7 @@ namespace PensionGame.Web.Components
                                 Stacked = true
                             }
                         },
-                    YAxes = new List<CartesianAxis>
+                        YAxes = new List<CartesianAxis>
                         {
                             new BarLinearCartesianAxis
                             {
@@ -54,14 +65,9 @@ namespace PensionGame.Web.Components
                                 }
                             }
                         }
+                    }
                 }
-            }
-        };
-
-        protected override void OnInitialized()
-        {
-            if (ClientHoldingsHistory == null)
-                return;
+            };            
 
             foreach (var dataLabel in ClientHoldingsHistory.Keys)
             {
