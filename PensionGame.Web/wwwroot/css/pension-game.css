@@ -19,6 +19,10 @@ h6 {
     font-size: var(--pf-global--FontSize--md);
 }
 
+p {
+    margin: 16px 0;
+}
+
 .content {
     margin: auto;
     max-width: 800px;

@@ -68,11 +68,11 @@ namespace PensionGame.Web.Pages
 
         protected override async void OnInitialized()
         {
-            if (string.IsNullOrEmpty(SessionId))
-                return; //TODO vypisat nejaku hlasku
-
-            if (!Guid.TryParse(SessionId, out var sessionGuid))
-                return; //TODO vypisat nejaku inu hlasku
+            if (string.IsNullOrEmpty(SessionId) || !Guid.TryParse(SessionId, out var sessionGuid))
+            {
+                navigationManager.NavigateTo($"/error");
+                return;
+            }
 
             CurrentSessionId = new SessionId(sessionGuid);
 
@@ -120,7 +120,10 @@ namespace PensionGame.Web.Pages
             GameHistory = await GameService.GetAll(sessionId);
 
             if (GameData == null)
-                return; //TODO vypisat nejaku inu hlasku
+            {
+                navigationManager.NavigateTo($"/error");
+                return;
+            }
 
             if (GameData.IsFinished)
                 NavigationManager.NavigateTo($"/finishedgame/{sessionId.Id}");
