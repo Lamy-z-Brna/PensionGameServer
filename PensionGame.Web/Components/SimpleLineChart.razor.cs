@@ -38,6 +38,10 @@ namespace PensionGame.Web.Components
             {
                 Options = new LineOptions
                 {
+                    Legend = new Legend
+                    {
+                        Position = Position.Bottom
+                    },
                     Scales = new Scales
                     {
                         XAxes = new List<CartesianAxis>
@@ -46,6 +50,7 @@ namespace PensionGame.Web.Components
                         {
                             ScaleLabel = new ScaleLabel
                             {
+
                                 LabelString = XLabel
                             }
                         }

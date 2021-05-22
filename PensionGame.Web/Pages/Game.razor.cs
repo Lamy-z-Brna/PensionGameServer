@@ -11,9 +11,6 @@ using PensionGame.Api.Domain.Resources.Holdings;
 using PensionGame.Api.Domain.Validation;
 using Blazorise;
 using System.Collections.Generic;
-using ChartJs.Blazor.LineChart;
-using ChartJs.Blazor.Util;
-using ChartJs.Blazor.Common.Enums;
 
 namespace PensionGame.Web.Pages
 {
@@ -35,6 +32,11 @@ namespace PensionGame.Web.Pages
             .FirstOrDefault();
 
         private Dictionary<int, GameState>? GameHistory { get; set; }
+
+        private Dictionary<int, ClientHoldings>? ClientHoldingsHistory => GameHistory?
+            .Where(kv => !kv.Value.IsInitial)
+            .Select(kv => new { kv.Key, kv.Value.ClientData.ClientHoldings })
+            .ToDictionary(data => data.Key, data => data.ClientHoldings);
 
         private SessionId? CurrentSessionId { get; set; }
 
@@ -134,12 +136,6 @@ namespace PensionGame.Web.Pages
             EditContext.OnFieldChanged += EditContext_OnFieldChanged;
 
             ActionsAfterRender.Add(ShowModal);
-
-            InitialiseChart();
-        }
-
-        private void InitialiseChart()
-        {
         }
 
         private async Task UpdateRemainingCashFlow(SessionId sessionId, InvestmentSelection investmentSelection)

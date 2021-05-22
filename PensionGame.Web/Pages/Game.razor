@@ -44,6 +44,7 @@
                                          YLabel="Stock Price"
                                          DataLabels="@GameHistory.Keys.Select(key => key.ToString()).ToList()"
                                          Data="@GameHistory.Values.Select(gameState => (decimal)gameState.ClientData.ClientHoldings.Stocks.UnitPrice.Price).ToList()"/>
+                        <ClientHoldingsChart ClientHoldingsHistory="@ClientHoldingsHistory" />
                     </ModalBody>
                     <ModalFooter>
                         <Button Color="Color.Primary" Clicked="@HideModal">OK</Button>
