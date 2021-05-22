@@ -14,7 +14,7 @@ namespace PensionGame.Web.Pages
         [Parameter]
         public string? SessionId { get; set; }
 
-        public SessionId? CurrentSessionId { get; set; }       
+        public SessionId? CurrentSessionId { get; set; }
 
         private Dictionary<int, GameState>? GameHistory { get; set; }
 
@@ -30,11 +30,11 @@ namespace PensionGame.Web.Pages
 
         protected override async void OnInitialized()
         {
-            if (string.IsNullOrEmpty(SessionId))
-                return; //TODO vypisat nejaku hlasku
-
-            if (!Guid.TryParse(SessionId, out var sessionGuid))
-                return; //TODO vypisat nejaku inu hlasku
+            if (string.IsNullOrEmpty(SessionId) || !Guid.TryParse(SessionId, out var sessionGuid))
+            {
+                NavigationManager.NavigateTo($"/error");
+                return;
+            }
 
             CurrentSessionId = new SessionId(sessionGuid);
 
@@ -48,10 +48,13 @@ namespace PensionGame.Web.Pages
             GameHistory = await GameService.GetAll(sessionId);
 
             if (GameData == null)
-                return; //TODO vypisat nejaku inu hlasku
+            {
+                NavigationManager.NavigateTo($"/error");
+                return;
+            }
 
             if (!GameData.IsFinished)
-                NavigationManager.NavigateTo($"/game/{sessionId.Id}");            
+                NavigationManager.NavigateTo($"/game/{sessionId.Id}");
         }
 
         private void RedirectToNewSession()

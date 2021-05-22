@@ -29,6 +29,11 @@ p {
     width: 100%;
 }
 
+.btn
+{
+    box-shadow: none !important;
+}
+
 .game-state-info {
     display: inline-block;
     margin: 0 10px 10px 0;

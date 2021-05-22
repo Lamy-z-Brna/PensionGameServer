@@ -70,7 +70,7 @@ namespace PensionGame.Web.Pages
         {
             if (string.IsNullOrEmpty(SessionId) || !Guid.TryParse(SessionId, out var sessionGuid))
             {
-                navigationManager.NavigateTo($"/error");
+                NavigationManager.NavigateTo($"/error");
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace PensionGame.Web.Pages
 
             if (GameData == null)
             {
-                navigationManager.NavigateTo($"/error");
+                NavigationManager.NavigateTo($"/error");
                 return;
             }
 
