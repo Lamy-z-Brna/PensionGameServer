@@ -46,7 +46,7 @@ namespace PensionGame.Web.Pages
 
         private EditContext EditContext { get; set; } = new(new InvestmentSelection());
 
-        private int DisposableIncome => GameData?.ClientData.DisposableIncome - GameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
+        private int DisposableIncome => GameData?.ClientData.DisposableIncome ?? 0;
 
         private int AvailableToInvest { get; set; }
 
