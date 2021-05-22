@@ -19,24 +19,28 @@
                 <th>Name</th>
                 <th>Started</th>
                 <th>Current Age</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var (session, currentYear, isFinished) in Sessions.Items)
             {
-                <tr>
-                    <td class="data-table-name">
-                        <a href="/@(isFinished ? "finishedgame" : "game")/@session.SessionId.Id">
-                            @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
-                        </a>
-                    </td>
-                    <td style="text-align: center;">
-                        @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
-                    </td>
-                    <td style="text-align: center;">
-                        @currentYear
-                    </td>
-                </tr>
+            <tr>
+                <td class="data-table-name">
+                    <a href="/@(isFinished ? "finishedgame" : "game")/@session.SessionId.Id">
+                        @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
+                    </a>
+                </td>
+                <td style="text-align: center;">
+                    @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td style="text-align: center;">
+                    @currentYear
+                </td>
+                <td style="text-align: center;">
+                    @(isFinished ? "Finished" : "In Progress")
+                </td>
+            </tr>
             }
         </tbody>
     </table>
