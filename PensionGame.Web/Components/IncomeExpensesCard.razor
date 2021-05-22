@@ -1,0 +1,41 @@
+﻿<Card>
+    @if (ClientData != null)
+    {
+        <div class="row">
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">Income</h6>
+                <h2><SignedInt Value="@ClientData.IncomeData.TotalIncome"></SignedInt></h2>
+            </div>
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">Expenses</h6>
+                <h2><SignedInt Value="@(-ClientData.ExpenseData.TotalExpenses)"></SignedInt></h2>
+            </div>
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">Cash-flow</h6>
+                <h2><SignedInt Value="@DisposableIncome"></SignedInt></h2>
+            </div>
+        </div>
+        <ExpandableSection>
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        <li>Salary paid out: @ClientData.IncomeData.ActualSalary</li>
+                        <li>Bond interest: @ClientData.IncomeData.BondInterest</li>
+                        <li>Savings account interest: @ClientData.IncomeData.SavingsAccountInterest</li>
+                        <li>Additional income: @ClientData.IncomeData.ExtraIncome</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li>Life expenses: @ClientData.ExpenseData.LifeExpenses</li>
+                        <li>Loan interest: @ClientData.ExpenseData.LoanExpenses</li>
+                        <li>Rent: @ClientData.ExpenseData.Rent</li>
+                        <li>Extra expenses: @ClientData.ExpenseData.ExtraExpenses</li>
+                    </ul>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </ExpandableSection>
+    }
+</Card>
