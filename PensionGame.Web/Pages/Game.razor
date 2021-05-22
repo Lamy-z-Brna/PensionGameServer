@@ -55,50 +55,8 @@
             </Modal>
         }
 
-        <div class="game-state-info">
-            <label>
-                Age:
-            </label>
-            <h4>
-                @GameData.Year
-            </h4>
-        </div>
-        <div class="game-state-info">
-            <label>
-                Income:
-            </label>
-            <h4>
-                @GameData.ClientData.IncomeData.TotalIncome
-            </h4>
-            <ul>
-                <li>Salary paid out: @GameData.ClientData.IncomeData.ActualSalary</li>
-                <li>Bond interest: @GameData.ClientData.IncomeData.BondInterest</li>
-                <li>Savings account interest: @GameData.ClientData.IncomeData.SavingsAccountInterest</li>
-                <li>Additional income: @GameData.ClientData.IncomeData.ExtraIncome</li>
-            </ul>
-        </div>
-        <div class="game-state-info">
-            <label>
-                Expenses:
-            </label>
-            <h4>
-                @GameData.ClientData.ExpenseData.TotalExpenses
-            </h4>
-            <ul>
-                <li>Life expenses: @GameData.ClientData.ExpenseData.LifeExpenses</li>
-                <li>Loan interest: @GameData.ClientData.ExpenseData.LoanExpenses</li>
-                <li>Rent: @GameData.ClientData.ExpenseData.Rent</li>
-                <li>Extra expenses: @GameData.ClientData.ExpenseData.ExtraExpenses</li>
-            </ul>
-        </div>
-        <div class="game-state-info">
-            <label>
-                Disposable income:
-            </label>
-            <h4>
-                @DisposableIncome
-            </h4>
-        </div>
+        <h4>Year: @GameData.Year</h4>
+        <IncomeExpensesCard ClientData="@GameData.ClientData" DisposableIncome="@DisposableIncome"></IncomeExpensesCard>
 
         @if (!GameData.IsInitial)
         {
