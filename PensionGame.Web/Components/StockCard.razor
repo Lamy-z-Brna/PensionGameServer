@@ -1,0 +1,36 @@
+﻿@if (StockData != null)
+{
+    <Card>
+        <div class="row">
+            <div class="col-md-2">
+                <h5 class="card-title mb-4">Stocks</h5>
+            </div>
+            <div class="col-md-7 text-md-end" style="clear: both">
+                @StockData.UnitsHeld * @StockData.UnitPrice.Price
+            </div>
+            <div class="col-md-3 text-md-end">
+                <h2>
+                    = <SignedInt Value="@StockValue" />
+                </h2>
+            </div>
+        </div>
+        <div class="row text-md-end">
+            <div class="col-md-8" style="clear: both">
+                <input type="number" placeholder="Order Quantity" @bind="@OrderQuantity" min="0" step="0.01" @oninput="HandleQuantityChange" /> * @StockData.UnitPrice.Price =
+            </div>
+            <div class="col-md-4" style="clear: both">
+                <div class="input-group text-md-end mb-3">
+                    <div class="input-group-prepend">
+                        <BuySellButton OnPositionChanged="HandleBuySellButton" />
+                    </div>
+                    <input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleValueChange">
+                </div>
+            </div>
+        </div>
+        <div class="row text-md-end">
+            <h2>
+                <SignedInt Value="@AfterOrderValue" />
+            </h2>
+        </div>
+    </Card>
+}

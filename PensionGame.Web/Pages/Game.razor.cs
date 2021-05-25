@@ -150,5 +150,12 @@ namespace PensionGame.Web.Pages
 
             AvailableToInvest = availableToInvest?.Amount ?? 0;
         }
+
+        private void StockSelectionChanged(int newValue)
+        {
+            InvestmentSelection.StockValue = newValue;
+
+            ValidateInvestmentSelection();
+        }
     }
 }

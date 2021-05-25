@@ -49,11 +49,11 @@
                         <PensionGame.Web.Components.Card>
                             <SimplePieChart Title="Current Portfolio"
                                             DataLabels="@(new [] { "Stocks", "Bonds", "Savings account" })"
-                                            Data="@(new decimal[] 
-                                                    { 
-                                                        GameData.ClientData.ClientHoldings.Stocks.Value, 
-                                                        GameData.ClientData.ClientHoldings.Bonds.Value, 
-                                                        GameData.ClientData.ClientHoldings.SavingsAccount.Amount 
+                                            Data="@(new decimal[]
+                                                    {
+                                                        GameData.ClientData.ClientHoldings.Stocks.Value,
+                                                        GameData.ClientData.ClientHoldings.Bonds.Value,
+                                                        GameData.ClientData.ClientHoldings.SavingsAccount.Amount
                                                     })" />
                         </PensionGame.Web.Components.Card>
                     </ModalBody>
@@ -75,6 +75,9 @@
 
     <h3>Portfolio</h3>
 
+    <StockCard StockData="@ClientHoldings?.Stocks" OnStockSelectionChanged="StockSelectionChanged"/>
+
+
     <table class="data-table">
         <thead>
             <tr>
@@ -85,32 +88,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="data-table-name">
-                    <span>Stocks </span>
-                    <PensionGame.Web.Components.Tooltip Text="@StocksInfo">
-                        <InfoIcon />
-                    </PensionGame.Web.Components.Tooltip>
-                </td>
-                <td>
-                    @ClientHoldings?.Stocks.Value
-                    (@ClientHoldings?.Stocks.UnitsHeld units per @ClientHoldings?.Stocks.UnitPrice.Price)
-                </td>
-                <td>
-                    <InputNumber @bind-Value="InvestmentSelection.StockValue" />
-                </td>
-                @if (!(GameData?.IsInitial ?? true))
-                {
-                    <td>
-                        <strong>@GameData?.MarketData.ReturnData.StockRate.ToString("P1")</strong>
-                        (last year's return rate)
-                    </td>
-                }
-                else
-                {
-                    <td></td>
-                }
-            </tr>
             <tr>
                 <td class="data-table-name">
                     <span>Bonds </span>

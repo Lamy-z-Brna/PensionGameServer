@@ -30,6 +30,16 @@ namespace PensionGame.Common.Functional
             };
         }
 
+        public Union<TA, TB> Match(Func<TA, TA> funcA, Func<TB, TB> funcB)
+        {
+            return _item switch
+            {
+                1 => funcA(_a!),
+                2 => funcB(_b!),
+                _ => throw new InvalidOperationException()
+            };
+        }
+
         public void Do(Action<TA> actionA, Action<TB> actionB)
         {
             switch (_item)
@@ -117,6 +127,17 @@ namespace PensionGame.Common.Functional
         }
 
         public T Match<T>(Func<TA, T> funcA, Func<TB, T> funcB, Func<TC, T> funcC)
+        {
+            return _item switch
+            {
+                1 => funcA(_a!),
+                2 => funcB(_b!),
+                3 => funcC(_c!),
+                _ => throw new InvalidOperationException(),
+            };
+        }
+
+        public Union<TA, TB, TC> Match(Func<TA, TA> funcA, Func<TB, TB> funcB, Func<TC, TC> funcC)
         {
             return _item switch
             {
