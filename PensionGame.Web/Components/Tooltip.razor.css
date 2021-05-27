@@ -9,21 +9,11 @@ span {
     width: 500px;
     bottom: 100%;
     margin-left: -60px;
-    background-color: #363636;
-    color: #fff;
-    text-align: left;
-    padding: 5px 0;
-    border-radius: 6px;
-    z-index: 1;
-    font-size: 70%;
-    font-weight: lighter;
 }
 
     span::after {
         content: "";
         position: absolute;
-        border-style: solid;
-        border-color: #555 transparent transparent transparent;
     }
 
 .tooltip-wrapper:hover span {
