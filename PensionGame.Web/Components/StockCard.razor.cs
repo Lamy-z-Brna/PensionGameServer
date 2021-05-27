@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using PensionGame.Common.Functional;
 using static PensionGame.Web.Components.BuySellButton;
+using System.Threading.Tasks;
 
 namespace PensionGame.Web.Components
 {
@@ -27,29 +28,30 @@ namespace PensionGame.Web.Components
 
         private int AfterOrderValue => StockValue + ((OrderDirection == OrderDirection.Buy ? OrderValue : -OrderValue) ?? 0);
 
-        private void HandleBuySellButton(OrderDirection newPosition)
+        private async Task HandleBuySellButton(OrderDirection newPosition)
         {
             OrderDirection = newPosition;
-            HandleOrderChange(new Value(OrderValue ?? 0));
+            await HandleOrderChange(OrderValue.HasValue ? new Value(OrderValue.Value) : new None());
         }
 
-        private void HandleQuantityChange(ChangeEventArgs changeEventArgs)
+        private async Task HandleQuantityChange(ChangeEventArgs changeEventArgs)
         {
             var newQuantity = ParseDouble(changeEventArgs);
-            HandleOrderChange(new Quantity(newQuantity));
+            await HandleOrderChange (new Quantity(newQuantity));
         }
 
-        private void HandleValueChange(ChangeEventArgs changeEventArgs)
+        private async Task HandleValueChange(ChangeEventArgs changeEventArgs)
         {
             var newValue = ParseInt(changeEventArgs);
-            HandleOrderChange(new Value(newValue));
+            await HandleOrderChange(new Value(newValue));
         }
 
-        private void HandleOrderChange(Union<Value, Quantity> union)
+        private async Task HandleOrderChange(Union<Value, Quantity, None> orderChange)
         {
-            var newOrder = union.Match(
+            var newOrder = orderChange.Match(
                 value => OrderDirection == OrderDirection.Sell && value.Amount > StockValue ? new Value(StockValue) : new Value(value.Amount),
-                quantity => OrderDirection == OrderDirection.Sell && quantity.Amount * StockPrice > StockValue ? new Quantity(StockValue / StockPrice) : quantity
+                quantity => OrderDirection == OrderDirection.Sell && quantity.Amount * StockPrice > StockValue ? new Quantity(StockValue / StockPrice) : quantity,
+                none => none
                 );
 
             newOrder.Do(
@@ -62,13 +64,18 @@ namespace PensionGame.Web.Components
                 {
                     OrderQuantity = Math.Round(quantity.Amount, 2);
                     OrderValue = (int)(quantity.Amount * StockPrice);
+                },
+                none =>
+                {
+                    OrderQuantity = null;
+                    OrderValue = null;
                 }
                 );
 
-            OnStockSelectionChanged.InvokeAsync(AfterOrderValue);
+            await OnStockSelectionChanged.InvokeAsync(AfterOrderValue);
         }
 
-        private double ParseDouble(ChangeEventArgs changeEventArgs)
+        private static double ParseDouble(ChangeEventArgs changeEventArgs)
         {
             if (changeEventArgs.Value is not string text)
                 return 0;
@@ -78,7 +85,7 @@ namespace PensionGame.Web.Components
             return result;
         }
 
-        private int ParseInt(ChangeEventArgs changeEventArgs)
+        private static int ParseInt(ChangeEventArgs changeEventArgs)
         {
             if (changeEventArgs.Value is not string text)
                 return 0;

@@ -100,7 +100,7 @@ namespace PensionGame.Web.Pages
 
                 ValidationResult = await GameService.InvestmentSelectionValidate(CurrentSessionId, InvestmentSelection);
 
-                StateHasChanged();
+                //StateHasChanged();
             }
         }
 
@@ -142,6 +142,8 @@ namespace PensionGame.Web.Pages
             EditContext.OnFieldChanged += EditContext_OnFieldChanged;
 
             ActionsAfterRender.Add(ShowModal);
+
+            StateHasChanged();
         }
 
         private async Task UpdateRemainingCashFlow(SessionId sessionId, InvestmentSelection investmentSelection)
@@ -151,11 +153,11 @@ namespace PensionGame.Web.Pages
             AvailableToInvest = availableToInvest?.Amount ?? 0;
         }
 
-        private void StockSelectionChanged(int newValue)
+        private async Task StockSelectionChanged(int newValue)
         {
             InvestmentSelection.StockValue = newValue;
 
-            ValidateInvestmentSelection();
+            await ValidateInvestmentSelection();
         }
     }
 }
