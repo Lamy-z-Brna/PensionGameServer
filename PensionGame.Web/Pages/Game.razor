@@ -80,7 +80,7 @@
             <StockCard StockData="@ClientHoldings?.Stocks" OnStockSelectionChanged="StockSelectionChanged"/>
         </div>
         <div class="col-md-6" style="clear: both">
-            <BondCard BondData="@ClientHoldings?.Bonds" OnBondSelectionChanged="BondSelectionChanged"/>
+            <BondCard BondData="@ClientHoldings?.Bonds" BondRate="@(GameData?.MarketData.ReturnData.SavingsAccountRate ?? 0)" OnBondSelectionChanged="BondSelectionChanged"/>
         </div>
     </div>   
 

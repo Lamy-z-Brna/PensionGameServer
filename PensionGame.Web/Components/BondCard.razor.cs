@@ -15,6 +15,9 @@ namespace PensionGame.Web.Components
         public BondHoldings? BondData { get; set; }
 
         [Parameter]
+        public double BondRate { get; set; }
+
+        [Parameter]
         public EventCallback<int> OnBondSelectionChanged { get; set; }
 
         private int BondValue => BondData?.Value ?? 0;

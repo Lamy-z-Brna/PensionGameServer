@@ -18,6 +18,12 @@
                 <Tooltip Text="Order value">
                     <input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleOrderValueChange">
                 </Tooltip>
+                at 
+                <Tooltip>
+                    <h2>
+                    @BondRate.ToString("P1")
+                    </h2> 
+                </Tooltip>
             </div>
         </div>
         <div class="row text-md-end">
