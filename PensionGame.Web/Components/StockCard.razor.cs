@@ -10,6 +10,8 @@ namespace PensionGame.Web.Components
 {
     public partial class StockCard
     {
+        private const string StockInfo = "Stocks are a highly volatile liquid investment that has a high average returns. The price of stock market unit can vary widely from year to year, however you are able to buy and sell down units freely.";
+
         [Parameter]
         public StockHolding? StockData { get; set; }
 

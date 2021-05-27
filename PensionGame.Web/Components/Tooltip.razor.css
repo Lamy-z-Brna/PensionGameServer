@@ -6,7 +6,8 @@
 span {
     visibility: hidden;
     position: absolute;
-    width: 500px;
+    width: max-content;
+    max-width: 500px;
     bottom: 100%;
     margin-left: -60px;
 }

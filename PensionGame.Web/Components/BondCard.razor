@@ -1,0 +1,44 @@
+﻿@using PensionGame.Common.Extensions
+
+@if (BondData != null)
+{
+    <Card>
+        <div class="row">
+            <div class="col-md-6 text-md-start">
+                <h3 class="card-title mb-4">Bonds <Tooltip Text="@BondInfo"><InfoIcon/></Tooltip></h3>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h2>
+                    = <Tooltip Text="Bond value held"><SignedInt Value="@BondValue" /></Tooltip>
+                </h2>
+            </div>
+        </div>
+        <div class="row text-md-end">
+            <div class="input-group text-md-end mb-3">
+                <Tooltip Text="Order value">
+                    <input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleOrderValueChange">
+                </Tooltip>
+            </div>
+        </div>
+        <div class="row text-md-end">
+            <h2>
+                <Tooltip Text="Bond value after order">
+                    <SignedInt Value="@AfterOrderValue" />
+                </Tooltip>
+            </h2>
+        </div>
+        @if(BondData.Any())
+        {
+            <ExpandableSection>
+                <ul>
+                @foreach(var (bond, index) in BondData.WithIndex(1))
+                {
+                    <li>
+                    Bond #@index: @bond.YearlyPayment yearly (expires @(bond.YearsToExpiration == 1 ? "this year" : $"in {bond.YearsToExpiration} years"))
+                </li>
+                }
+                </ul>
+            </ExpandableSection>
+        }
+    </Card>
+}
