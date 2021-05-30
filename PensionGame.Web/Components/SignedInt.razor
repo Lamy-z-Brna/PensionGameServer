@@ -1,9 +1,13 @@
-﻿<span class="@NumberClass">
-    @NumberText
-</span>
+﻿@if (Value != 0 || DisplayZero)
+{
+    <span class="@NumberClass">
+        @NumberText
+    </span>
+}
 
 @code {
     [Parameter] public int Value { get; set; }
+    [Parameter] public bool DisplayZero { get; set; } = true;
 
     public string NumberText => $"{Value:+ #,##0;- #,##0;0}";
     public string NumberClass => Value > 0 ? "positive" : (Value < 0 ? "negative" : "zero");

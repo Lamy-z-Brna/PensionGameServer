@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-6 text-md-end">
                 <h2>
-                    <Tooltip Text="Bond value held"><SignedInt Value="@BondValue" /></Tooltip>
+                    <Tooltip Text="Bond value held"><SignedInt DisplayZero="false" Value="@BondValue" /></Tooltip>
                 </h2>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Bond value after order">
-                    <SignedInt Value="@AfterOrderValue" />
+                    <SignedInt DisplayZero="false" Value="@AfterOrderValue" />
                 </Tooltip>
             </h2>
         </div>

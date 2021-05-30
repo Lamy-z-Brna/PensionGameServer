@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-6 text-md-end">
                 <h2>
-                    <Tooltip Text="Savings account value held"><SignedInt Value="@SavingsAccountValue" /></Tooltip>
+                    <Tooltip Text="Savings account value held"><SignedInt DisplayZero="false" Value="@SavingsAccountValue" /></Tooltip>
                 </h2>
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Savings account value after transaction">
-                    <SignedInt Value="@(AfterTransactionValue ?? 0)" />
+                    <SignedInt DisplayZero="false" Value="@(AfterTransactionValue ?? 0)" />
                 </Tooltip>
             </h2>
         </div>
