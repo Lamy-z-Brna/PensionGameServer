@@ -170,5 +170,12 @@ namespace PensionGame.Web.Pages
 
             await ValidateInvestmentSelection();
         }
+
+        private async Task LoanSelectionChanged(int? newValue)
+        {
+            InvestmentSelection.LoanValue = newValue ?? 0;
+
+            await ValidateInvestmentSelection();
+        }
     }
 }

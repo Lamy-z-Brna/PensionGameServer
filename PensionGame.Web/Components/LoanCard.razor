@@ -1,0 +1,53 @@
+﻿@using PensionGame.Common.Extensions
+
+@if (LoanData != null)
+{
+    <Card>
+        <div class="row">
+            <div class="col-md-6 text-md-start">
+                <h3 class="card-title mb-4">Loans <Tooltip Text="@LoanInfo"><InfoIcon /></Tooltip></h3>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h2>
+                    <Tooltip Text="Outstanding debt"><SignedInt Value="@(-LoanValue)" /></Tooltip>
+                </h2>
+            </div>
+        </div>
+        <div class="row text-md-end">
+            <div class="input-group text-md-end mb-3">
+                <div class="input-group-prepend">
+                    <BorrowRepayButton OnPositionChanged="HandleBorrowRepayButton" />
+                </div>
+                <Tooltip Text="Loan action value">
+                    <input type="number" placeholder="Transaction Value" @bind="@LoanActionValue" min="0" step="1" @oninput="HandleLoanActionValueChange">
+                </Tooltip>
+            </div>
+            at
+            <Tooltip Text="Interest rate">
+                <h2>
+                    @LoanRate.ToString("P1")
+                </h2>
+            </Tooltip>
+        </div>
+        <div class="row text-md-end">
+            <h2>
+                <Tooltip Text="Outstanding debt after action">
+                    <SignedInt Value="@(AfterActionValue ?? 0)" />
+                </Tooltip>
+            </h2>
+        </div>
+        @if (LoanData.Any())
+        {
+            <ExpandableSection>
+                <ul>
+                    @foreach (var (loan, index) in LoanData.WithIndex(1))
+                    {
+                        <li>
+                            Loan #@index: @loan.Amount borrowed at @loan.InterestRate.ToString("P1")
+                        </li>
+                    }
+                </ul>
+            </ExpandableSection>
+        }
+    </Card>
+}
