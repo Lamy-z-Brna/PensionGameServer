@@ -17,13 +17,8 @@
             <div class="input-group text-md-end mb-3">
                 <input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleOrderValueChange">
             </div>
-            at
-            <Tooltip Text="Interest rate">
-                <h2>
-                    @BondRate.ToString("P1")
-                </h2>
-            </Tooltip>
         </div>
+        <InterestRateLine InterestRate="@BondRate" />
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Bond value after order">

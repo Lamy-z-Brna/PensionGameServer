@@ -22,13 +22,8 @@
                     <input type="number" placeholder="Transaction Value" @bind="@TransactionValue" min="0" step="1" @oninput="HandleTransactionValueChange">
                 </Tooltip>
             </div>
-            at
-            <Tooltip Text="Interest rate">
-                <h2>
-                    @SavingsAccountRate.ToString("P1")
-                </h2>
-            </Tooltip>
         </div>
+        <InterestRateLine InterestRate="@SavingsAccountRate" />
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Savings account value after transaction">
