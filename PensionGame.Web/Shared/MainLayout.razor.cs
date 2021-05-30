@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Web.Services;
 using System.Threading.Tasks;
+using PensionGame.Web.Helpers;
 
 namespace PensionGame.Web.Shared
 {
@@ -22,7 +23,7 @@ namespace PensionGame.Web.Shared
         {
             var dimensions = await BrowserService!.GetDimensions();
 
-            if (dimensions.Width < 992)
+            if (dimensions.Width < SizeHelper.SmallWindowWidth)
                 Collapsed = !Collapsed;
 
             StateHasChanged();
