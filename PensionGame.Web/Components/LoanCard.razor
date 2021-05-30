@@ -20,13 +20,8 @@
                 </div>
                 <input type="number" placeholder="Transaction Value" @bind="@LoanActionValue" min="0" step="1" @oninput="HandleLoanActionValueChange">
             </div>
-            at
-            <Tooltip Text="Interest rate">
-                <h2>
-                    @LoanRate.ToString("P1")
-                </h2>
-            </Tooltip>
         </div>
+        <InterestRateLine InterestRate="@LoanRate" />
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Outstanding debt after action">
