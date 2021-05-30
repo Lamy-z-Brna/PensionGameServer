@@ -28,16 +28,11 @@ namespace PensionGame.Web.Pages
 
         private Dictionary<int, GameState>? GameHistory { get; set; }
 
-        private Dictionary<int, ClientHoldings>? ClientHoldingsHistory => GameHistory?
-            .Where(kv => !kv.Value.IsInitial)
-            .Select(kv => new { kv.Key, kv.Value.ClientData.ClientHoldings })
-            .ToDictionary(data => data.Key, data => data.ClientHoldings);
-
         private SessionId? CurrentSessionId { get; set; }
 
         private ValidationResultModel? ValidationResult { get; set; }
 
-        private bool IsValid => ValidationResult == null;
+        private bool IsValid => GameData != null && ValidationResult == null;
 
         private EditContext EditContext { get; set; } = new(new InvestmentSelection());
 
