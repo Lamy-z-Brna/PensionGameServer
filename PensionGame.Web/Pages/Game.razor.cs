@@ -15,9 +15,7 @@ using System.Collections.Generic;
 namespace PensionGame.Web.Pages
 {
     public partial class Game
-    {        
-        private const string BondsInfo = "Bonds are a long term investment with above average returns, but low liquidity. Bonds yield coupons of the same amount every year until they expire (10 years). You cannot disinvest bonds and have to wait until they expire.";
-        private const string SavingsAccountInfo = "An investment with very small but guaranteed returns. You can add and withdraw your investment at any moment, making it highly liquid. Any remaining disposable income will be automatically invested here.";
+    {      
         private const string LoansInfo = "A very expensive way to get extra money for investments. Interest will be charged every year until you pay your loans back.";
 
         [Parameter]
@@ -152,16 +150,23 @@ namespace PensionGame.Web.Pages
             AvailableToInvest = availableToInvest?.Amount ?? 0;
         }
 
-        private async Task StockSelectionChanged(int newValue)
+        private async Task StockSelectionChanged(int? newValue)
         {
-            InvestmentSelection.StockValue = newValue;
+            InvestmentSelection.StockValue = newValue ?? 0;
 
             await ValidateInvestmentSelection();
         }
 
-        private async Task BondSelectionChanged(int newValue)
+        private async Task BondSelectionChanged(int? newValue)
         {
-            InvestmentSelection.BondValue = newValue;
+            InvestmentSelection.BondValue = newValue ?? 0;
+
+            await ValidateInvestmentSelection();
+        }
+
+        private async Task SavingsAccountSelectionChanged(int? newValue)
+        {
+            InvestmentSelection.SavingsAccountValue = newValue ?? 0;
 
             await ValidateInvestmentSelection();
         }

@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using PensionGame.Web.Helpers;
 
 namespace PensionGame.Web.Components
 {
@@ -18,7 +16,7 @@ namespace PensionGame.Web.Components
         public double BondRate { get; set; }
 
         [Parameter]
-        public EventCallback<int> OnBondSelectionChanged { get; set; }
+        public EventCallback<int?> OnBondSelectionChanged { get; set; }
 
         private int BondValue => BondData?.Value ?? 0;
 
@@ -28,18 +26,8 @@ namespace PensionGame.Web.Components
 
         private async Task HandleOrderValueChange(ChangeEventArgs changeEventArgs)
         {
-            OrderValue = ParseInt(changeEventArgs);
-            await OnBondSelectionChanged.InvokeAsync(OrderValue ?? 0);
-        }
-
-        private static int ParseInt(ChangeEventArgs changeEventArgs)
-        {
-            if (changeEventArgs.Value is not string text)
-                return 0;
-
-            _ = int.TryParse(text, out var result);
-
-            return result;
+            OrderValue = changeEventArgs.GetInt();
+            await OnBondSelectionChanged.InvokeAsync(OrderValue);
         }
     }
 }

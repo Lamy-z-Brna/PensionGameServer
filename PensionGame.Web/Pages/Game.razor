@@ -77,12 +77,17 @@
 
     <div class="row text-md-end">
         <div class="col-md-6" style="clear: both">
-            <StockCard StockData="@ClientHoldings?.Stocks" OnStockSelectionChanged="StockSelectionChanged"/>
+            <StockCard StockData="@ClientHoldings?.Stocks" OnStockSelectionChanged="StockSelectionChanged" />
         </div>
         <div class="col-md-6" style="clear: both">
-            <BondCard BondData="@ClientHoldings?.Bonds" BondRate="@(GameData?.MarketData.ReturnData.SavingsAccountRate ?? 0)" OnBondSelectionChanged="BondSelectionChanged"/>
+            <BondCard BondData="@ClientHoldings?.Bonds" BondRate="@(GameData?.MarketData.ReturnData.BondRate ?? 0)" OnBondSelectionChanged="BondSelectionChanged" />
         </div>
-    </div>   
+    </div>
+    <div class="row text-md-end">
+        <div class="col-md-12" style="clear: both">
+            <SavingsAccountCard SavingsAccountData="@ClientHoldings?.SavingsAccount" SavingsAccountRate="@(GameData?.MarketData.ReturnData.SavingsAccountRate ?? 0)" OnSavingsAccountSelectionChanged="SavingsAccountSelectionChanged" />
+        </div>
+    </div>
 
     <table class="data-table">
         <thead>
@@ -94,22 +99,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="data-table-name">
-                    <span>Savings Account</span>
-                    <PensionGame.Web.Components.Tooltip Text="@SavingsAccountInfo">
-                        <InfoIcon />
-                    </PensionGame.Web.Components.Tooltip>
-                </td>
-                <td>@ClientHoldings?.SavingsAccount.Amount</td>
-                <td>
-                    <InputNumber @bind-Value="InvestmentSelection.SavingsAccountValue" />
-                </td>
-                <td>
-                    <strong>@GameData?.MarketData.ReturnData.SavingsAccountRate.ToString("P1")</strong>
-                    (interest rate)
-                </td>
-            </tr>
             <tr>
                 <td class="data-table-name">
                     <span>Loans </span>

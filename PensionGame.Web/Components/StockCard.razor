@@ -29,7 +29,7 @@
         </div>
         <div class="row text-md-end">
             <h2>
-                <Tooltip Text="Stock value after order"><SignedInt Value="@AfterOrderValue" /></Tooltip>
+                <Tooltip Text="Stock value after order"><SignedInt Value="@(AfterOrderValue ?? 0)" /></Tooltip>
             </h2>
         </div>
     </Card>

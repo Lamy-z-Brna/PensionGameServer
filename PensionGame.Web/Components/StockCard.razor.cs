@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
 using System;
-using System.Globalization;
 using PensionGame.Common.Functional;
 using static PensionGame.Web.Components.BuySellButton;
 using System.Threading.Tasks;
+using PensionGame.Web.Helpers;
 
 namespace PensionGame.Web.Components
 {
@@ -16,7 +16,7 @@ namespace PensionGame.Web.Components
         public StockHolding? StockData { get; set; }
 
         [Parameter]
-        public EventCallback<int> OnStockSelectionChanged { get; set; }
+        public EventCallback<int?> OnStockSelectionChanged { get; set; }
 
         private double StockPrice => StockData?.UnitPrice.Price ?? 0;
 
@@ -28,7 +28,7 @@ namespace PensionGame.Web.Components
 
         private OrderDirection OrderDirection { get; set; }
 
-        private int AfterOrderValue => StockValue + ((OrderDirection == OrderDirection.Buy ? OrderValue : -OrderValue) ?? 0);
+        private int? AfterOrderValue => OrderValue.HasValue ? StockValue + (OrderDirection == OrderDirection.Buy ? OrderValue : -OrderValue) : null;
 
         private async Task HandleBuySellButton(OrderDirection newPosition)
         {
@@ -38,13 +38,13 @@ namespace PensionGame.Web.Components
 
         private async Task HandleQuantityChange(ChangeEventArgs changeEventArgs)
         {
-            var newQuantity = ParseDouble(changeEventArgs);
+            var newQuantity = changeEventArgs.GetDouble();
             await HandleOrderChange (new Quantity(newQuantity));
         }
 
         private async Task HandleValueChange(ChangeEventArgs changeEventArgs)
         {
-            var newValue = ParseInt(changeEventArgs);
+            var newValue = changeEventArgs.GetInt();
             await HandleOrderChange(new Value(newValue));
         }
 
@@ -60,12 +60,12 @@ namespace PensionGame.Web.Components
                 value =>
                 {
                     OrderValue = value.Amount;
-                    OrderQuantity = Math.Round(value.Amount / StockPrice, 2);
+                    OrderQuantity = value.Amount.HasValue ? Math.Round(value.Amount.Value / StockPrice, 2) : null;
                 },
                 quantity =>
                 {
-                    OrderQuantity = Math.Round(quantity.Amount, 2);
-                    OrderValue = (int)(quantity.Amount * StockPrice);
+                    OrderQuantity = quantity.Amount.HasValue ? Math.Round(quantity.Amount.Value, 2) : null;
+                    OrderValue = (int?)(quantity.Amount * StockPrice);
                 },
                 none =>
                 {
@@ -77,28 +77,8 @@ namespace PensionGame.Web.Components
             await OnStockSelectionChanged.InvokeAsync(AfterOrderValue);
         }
 
-        private static double ParseDouble(ChangeEventArgs changeEventArgs)
-        {
-            if (changeEventArgs.Value is not string text)
-                return 0;
+        private record Quantity(double? Amount);
 
-            _ = double.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var result);
-
-            return result;
-        }
-
-        private static int ParseInt(ChangeEventArgs changeEventArgs)
-        {
-            if (changeEventArgs.Value is not string text)
-                return 0;
-
-            _ = int.TryParse(text, out var result);
-
-            return result;
-        }
-
-        private record Quantity(double Amount);
-
-        private record Value(int Amount);
+        private record Value(int? Amount);
     }
 }
