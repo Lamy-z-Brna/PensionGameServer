@@ -64,12 +64,40 @@
             </Modal>
         }
 
-        <h4>Age: @GameData.Year</h4>
         <IncomeExpensesCard ClientData="@GameData.ClientData" DisposableIncome="@DisposableIncome"></IncomeExpensesCard>
 
         @if (!GameData.IsInitial)
         {
-            <button class="btn btn-secondary" @onclick="ShowModal">Display info</button>
+            <div class="row text-sm-end">
+                <div class="col-sm-3" style="clear: both">
+                    <AgeCard Age="@GameData.Year" />
+                </div>
+                <div class="col-sm-3" style="clear: both">
+                    <PensionGame.Web.Components.Card>
+                        <div class="row">
+                            <div class="col-md-6 text-md-start">
+                                <h5 class="card-title mb-2">Events</h5>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary" @onclick="ShowModal">More info</button>
+                    </PensionGame.Web.Components.Card>
+                </div>
+                <div class="col-sm-6" style="clear: both">
+                    <AvailableToInvestCard AvailableToInvest="@AvailableToInvest" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row text-sm-end">
+                <div class="col-sm-3" style="clear: both">
+                    <AgeCard Age="@GameData.Year" />
+                </div>
+                <div class="col-sm-9" style="clear: both">
+                    <AvailableToInvestCard AvailableToInvest="@AvailableToInvest" />
+                </div>
+            </div>
         }
     }
 
@@ -91,20 +119,6 @@
             <LoanCard LoanData="@ClientHoldings?.Loans" LoanRate="@(GameData?.MarketData.ReturnData.LoanRate ?? 0)" OnLoanValueChange="LoanSelectionChanged" />
         </div>
     </div>
-
-    @if (GameData != null)
-    {
-        <div>
-            <div class="game-state-info">
-                <label>
-                    Available to invest:
-                </label>
-                <h4>
-                    @AvailableToInvest
-                </h4>
-            </div>
-        </div>
-    }
 
     <SubmitButton IsDisabled="@(!IsValid)" OnSubmit="@HandleValidSubmit" />
 </EditForm>

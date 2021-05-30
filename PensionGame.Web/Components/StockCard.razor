@@ -3,10 +3,10 @@
     <Card>
         <div class="row">
             <div class="col-md-4 text-md-start">
-                <h3 class="card-title mb-4">Stocks <Tooltip Text="@StockInfo"><InfoIcon/></Tooltip></h3>
+                <h3 class="card-title mb-4">Stocks <Tooltip Text="@StockInfo"><InfoIcon /></Tooltip></h3>
             </div>
             <div class="col-md-2 text-md-end" style="clear: both">
-                <Tooltip Text="Units held" >@StockData.UnitsHeld</Tooltip>  * <Tooltip Text="Stock price" >@StockData.UnitPrice.Price</Tooltip>
+                <Tooltip Text="Units held">@StockData.UnitsHeld</Tooltip>  * <Tooltip Text="Stock price">@StockData.UnitPrice.Price</Tooltip>
             </div>
             <div class="col-md-6 text-md-end">
                 <h2>
@@ -16,14 +16,14 @@
         </div>
         <div class="row text-md-end">
             <div class="col-md-6" style="clear: both">
-                <Tooltip Text="Order quantity"><input type="number" placeholder="Order Quantity" @bind="@OrderQuantity" min="0" step="0.01" @oninput="HandleQuantityChange" /></Tooltip> * <Tooltip Text="Stock price" >@StockData.UnitPrice.Price</Tooltip> =
+                <input type="number" placeholder="Order Quantity" @bind="@OrderQuantity" min="0" step="0.01" @oninput="HandleQuantityChange" /> * <Tooltip Text="Stock price">@StockData.UnitPrice.Price</Tooltip> =
             </div>
             <div class="col-md-6" style="clear: both">
                 <div class="input-group text-md-end mb-3">
                     <div class="input-group-prepend">
                         <BuySellButton OnPositionChanged="HandleBuySellButton" />
                     </div>
-                    <Tooltip Text="Order value"><input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleValueChange"></Tooltip>
+                    <input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleValueChange">
                 </div>
             </div>
         </div>

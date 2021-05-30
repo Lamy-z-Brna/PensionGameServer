@@ -16,8 +16,6 @@ namespace PensionGame.Web.Pages
 {
     public partial class Game
     {      
-        private const string LoansInfo = "A very expensive way to get extra money for investments. Interest will be charged every year until you pay your loans back.";
-
         [Parameter]
         public string? SessionId { get; set; }
 
@@ -52,6 +50,12 @@ namespace PensionGame.Web.Pages
         private Modal? ModalWindow;
 
         private List<Action> ActionsAfterRender { get; set; } = new List<Action> { };
+
+        private int CurrentStockValue => GameData?.ClientData.ClientHoldings.Stocks.Value ?? 0;
+
+        private int CurrentSavingsAccountValue => GameData?.ClientData.ClientHoldings.SavingsAccount.Amount ?? 0;
+
+        private int CurrentLoanValue => GameData?.ClientData.ClientHoldings.Loans.TotalLoanValue ?? 0;
 
         private void ShowModal()
         {
@@ -96,8 +100,6 @@ namespace PensionGame.Web.Pages
                 await UpdateRemainingCashFlow(CurrentSessionId, InvestmentSelection);
 
                 ValidationResult = await GameService.InvestmentSelectionValidate(CurrentSessionId, InvestmentSelection);
-
-                //StateHasChanged();
             }
         }
 
@@ -126,10 +128,10 @@ namespace PensionGame.Web.Pages
                 NavigationManager.NavigateTo($"/finishedgame/{sessionId.Id}");
 
             InvestmentSelection = new(new(
-                StockValue: GameData.ClientData.ClientHoldings.Stocks.Value,
+                StockValue: CurrentStockValue,
                 BondValue: 0,
-                SavingsAccountValue: GameData.ClientData.ClientHoldings.SavingsAccount.Amount,
-                LoanValue: GameData.ClientData.ClientHoldings.Loans.Sum(l => l.Amount)
+                SavingsAccountValue: CurrentSavingsAccountValue,
+                LoanValue: CurrentLoanValue
             ));
 
             await ValidateInvestmentSelection();
@@ -152,7 +154,7 @@ namespace PensionGame.Web.Pages
 
         private async Task StockSelectionChanged(int? newValue)
         {
-            InvestmentSelection.StockValue = newValue ?? 0;
+            InvestmentSelection.StockValue = newValue ?? CurrentStockValue;
 
             await ValidateInvestmentSelection();
         }
@@ -166,14 +168,14 @@ namespace PensionGame.Web.Pages
 
         private async Task SavingsAccountSelectionChanged(int? newValue)
         {
-            InvestmentSelection.SavingsAccountValue = newValue ?? 0;
+            InvestmentSelection.SavingsAccountValue = newValue ?? CurrentSavingsAccountValue;
 
             await ValidateInvestmentSelection();
         }
 
         private async Task LoanSelectionChanged(int? newValue)
         {
-            InvestmentSelection.LoanValue = newValue ?? 0;
+            InvestmentSelection.LoanValue = newValue ?? CurrentLoanValue;
 
             await ValidateInvestmentSelection();
         }

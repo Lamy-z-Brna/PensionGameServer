@@ -31,7 +31,7 @@ namespace PensionGame.Web.Components
         private async Task HandleBorrowRepayButton(LoanAction loanAction)
         {
             LoanAction = loanAction;
-            await HandleLoanChange(LoanValue);
+            await HandleLoanChange(LoanActionValue);
         }
 
         public async Task HandleLoanActionValueChange(ChangeEventArgs changeEventArgs)

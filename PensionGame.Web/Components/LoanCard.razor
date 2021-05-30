@@ -18,9 +18,7 @@
                 <div class="input-group-prepend">
                     <BorrowRepayButton OnPositionChanged="HandleBorrowRepayButton" />
                 </div>
-                <Tooltip Text="Loan action value">
-                    <input type="number" placeholder="Transaction Value" @bind="@LoanActionValue" min="0" step="1" @oninput="HandleLoanActionValueChange">
-                </Tooltip>
+                <input type="number" placeholder="Transaction Value" @bind="@LoanActionValue" min="0" step="1" @oninput="HandleLoanActionValueChange">
             </div>
             at
             <Tooltip Text="Interest rate">
@@ -32,7 +30,7 @@
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Outstanding debt after action">
-                    <SignedInt Value="@(AfterActionValue ?? 0)" />
+                    <SignedInt Value="@(-AfterActionValue ?? 0)" />
                 </Tooltip>
             </h2>
         </div>
