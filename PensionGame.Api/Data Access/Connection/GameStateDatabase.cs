@@ -12,7 +12,8 @@ namespace PensionGame.Api.Data_Access.Connection
     {
         private IMongoCollection<GameState> GameStates => ObjectCollection;
 
-        public GameStateDatabase(GameStateConnectionSettings pensionGameConnectionSettings) : base(pensionGameConnectionSettings)
+        public GameStateDatabase(GameStateDatabaseSettings gameStateDatabaseSettings, DatabaseConnectionSettings databaseConnectionSettings)
+            : base(gameStateDatabaseSettings, databaseConnectionSettings)
         {
         }
 

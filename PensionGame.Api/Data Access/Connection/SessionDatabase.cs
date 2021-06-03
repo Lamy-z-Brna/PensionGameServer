@@ -13,7 +13,8 @@ namespace PensionGame.Api.Data_Access.Connection
     {
         private IMongoCollection<Session> Sessions => ObjectCollection;
 
-        public SessionDatabase(SessionConnectionSettings sessionConnectionSettings) : base(sessionConnectionSettings)
+        public SessionDatabase(SessionDatabaseSettings sessionDatabaseSettings, DatabaseConnectionSettings databaseConnectionSettings) 
+            : base(sessionDatabaseSettings, databaseConnectionSettings)
         {
         }
 
@@ -25,7 +26,7 @@ namespace PensionGame.Api.Data_Access.Connection
         public async Task<Session?> Get(Guid sessionId)
         {
             var result = await Sessions
-                .FindAsync(session => session.Object != null && session.Object.SessionId.Id == sessionId);           
+                .FindAsync(session => session.Object != null && session.Object.SessionId.Id == sessionId);
 
             return result.FirstOrDefault();
         }

@@ -2,7 +2,7 @@
 
 namespace PensionGame.Api.Data_Access.ConnectionSettings
 {
-    public sealed record GameStateConnectionSettings : DatabaseConnectionSettings<GameState>
+    public sealed record GameStateDatabaseSettings : DatabaseSettings<GameState>
     {
     }
 }

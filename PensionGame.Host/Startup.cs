@@ -33,9 +33,15 @@ namespace PensionGame.Host
     {
         private static readonly WindsorContainer _container = new();
 
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile("appsettings.local.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = configurationBuilder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -43,15 +49,17 @@ namespace PensionGame.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<GameStateConnectionSettings>(
-                Configuration.GetSection(nameof(GameStateConnectionSettings)));
+            services.Configure<GameStateDatabaseSettings>(
+                Configuration.GetSection(nameof(GameStateDatabaseSettings)));
 
-            services.Configure<SessionConnectionSettings>(
-                Configuration.GetSection(nameof(SessionConnectionSettings)));
+            services.Configure<SessionDatabaseSettings>(
+                Configuration.GetSection(nameof(SessionDatabaseSettings)));
 
-            services.AddSingleton(sp => sp.GetRequiredService<IOptions<GameStateConnectionSettings>>().Value);
+            services.AddSingleton(sp => new DatabaseConnectionSettings() { ConnectionString = Configuration.GetConnectionString("MongoDb") });
 
-            services.AddSingleton(sp => sp.GetRequiredService<IOptions<SessionConnectionSettings>>().Value);
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<GameStateDatabaseSettings>>().Value);
+
+            services.AddSingleton(sp => sp.GetRequiredService<IOptions<SessionDatabaseSettings>>().Value);
 
             services.AddSingleton<GameStateDatabase>();
 
