@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PensionGame.Web.Client;
 using PensionGame.Web.Services;
+using System;
 
 namespace PensionGame.Web
 {
@@ -27,7 +28,8 @@ namespace PensionGame.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<IServiceClient, ServiceClient>();
-            services.AddSingleton<IRestConnectionConfiguration, RestConnectionConfiguration>();
+            services.AddSingleton<IRestConnectionConfiguration, RestConnectionConfiguration>(sp =>
+                new RestConnectionConfiguration(new Uri(Configuration.GetValue<string>("RestApiUri"))));
             services.AddSingleton<SessionDataServices>();
             services.AddSingleton<GameDataServices>();
             services.AddScoped<BrowserService>();
