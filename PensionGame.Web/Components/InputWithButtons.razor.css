@@ -1,0 +1,22 @@
+﻿.input-group {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input {
+    max-width: 150px;
+    text-align: right;
+}

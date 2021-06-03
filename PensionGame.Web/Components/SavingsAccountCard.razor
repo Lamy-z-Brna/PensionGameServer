@@ -14,20 +14,13 @@
             </div>
         </div>
         <div class="row text-md-end">
-            <div class="input-group text-md-end mb-3">
-                <div class="input-group-prepend">
-                    <DepositWithdrawButton OnPositionChanged="HandleDepositWithdrawButton" />
-                </div>
-                <Tooltip Text="Transaction value">
-                    <input type="number" placeholder="Transaction Value" @bind="@TransactionValue" min="0" step="1" @oninput="HandleTransactionValueChange">
-                </Tooltip>
-            </div>
+            <InputWithButtons InputCaption="Transaction value" PositiveCaption="Deposit" NegativeCaption="Withdraw" @bind-value="@TransactionValue" OnInputChanged="HandleTransactionValueChange" OnPositionChanged="HandlePositionChange" />
         </div>
         <InterestRateLine InterestRate="@SavingsAccountRate" />
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Savings account value after transaction">
-                    <SignedInt DisplayZero="false" Value="@(AfterTransactionValue ?? 0)" />
+                    <SignedInt DisplayZero="@(SavingsAccountValue > 0)" IsHidden="@(TransactionValue == null || TransactionValue == 0)" Value="@(AfterTransactionValue ?? 0)" />
                 </Tooltip>
             </h2>
         </div>

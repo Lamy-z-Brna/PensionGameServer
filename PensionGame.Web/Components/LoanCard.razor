@@ -14,18 +14,13 @@
             </div>
         </div>
         <div class="row text-md-end">
-            <div class="input-group text-md-end mb-3">
-                <div class="input-group-prepend">
-                    <BorrowRepayButton OnPositionChanged="HandleBorrowRepayButton" />
-                </div>
-                <input type="number" placeholder="Transaction Value" @bind="@LoanActionValue" min="0" step="1" @oninput="HandleLoanActionValueChange">
-            </div>
+            <InputWithButtons InputCaption="Transaction value" PositiveCaption="Borrow" NegativeCaption="Repay" @bind-value="@LoanActionValue" OnInputChanged="HandleLoanActionValueChange" OnPositionChanged="HandleBorrowRepayButton" />
         </div>
         <InterestRateLine InterestRate="@LoanRate" />
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Outstanding debt after action">
-                    <SignedInt DisplayZero="false" Value="@(-AfterActionValue ?? 0)" />
+                    <SignedInt DisplayZero="@(LoanValue > 0)" IsHidden="@(LoanActionValue == null || LoanActionValue == 0)" Value="@(-AfterActionValue ?? 0)" />
                 </Tooltip>
             </h2>
         </div>

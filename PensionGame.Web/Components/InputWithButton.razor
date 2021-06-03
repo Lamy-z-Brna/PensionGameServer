@@ -1,0 +1,12 @@
+﻿<div class="input-group text-md-end mb-3">
+    <div class="input-group-prepend">
+        <div class="btn-group">
+            <button type="button" class="btn single-button positive active">
+                @ButtonCaption
+            </button>
+        </div>
+    </div>
+    <Tooltip Text="@InputCaption">
+        <input type="number" placeholder="@InputCaption" @bind="@InputValue" min="0" step="1" @oninput="HandleInputChanged" />
+    </Tooltip>
+</div>

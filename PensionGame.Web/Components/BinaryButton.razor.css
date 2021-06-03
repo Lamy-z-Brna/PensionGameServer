@@ -2,6 +2,7 @@
     background-color: darkgray;
     border-color: darkgray;
     color: white;
+    min-width: 90px;
 }
 
 .binary-button:hover {

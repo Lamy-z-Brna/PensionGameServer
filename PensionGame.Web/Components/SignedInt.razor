@@ -1,4 +1,4 @@
-﻿@if (Value != 0 || DisplayZero)
+﻿@if (!IsHidden && (Value != 0 || DisplayZero))
 {
     <span class="@NumberClass">
         @NumberText
@@ -8,6 +8,7 @@
 @code {
     [Parameter] public int Value { get; set; }
     [Parameter] public bool DisplayZero { get; set; } = true;
+    [Parameter] public bool IsHidden { get; set; } = false;
 
     public string NumberText => $"{Value:+ #,##0;- #,##0;0}";
     public string NumberClass => Value > 0 ? "positive" : (Value < 0 ? "negative" : "zero");

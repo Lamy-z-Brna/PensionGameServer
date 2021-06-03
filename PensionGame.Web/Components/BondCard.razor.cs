@@ -24,9 +24,9 @@ namespace PensionGame.Web.Components
 
         private int AfterOrderValue => BondValue + (OrderValue ?? 0);
 
-        private async Task HandleOrderValueChange(ChangeEventArgs changeEventArgs)
+        private async Task HandleOrderValueChange(int? orderValue)
         {
-            OrderValue = changeEventArgs.GetInt();
+            OrderValue = orderValue;
             await OnBondSelectionChanged.InvokeAsync(OrderValue);
         }
     }

@@ -14,15 +14,13 @@
             </div>
         </div>
         <div class="row text-md-end">
-            <div class="input-group text-md-end mb-3">
-                <input type="number" placeholder="Order Value" @bind="@OrderValue" min="0" step="1" @oninput="HandleOrderValueChange">
-            </div>
+            <InputWithButton InputCaption="Order value" ButtonCaption="Buy" @bind-value="@OrderValue" OnInputChanged="HandleOrderValueChange" />
         </div>
         <InterestRateLine InterestRate="@BondRate" />
         <div class="row text-md-end">
             <h2>
                 <Tooltip Text="Bond value after order">
-                    <SignedInt DisplayZero="false" Value="@AfterOrderValue" />
+                    <SignedInt DisplayZero="@(BondValue > 0)" IsHidden="@(OrderValue == null || OrderValue == 0)" Value="@AfterOrderValue" />
                 </Tooltip>
             </h2>
         </div>

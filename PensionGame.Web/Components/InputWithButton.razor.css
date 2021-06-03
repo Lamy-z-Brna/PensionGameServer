@@ -1,0 +1,43 @@
+﻿.input-group {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input {
+    max-width: 150px;
+    text-align: right;
+}
+
+.single-button {
+    background-color: darkgray;
+    border-color: darkgray;
+    color: white;
+    min-width: 90px;
+}
+
+    .single-button:hover {
+        background-color: gray;
+        border-color: gray;
+    }
+
+    .single-button:focus {
+        box-shadow: none;
+    }
+
+.positive.active {
+    background-color: darkgreen;
+    border-color: darkgreen;
+}

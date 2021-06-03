@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
 using System;
-using PensionGame.Common.Functional;
-using static PensionGame.Web.Components.BuySellButton;
 using System.Threading.Tasks;
-using PensionGame.Web.Helpers;
+using static PensionGame.Web.Components.BinaryButton;
 
 namespace PensionGame.Web.Components
 {
@@ -26,59 +24,33 @@ namespace PensionGame.Web.Components
 
         private int? OrderValue { get; set; }
 
-        private OrderDirection OrderDirection { get; set; }
+        private OrderDirection Direction { get; set; }
 
-        private int? AfterOrderValue => OrderValue.HasValue ? StockValue + (OrderDirection == OrderDirection.Buy ? OrderValue : -OrderValue) : null;
+        private int? AfterOrderValue => OrderValue.HasValue ? StockValue + (Direction == OrderDirection.Buy ? OrderValue : -OrderValue) : null;
 
-        private async Task HandleBuySellButton(OrderDirection newPosition)
+        private async Task HandlePositionChange(Position position)
         {
-            OrderDirection = newPosition;
-            await HandleOrderChange(OrderValue.HasValue ? new Value(OrderValue.Value) : new None());
+            Direction = position == Position.Positive ? OrderDirection.Buy : OrderDirection.Sell;
+            await HandleOrderChange(OrderValue);
         }
 
-        private async Task HandleQuantityChange(ChangeEventArgs changeEventArgs)
+        private async Task HandleValueChange(int? orderValue)
         {
-            var newQuantity = changeEventArgs.GetDouble();
-            await HandleOrderChange (new Quantity(newQuantity));
+            await HandleOrderChange(orderValue);
         }
 
-        private async Task HandleValueChange(ChangeEventArgs changeEventArgs)
+        private async Task HandleOrderChange(int? orderValue)
         {
-            var newValue = changeEventArgs.GetInt();
-            await HandleOrderChange(new Value(newValue));
-        }
-
-        private async Task HandleOrderChange(Union<Value, Quantity, None> orderChange)
-        {
-            var newOrder = orderChange.Match(
-                value => OrderDirection == OrderDirection.Sell && value.Amount > StockValue ? new Value(StockValue) : new Value(value.Amount),
-                quantity => OrderDirection == OrderDirection.Sell && quantity.Amount * StockPrice > StockValue ? new Quantity(StockValue / StockPrice) : quantity,
-                none => none
-                );
-
-            newOrder.Do(
-                value =>
-                {
-                    OrderValue = value.Amount;
-                    OrderQuantity = value.Amount.HasValue ? Math.Round(value.Amount.Value / StockPrice, 2) : null;
-                },
-                quantity =>
-                {
-                    OrderQuantity = quantity.Amount.HasValue ? Math.Round(quantity.Amount.Value, 2) : null;
-                    OrderValue = (int?)(quantity.Amount * StockPrice);
-                },
-                none =>
-                {
-                    OrderQuantity = null;
-                    OrderValue = null;
-                }
-                );
+            OrderValue = Direction == OrderDirection.Sell && orderValue > StockValue ? StockValue : orderValue;
+            OrderQuantity = OrderValue.HasValue ? Math.Round(OrderValue.Value / StockPrice, 2) : null;
 
             await OnStockSelectionChanged.InvokeAsync(AfterOrderValue);
         }
 
-        private record Quantity(double? Amount);
-
-        private record Value(int? Amount);
+        private enum OrderDirection
+        {
+            Buy,
+            Sell
+        }
     }
 }

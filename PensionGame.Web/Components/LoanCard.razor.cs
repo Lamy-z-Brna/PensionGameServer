@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
-using PensionGame.Web.Helpers;
 using System;
 using System.Threading.Tasks;
-using static PensionGame.Web.Components.BorrowRepayButton;
+using static PensionGame.Web.Components.BinaryButton;
 
 namespace PensionGame.Web.Components
 {
@@ -24,31 +23,36 @@ namespace PensionGame.Web.Components
 
         private int? LoanActionValue { get; set; }
 
-        private LoanAction LoanAction { get; set; }
+        private LoanAction Direction { get; set; }
 
-        private int? AfterActionValue => LoanActionValue.HasValue ? LoanValue + (LoanAction == LoanAction.Borrow ? LoanActionValue : -LoanActionValue) : null;
+        private int? AfterActionValue => LoanActionValue.HasValue ? LoanValue + (Direction == LoanAction.Borrow ? LoanActionValue : -LoanActionValue) : null;
 
-        private async Task HandleBorrowRepayButton(LoanAction loanAction)
+        private async Task HandleBorrowRepayButton(Position position)
         {
-            LoanAction = loanAction;
+            Direction = position == Position.Positive ? LoanAction.Borrow : LoanAction.Repay;
             await HandleLoanChange(LoanActionValue);
         }
 
-        public async Task HandleLoanActionValueChange(ChangeEventArgs changeEventArgs)
+        public async Task HandleLoanActionValueChange(int? loanValue)
         {
-            var loanValue = changeEventArgs.GetInt();
             await HandleLoanChange(loanValue);
         }
 
         public async Task HandleLoanChange(int? loanActionValue)
         {
             LoanActionValue = loanActionValue.HasValue ?
-                (LoanAction == LoanAction.Repay ?
+                (Direction == LoanAction.Repay ?
                     Math.Min(loanActionValue.Value, LoanValue)
                     : loanActionValue)
                 : null;
 
             await OnLoanValueChange.InvokeAsync(AfterActionValue);
+        }
+
+        private enum LoanAction
+        {
+            Borrow,
+            Repay
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
-using PensionGame.Web.Helpers;
 using System;
 using System.Threading.Tasks;
-using static PensionGame.Web.Components.DepositWithdrawButton;
+using static PensionGame.Web.Components.BinaryButton;
 
 namespace PensionGame.Web.Components
 {
@@ -24,31 +23,37 @@ namespace PensionGame.Web.Components
 
         private int? TransactionValue { get; set; }
 
-        private TransactionDirection TransactionDirection { get; set; }
+        private TransactionDirection Direction { get; set; }
 
-        private int? AfterTransactionValue => TransactionValue.HasValue  ? SavingsAccountValue + (TransactionDirection == TransactionDirection.Deposit ? TransactionValue : -TransactionValue) : null;
+        private int? AfterTransactionValue => TransactionValue.HasValue  ? SavingsAccountValue + (Direction == TransactionDirection.Deposit ? TransactionValue : -TransactionValue) : null;
 
-        private async Task HandleDepositWithdrawButton(TransactionDirection transactionDirection)
+        private async Task HandlePositionChange(Position position)
         {
-            TransactionDirection = transactionDirection;
+            Direction = Position.Positive == position ? TransactionDirection.Deposit : TransactionDirection.Withdraw;
             await HandleTransactionChange(TransactionValue);
         }
 
-        private async Task HandleTransactionValueChange(ChangeEventArgs changeEventArgs)
+        private async Task HandleTransactionValueChange(int? value)
         {
-            var transactionValue = changeEventArgs.GetInt();
+            var transactionValue = value;
             await HandleTransactionChange(transactionValue);
         }
 
         private async Task HandleTransactionChange(int? transactionValue)
         {
             TransactionValue = transactionValue.HasValue ?
-                (TransactionDirection == TransactionDirection.Withdraw ?
+                (Direction == TransactionDirection.Withdraw ?
                     Math.Min(transactionValue.Value, SavingsAccountValue)
                     : transactionValue)
                 : null;
 
             await OnSavingsAccountSelectionChanged.InvokeAsync(AfterTransactionValue);
+        }
+
+        private enum TransactionDirection
+        {
+            Deposit,
+            Withdraw
         }
     }
 }
