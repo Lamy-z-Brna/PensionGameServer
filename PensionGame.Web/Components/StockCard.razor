@@ -1,32 +1,43 @@
 ﻿@if (StockData != null)
 {
-<Card>
-    <div class="row">
-        <div class="col-md-4 text-md-start">
-            <h3 class="card-title mb-4">Stocks <Tooltip Text="@StockInfo"><InfoIcon /></Tooltip></h3>
-        </div>
-        @if (StockValue != 0)
-        {
-            <div class="col-md-2 text-md-end" style="clear: both">
-                <Tooltip Text="Units held">@StockData.UnitsHeld</Tooltip>  * <Tooltip Text="Stock price">@StockData.UnitPrice.Price</Tooltip>
+    <Card>
+        <div class="row">
+            <div class="col-md-4 text-md-start">
+                <h3 class="card-title mb-4">Stocks <Tooltip Text="@StockInfo"><InfoIcon /></Tooltip></h3>
             </div>
-            <div class="col-md-6 text-md-end">
+            <div class="col-md-8 text-md-end">
                 <h2>
-                    = <Tooltip Text="Stock value held"><SignedInt Value="@StockValue" /></Tooltip>
+                    <Tooltip Text="Stock value held"><SignedInt Value="@StockValue" /></Tooltip>
                 </h2>
             </div>
+        </div>
+        <div class="row text-md-end">
+            <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" NegativeCaption="Sell" @bind-value="@OrderValue" OnInputChanged="HandleValueChange" OnPositionChanged="HandlePositionChange" />
+        </div>
+        <div class="row text-md-end">
+            <h2>
+                <Tooltip Text="Stock value after order"><SignedInt DisplayZero="@(StockValue > 0)" IsHidden="@(OrderValue == null || OrderValue == 0)" Value="@(AfterOrderValue ?? 0)" /></Tooltip>
+            </h2>
+        </div>
+
+        @if (StockValue > 0)
+        {
+            <ExpandableSection>
+                <ul>
+                    <li>
+                        <Tooltip Text="Units held">Units held: @StockData.UnitsHeld</Tooltip>
+                    </li>
+                    <li>
+                        <Tooltip Text="Stock price">Stock price: @StockData.UnitPrice.Price</Tooltip>
+                    </li>
+                    @if (OrderValue > 0)
+                    {
+                        <li>
+                            <Tooltip Text="Order quantity">Order quantity to @Direction.ToString().ToLower(): @OrderQuantity</Tooltip>
+                        </li>
+                    }
+                </ul>
+            </ExpandableSection>
         }
-    </div>
-    <div class="row text-md-end">
-        <Tooltip Text="Order quantity">@OrderQuantity</Tooltip> * <Tooltip Text="Stock price">@StockData.UnitPrice.Price</Tooltip> =
-    </div>
-    <div class="row text-md-end">
-        <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" NegativeCaption="Sell" @bind-value="@OrderValue" OnInputChanged="HandleValueChange" OnPositionChanged="HandlePositionChange" />
-    </div>
-    <div class="row text-md-end">
-        <h2>
-            <Tooltip Text="Stock value after order"><SignedInt DisplayZero="@(StockValue > 0)" IsHidden="@(OrderValue == null || OrderValue == 0)" Value="@(AfterOrderValue ?? 0)" /></Tooltip>
-        </h2>
-    </div>
-</Card>
+    </Card>
 }
