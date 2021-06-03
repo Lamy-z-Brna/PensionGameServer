@@ -1,6 +1,6 @@
 ﻿<div class="input-group text-md-end mb-3">
     <div class="input-group-prepend">
-        <BinaryButton PositiveCaption="@PositiveCaption" NegativeCaption="@NegativeCaption" OnPositionChanged="HandlePositionChanged" />
+        <BinaryButton PositiveCaption="@PositiveCaption" NegativeCaption="@NegativeCaption" IsPositiveOnly="@IsPositiveOnly" OnPositionChanged="HandlePositionChanged" />
     </div>
     <Tooltip Text="@InputCaption">
         <input type="number" placeholder="@InputCaption" @bind="@InputValue" min="0" step="1" @oninput="HandleInputChanged" />

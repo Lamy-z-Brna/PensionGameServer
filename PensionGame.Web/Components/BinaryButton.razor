@@ -1,10 +1,14 @@
 ﻿<div class="btn-group">
-	<button type="button" @onclick="PositiveClicked"
-		class="btn binary-button positive @(State == Position.Positive ? " active" : string.Empty)">
-		@PositiveCaption
-	</button>
-	<button type="button" @onclick="NegativeClicked"
-		class="btn binary-button negative @(State == Position.Negative ? " active" : string.Empty)">
-		@NegativeCaption
-	</button>
+    <button type="button" @onclick="PositiveClicked"
+            class="btn binary-button positive @(State == Position.Positive ? " active" : string.Empty)">
+        @PositiveCaption
+    </button>
+
+    @if (!IsPositiveOnly)
+    {
+        <button type="button" @onclick="NegativeClicked"
+                class="btn binary-button negative @(State == Position.Negative ? " active" : string.Empty)">
+            @NegativeCaption
+        </button>
+    }
 </div>

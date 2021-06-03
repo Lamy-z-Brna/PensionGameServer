@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row text-md-end">
-            <InputWithButton InputCaption="Order value" ButtonCaption="Buy" @bind-value="@OrderValue" OnInputChanged="HandleOrderValueChange" />
+            <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" @bind-value="@OrderValue" IsPositiveOnly="true" OnInputChanged="HandleOrderValueChange" />
         </div>
         <InterestRateLine InterestRate="@BondRate" />
         <div class="row text-md-end">

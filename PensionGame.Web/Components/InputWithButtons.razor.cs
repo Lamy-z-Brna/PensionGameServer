@@ -19,6 +19,9 @@ namespace PensionGame.Web.Components
         public string NegativeCaption { get; set; } = string.Empty;
 
         [Parameter]
+        public bool IsPositiveOnly { get; set; }
+
+        [Parameter]
         public int? Value
         {
             get => InputValue;

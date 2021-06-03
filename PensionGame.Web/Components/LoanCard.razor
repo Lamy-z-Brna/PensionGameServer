@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row text-md-end">
-            <InputWithButtons InputCaption="Transaction value" PositiveCaption="Borrow" NegativeCaption="Repay" @bind-value="@LoanActionValue" OnInputChanged="HandleLoanActionValueChange" OnPositionChanged="HandleBorrowRepayButton" />
+            <InputWithButtons InputCaption="Transaction value" PositiveCaption="Borrow" NegativeCaption="Repay" IsPositiveOnly="@(LoanValue == 0)" @bind-value="@LoanActionValue" OnInputChanged="HandleLoanActionValueChange" OnPositionChanged="HandleBorrowRepayButton" />
         </div>
         <InterestRateLine InterestRate="@LoanRate" />
         <div class="row text-md-end">

@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="row text-md-end">
-            <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" NegativeCaption="Sell" @bind-value="@OrderValue" OnInputChanged="HandleValueChange" OnPositionChanged="HandlePositionChange" />
+            <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" NegativeCaption="Sell" @bind-value="@OrderValue" IsPositiveOnly="@(StockValue == 0)" OnInputChanged="HandleValueChange" OnPositionChanged="HandlePositionChange" />
         </div>
         <div class="row text-md-end">
             <h2>
