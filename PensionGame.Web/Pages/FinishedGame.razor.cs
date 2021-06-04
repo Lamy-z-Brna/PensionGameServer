@@ -11,6 +11,8 @@ namespace PensionGame.Web.Pages
 {
     public partial class FinishedGame
     {
+        private const string PensionYearsCovered = "The value shows how many years you could spend your pension before running out of money. Aim for the value to be more than 25 - 30 years.";
+
         [Parameter]
         public string? SessionId { get; set; }
 
