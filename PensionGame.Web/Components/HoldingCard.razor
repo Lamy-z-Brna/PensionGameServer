@@ -1,0 +1,14 @@
+﻿<Card>
+    <div class="row">
+        <div class="col-4 text-start">
+            <h3 class="card-title mb-4">@Title <Tooltip Text="@InfoTooltip"><InfoIcon /></Tooltip></h3>
+        </div>
+        <div class="col-8 text-end">
+            <h2>
+                <Tooltip Text="@ValueTooltip"><SignedInt Value="@Value" /></Tooltip>
+            </h2>
+        </div>
+    </div>
+
+    @ChildContent
+</Card>

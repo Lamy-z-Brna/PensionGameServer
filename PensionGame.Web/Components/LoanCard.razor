@@ -2,17 +2,7 @@
 
 @if (LoanData != null)
 {
-    <Card>
-        <div class="row">
-            <div class="col-md-6 text-md-start">
-                <h3 class="card-title mb-4">Loans <Tooltip Text="@LoanInfo"><InfoIcon /></Tooltip></h3>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <h2>
-                    <Tooltip Text="Outstanding debt"><SignedInt DisplayZero="true" Value="@(-LoanValue)" /></Tooltip>
-                </h2>
-            </div>
-        </div>
+    <HoldingCard Title="Loans" InfoTooltip="@LoanInfo" Value="@(-LoanValue)" ValueTooltip="Outstanding debt">
         <div class="row text-md-end">
             <InputWithButtons InputCaption="Transaction value" PositiveCaption="Borrow" NegativeCaption="Repay" IsPositiveOnly="@(LoanValue == 0)" @bind-value="@LoanActionValue" OnInputChanged="HandleLoanActionValueChange" OnPositionChanged="HandleBorrowRepayButton" />
         </div>
@@ -37,5 +27,5 @@
                 </ul>
             </ExpandableSection>
         }
-    </Card>
+    </HoldingCard>
 }

@@ -1,16 +1,6 @@
 ﻿@if (StockData != null)
 {
-    <Card>
-        <div class="row">
-            <div class="col-md-4 text-md-start">
-                <h3 class="card-title mb-4">Stocks <Tooltip Text="@StockInfo"><InfoIcon /></Tooltip></h3>
-            </div>
-            <div class="col-md-8 text-md-end">
-                <h2>
-                    <Tooltip Text="Stock value held"><SignedInt Value="@StockValue" /></Tooltip>
-                </h2>
-            </div>
-        </div>
+    <HoldingCard Title="Stocks" InfoTooltip="@StockInfo" Value="@StockValue" ValueTooltip="Stock value held">
         <div class="row text-md-end">
             <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" NegativeCaption="Sell" @bind-value="@OrderValue" IsPositiveOnly="@(StockValue == 0)" OnInputChanged="HandleValueChange" OnPositionChanged="HandlePositionChange" />
         </div>
@@ -39,5 +29,5 @@
                 </ul>
             </ExpandableSection>
         }
-    </Card>
+    </HoldingCard>
 }

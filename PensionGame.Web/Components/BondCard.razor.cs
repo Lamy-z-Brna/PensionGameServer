@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.Holdings;
 using System.Threading.Tasks;
-using PensionGame.Web.Helpers;
 
 namespace PensionGame.Web.Components
 {

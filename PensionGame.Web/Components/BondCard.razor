@@ -2,17 +2,7 @@
 
 @if (BondData != null)
 {
-    <Card>
-        <div class="row">
-            <div class="col-md-6 text-md-start">
-                <h3 class="card-title mb-4">Bonds <Tooltip Text="@BondInfo"><InfoIcon /></Tooltip></h3>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <h2>
-                    <Tooltip Text="Bond value held"><SignedInt DisplayZero="true" Value="@BondValue" /></Tooltip>
-                </h2>
-            </div>
-        </div>
+    <HoldingCard Title="Bonds" InfoTooltip="@BondInfo" Value="@BondValue" ValueTooltip="Bond value held">
         <div class="row text-md-end">
             <InputWithButtons InputCaption="Order value" PositiveCaption="Buy" @bind-value="@OrderValue" IsPositiveOnly="true" OnInputChanged="HandleOrderValueChange" />
         </div>
@@ -37,5 +27,5 @@
                 </ul>
             </ExpandableSection>
         }
-    </Card>
+    </HoldingCard>
 }
