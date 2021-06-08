@@ -15,44 +15,19 @@
     <ValidationSummary />
 
     <p>
-        <label>
-            Game Session Name:
-        </label>
-        <div>
-            <InputText @bind-Value="Session.Name" style="width: 400px" />
-        </div>
+        <MatTextField @bind-Value="Session.Name" Label="Game session name" FullWidth="true" />
     </p>
     <p>
-        <label>
-            Annual Income:
-        </label>
-        <div>
-            <InputNumber @bind-Value="Session.Income" />
-        </div>
+        <MatTextField TValue="int?" @bind-Value="Session.Income" Label="Current annual income" FullWidth="true" />
     </p>
     <p>
-        <label>
-            Annual Expenses:
-        </label>
-        <div>
-            <InputNumber @bind-Value="Session.Expenses" />
-        </div>
+        <MatTextField TValue="int?" @bind-Value="Session.Expenses" Label="Current annual expenses" FullWidth="true" />
     </p>
     <p>
-        <label>
-            Age:
-        </label>
-        <div>
-            <InputNumber @bind-Value="Session.Age" />
-        </div>
+        <MatTextField TValue="int?" @bind-Value="Session.Age" Label="Your age" FullWidth="true" />
     </p>
     <p>
-        <label>
-            Retirement Age:
-        </label>
-        <div>
-            <InputNumber @bind-Value="Session.RetirementAge" />
-        </div>
+        <MatTextField TValue="int?" @bind-Value="Session.RetirementAge" Label="Expected retirement age" FullWidth="true" />
     </p>
 
     <SubmitButton IsDisabled="@(!IsValid)" OnSubmit="@HandleValidSubmit" />
