@@ -4,7 +4,7 @@ namespace PensionGame.Web.Data
 {
     public class NewSessionModel
     {
-        public StartupParameters StartupParametersModel => new(Income, Expenses, Age, RetirementAge);
+        public StartupParameters StartupParametersModel => new(Income ?? 0, Expenses ?? 0, Age ?? 0, RetirementAge ?? 0);
 
         public NewSessionModel(StartupParameters investmentSelection, string name)
         {
@@ -15,14 +15,14 @@ namespace PensionGame.Web.Data
             Name = name;
         }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public int Income { get; set; }
+        public int? Income { get; set; }
 
-        public int Expenses { get; set; }
+        public int? Expenses { get; set; }
 
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
-        public int RetirementAge { get; set; }
+        public int? RetirementAge { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace PensionGame.Web.Pages
 
         private async Task HandleValidSubmit()
         {
-            var creationResult = await SessionService.CreateSession(Session.StartupParametersModel, Session.Name);
+            var creationResult = await SessionService.CreateSession(Session.StartupParametersModel, Session?.Name ?? string.Empty);
 
             creationResult.Do(
                     sessionId => NavigationManager.NavigateTo($"/game/{sessionId.Id}"),
@@ -35,7 +35,7 @@ namespace PensionGame.Web.Pages
 
         protected async void EditContext_OnFieldChanged(object? sender, FieldChangedEventArgs e)
         {
-            ValidationResult = await SessionService.ValidateSession(Session.StartupParametersModel, Session.Name);
+            ValidationResult = await SessionService.ValidateSession(Session.StartupParametersModel, Session?.Name ?? string.Empty);
 
             StateHasChanged();
         }
