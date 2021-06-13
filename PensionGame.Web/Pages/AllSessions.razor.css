@@ -1,0 +1,9 @@
+﻿.data-table-name {
+    font-weight: bold;
+    width: 250px;
+    max-width: 250px;
+}
+
+.data-table-center {
+    text-align: center;
+}

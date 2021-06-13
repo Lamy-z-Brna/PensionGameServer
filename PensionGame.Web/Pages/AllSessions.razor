@@ -2,6 +2,7 @@
 @using PensionGame.Web.Services
 @using PensionGame.Api.Domain.Resources.Session
 @using PensionGame.Web.Components
+@using PensionGame.Web.Helpers
 
 @inject SessionDataServices SessionService
 
@@ -34,15 +35,17 @@
                             @(!string.IsNullOrEmpty(session.Name) ? session.Name : "Anonymous")
                         </a>
                     </td>
-                    <td style="text-align: center;">
-                        @session.DateStarted.ToString("yyyy-MM-dd HH:mm:ss")
+                    <td class="data-table-center">
+                        <Tooltip Text="@session.DateStarted.ToString("dd.MM.yyyy \n HH:mm:ss")">
+                            @session.DateStarted.ToStringRelative()
+                        </Tooltip>
                     </td>
-                    <td style="text-align: center;">
+                    <td class="data-table-center">
                         @currentYear
                     </td>
                     @if (!IsSmallScreen)
                     {
-                        <td style="text-align: center;">
+                        <td class="data-table-center">
                             @(isFinished ? "Finished" : "In Progress")
                         </td>
                     }

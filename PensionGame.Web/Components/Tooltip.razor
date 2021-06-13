@@ -1,9 +1,11 @@
 ﻿<div class="tooltip-wrapper">
-	<span>
-		<div class="pf-c-tooltip" role="tooltip">
-		<div class="pf-c-tooltip__content" id="tooltip-top-content">@Text</div>
-		</div>
-	</span>
-	@ChildContent
+    @if (Text != null)
+    {
+        <span>
+            <div class="pf-c-tooltip" role="tooltip">
+            <div class="pf-c-tooltip__content" id="tooltip-top-content">@((MarkupString)Text.Replace("\n", "<br />"))</div>
+            </div>
+        </span>
+    }
+    @ChildContent
 </div>
-
