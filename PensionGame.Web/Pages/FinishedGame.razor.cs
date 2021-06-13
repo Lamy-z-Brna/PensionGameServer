@@ -18,6 +18,8 @@ namespace PensionGame.Web.Pages
 
         public SessionId? CurrentSessionId { get; set; }
 
+        private string? SessionName { get; set; }
+
         private Dictionary<int, GameState>? GameHistory { get; set; }
 
         private GameState? GameData => GameHistory?
@@ -39,6 +41,8 @@ namespace PensionGame.Web.Pages
             }
 
             CurrentSessionId = new SessionId(sessionGuid);
+
+            SessionName = (await SessionService.GetSession(sessionGuid))?.Name;
 
             await LoadPageBySessionId(CurrentSessionId);
 

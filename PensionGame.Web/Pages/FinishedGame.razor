@@ -3,9 +3,11 @@
 @using PensionGame.Web.Components
 
 @inject GameDataServices GameService
+@inject SessionDataServices SessionService  
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 
 <h1>Finished Game</h1>
+<h2>@SessionName</h2>
 
 @if (GameData != null)
 {

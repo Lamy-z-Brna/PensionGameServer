@@ -30,6 +30,8 @@ namespace PensionGame.Web.Pages
 
         private SessionId? CurrentSessionId { get; set; }
 
+        private string? SessionName { get; set; }
+
         private ValidationResultModel? ValidationResult { get; set; }
 
         private bool IsValid => GameData != null && ValidationResult == null;
@@ -72,6 +74,8 @@ namespace PensionGame.Web.Pages
 
             CurrentSessionId = new SessionId(sessionGuid);
 
+            SessionName = (await SessionService.GetSession(sessionGuid))?.Name;
+            
             await LoadPageBySessionId(CurrentSessionId);
         }
 
