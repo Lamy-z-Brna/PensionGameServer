@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using PensionGame.Api.Domain.Validation;
 using PensionGame.Common.Functional;
+using System;
 
 namespace PensionGame.Web.Services
 {
@@ -33,6 +34,11 @@ namespace PensionGame.Web.Services
         {
             return await _client.Get<PaginatedCollection<SessionInfo>>("Session/GetAll", 
                 parameters: new Dictionary<string, object> { { "page", page }, { "pageSize", pageSize } });
+        }
+
+        public async Task<Session?> GetSession(Guid sessionId)
+        {
+            return await _client.Get<Session>("Session/Get", new Dictionary<string, object> { { "sessionId", sessionId } });
         }
     }
 }
