@@ -57,6 +57,8 @@ namespace PensionGame.Web
 
             app.UseStaticFiles();
 
+            app.UseRequestLocalization();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
