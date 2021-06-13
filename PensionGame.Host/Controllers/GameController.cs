@@ -2,6 +2,7 @@
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
+using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Exceptions.Session;
 using PensionGame.Api.Handlers.Commands;
@@ -108,6 +109,21 @@ namespace PensionGame.Host.Controllers
         public async Task<PortfolioValue?> GetPortfolioValue(Guid sessionId)
         {
             var result = await _dispatcher.Query<GetPortfolioValueQuery, PortfolioValue?>
+                (
+                    new
+                    (
+                        SessionId: new SessionId(sessionId)
+                    )
+                );
+
+            return result;
+        }
+
+        [HttpGet]
+        [Route("InflationRate")]
+        public async Task<AverageInflationRate?> GetInflationRate(Guid sessionId)
+        {
+            var result = await _dispatcher.Query<GetAverageInflationRateQuery, AverageInflationRate?>
                 (
                     new
                     (

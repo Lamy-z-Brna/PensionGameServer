@@ -1,6 +1,7 @@
 using PensionGame.Api.Domain.Resources.ClientData;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
+using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Domain.Resources.Session;
 using PensionGame.Api.Domain.Validation;
 using PensionGame.Web.Client;
@@ -52,10 +53,15 @@ namespace PensionGame.Web.Services
         {
             return await _client.Get<PortfolioReturnRate>("Game/ReturnRate", parameters: new() { { "sessionId", sessionId.Id } });
         }
-
+        
         public async Task<PortfolioValue?> GetPortfolioValue(SessionId sessionId)
         {
             return await _client.Get<PortfolioValue>("Game/PortfolioValue", parameters: new() { { "sessionId", sessionId.Id } });
+        }
+
+        public async Task<AverageInflationRate?> GetInflationRate(SessionId sessionId)
+        {
+            return await _client.Get<AverageInflationRate>("Game/InflationRate", parameters: new() { { "sessionId", sessionId.Id } });
         }
     }
 }

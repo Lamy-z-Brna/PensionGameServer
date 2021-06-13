@@ -1,4 +1,5 @@
-﻿using MathNet.Numerics.RootFinding;
+﻿using MathNet.Numerics;
+using MathNet.Numerics.RootFinding;
 using PensionGame.Core.Calculators.RequiredData;
 using PensionGame.Core.Domain.Holdings;
 using System;
@@ -26,9 +27,16 @@ namespace PensionGame.Core.Calculators.Holdings
             double valueOfEquation(double interestRate) => ValueOfEquation(_finishedGamePortfolioValueCalculator, gameStates, interestRate);
             double valueOfDerivative(double interestRate) => ValueOfDerivative(gameStates, interestRate);
 
-            var result = NewtonRaphson.FindRootNearGuess(valueOfEquation, valueOfDerivative, 1, accuracy: 0.0001, maxIterations: 10000);
+            try
+            {
+                var result = NewtonRaphson.FindRootNearGuess(valueOfEquation, valueOfDerivative, 1, accuracy: 0.0001, maxIterations: 10000);
 
-            return new PortfolioReturnRate(result);
+                return new PortfolioReturnRate(result);
+            }
+            catch (NonConvergenceException)
+            {
+                return null;
+            }
         }
 
         private static double ValueOfEquation(IPortfolioValueCalculator finishedGamePortfolioValueCalculator, Dictionary<int, Domain.GameData.GameState> gameStates, double interestRate)

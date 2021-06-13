@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PensionGame.Api.Domain.Resources.GameData;
 using PensionGame.Api.Domain.Resources.Holdings;
+using PensionGame.Api.Domain.Resources.MarketData;
 using PensionGame.Api.Domain.Resources.Session;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,9 @@ namespace PensionGame.Web.Pages
 {
     public partial class FinishedGame
     {
-        private const string PensionYearsCovered = "The value shows how many years you could spend your pension before running out of money. Aim for the value to be more than 25 - 30 years.";
-        private const string AverageYearlyReturnRate = "The value calculates the average yearly return of your portfolio. Values above inflation rate mean your portfolio has grown.";
+        private const string PensionYearsCoveredTooltip = "The value shows how many years you could spend your pension before running out of money. Aim for the value to be more than 25 - 30 years.";
+        private const string AverageYearlyReturnRateTooltip = "The value calculates the average yearly return of your portfolio. Values above inflation rate mean your portfolio has grown.";
+        private const string AverageInflationRateTooltip = "The average inflation rate over the whole game play";
 
         [Parameter]
         public string? SessionId { get; set; }
@@ -26,6 +28,8 @@ namespace PensionGame.Web.Pages
         private PortfolioReturnRate? PortfolioReturnRate { get; set; }
 
         private PortfolioValue? PortfolioValue { get; set; }
+
+        private AverageInflationRate? AverageInflationRate { get; set; }
 
         private GameState? GameData => GameHistory?
             .OrderByDescending(kv => kv.Key)
@@ -61,6 +65,8 @@ namespace PensionGame.Web.Pages
             PortfolioReturnRate = await GameService.GetPortfolioReturnRate(sessionId);
 
             PortfolioValue = await GameService.GetPortfolioValue(sessionId);
+
+            AverageInflationRate = await GameService.GetInflationRate(sessionId);
 
             if (GameData == null)
             {

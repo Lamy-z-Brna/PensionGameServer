@@ -19,7 +19,7 @@
                     <Card>
                         <div class="row">
                             <div class="col-md-6 text-md-start">
-                                <h5 class="card-title mb-2">Years of pension covered <Tooltip Text="@PensionYearsCovered"><InfoIcon /></Tooltip> </h5>
+                                <h5 class="card-title mb-2">Years of pension covered <Tooltip Text="@PensionYearsCoveredTooltip"><InfoIcon /></Tooltip> </h5>
                             </div>
 
                             <div class="col-md-6 text-md-end">
@@ -29,17 +29,31 @@
                     </Card>
                     @if (PortfolioReturnRate != null)
                     {
-                    <Card>
-                        <div class="row">
-                            <div class="col-md-6 text-md-start">
-                                <h5 class="card-title mb-2">Yearly return rate <Tooltip Text="@AverageYearlyReturnRate"><InfoIcon /></Tooltip> </h5>
-                            </div>
+                        <Card>
+                            <div class="row">
+                                <div class="col-md-6 text-md-start">
+                                    <h5 class="card-title mb-2">Yearly return rate <Tooltip Text="@AverageYearlyReturnRateTooltip"><InfoIcon /></Tooltip> </h5>
+                                </div>
 
-                            <div class="col-md-6 text-md-end">
-                                <h1 class="mt-1 mb-2"><SignedDouble IsPercentage="true" Value="@(PortfolioReturnRate.ReturnRate - 1)" /> </h1>
+                                <div class="col-md-6 text-md-end">
+                                    <h1 class="mt-1 mb-2"><SignedDouble IsPercentage="true" Value="@(PortfolioReturnRate.ReturnRate - 1)" /> </h1>
+                                </div>
                             </div>
-                        </div>
-                    </Card>
+                        </Card>
+                    }
+                    @if (AverageInflationRate != null)
+                    {
+                        <Card>
+                            <div class="row">
+                                <div class="col-md-6 text-md-start">
+                                    <h5 class="card-title mb-2">Average inflation rate <Tooltip Text="@AverageInflationRateTooltip"><InfoIcon /></Tooltip> </h5>
+                                </div>
+
+                                <div class="col-md-6 text-md-end">
+                                    <h1 class="mt-1 mb-2"><SignedDouble IsPercentage="true" Value="@(AverageInflationRate.InflationRate - 1)" /> </h1>
+                                </div>
+                            </div>
+                        </Card>
                     }
                 </div>
             </div>
