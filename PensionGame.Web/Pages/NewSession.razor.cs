@@ -8,7 +8,7 @@ namespace PensionGame.Web.Pages
 {
     public partial class NewSession
     {
-        private NewSessionModel Session { get; } = new(new (500_000, 400_000, 25, 65), FunNamesGenerator.Generate());
+        private NewSessionModel Session { get; } = new(new (500_000, 400_000, 25, 65, 100_000), FunNamesGenerator.Generate());
 
         private EditContext EditContext { get; set; } = new(new object());
 

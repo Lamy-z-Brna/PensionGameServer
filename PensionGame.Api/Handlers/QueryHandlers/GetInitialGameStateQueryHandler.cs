@@ -19,7 +19,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
 
         public async Task<GameState> Handle(GetInitialCoreGameStateQuery query)
         {
-            var (income, expenses, year, retirementYear) = query.StartupParameters ?? new (175000, 100000, 25, 65);
+            var (income, expenses, year, retirementYear, existingFunds) = query.StartupParameters ?? new (175000, 100000, 25, 65, 100000);
 
             var gameState = new GameState
             (
@@ -42,7 +42,7 @@ namespace PensionGame.Api.Handlers.QueryHandlers
                     ),
                     IncomeData: new(
                         BondInterest: 0,
-                        ExtraIncome: 0,
+                        ExtraIncome: existingFunds,
                         ExpectedSalary: income,
                         ActualSalary: income,
                         SavingsAccountInterest: 0

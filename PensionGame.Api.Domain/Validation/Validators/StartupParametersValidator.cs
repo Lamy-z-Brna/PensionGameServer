@@ -21,6 +21,9 @@ namespace PensionGame.Api.Domain.Validation.Validators
             RuleFor(x => x.RetirementAge)
                 .GreaterThanOrEqualTo(18)
                 .LessThanOrEqualTo(100);
+            RuleFor(x => x.ExistingFunds)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(100000000);
         }
     }
 }
