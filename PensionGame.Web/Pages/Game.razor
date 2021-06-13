@@ -6,8 +6,9 @@
 
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @inject GameDataServices GameService
+@inject SessionDataServices SessionService 
 
-<h1>Pension game</h1>
+<h1>@SessionName</h1>
 
 <ValidationResult ResultModel="@ValidationResult" />
 

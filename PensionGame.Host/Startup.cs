@@ -9,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using PensionGame.Api.Common.Mappers;
 using PensionGame.Api.Data_Access.Connection;
 using PensionGame.Api.Data_Access.ConnectionSettings;
@@ -91,16 +93,7 @@ namespace PensionGame.Host
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            BsonClassMap.RegisterClassMap<Event>(cm =>
-            {
-                cm.AutoMap();
-                cm.SetIsRootClass(true);
-
-                var featureType = typeof(Event);
-                featureType.Assembly.GetTypes()
-                    .Where(type => featureType.IsAssignableFrom(type)).ToList()
-                    .ForEach(type => cm.AddKnownType(type));
-            });
+            SetUpMongoDb();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -140,6 +133,26 @@ namespace PensionGame.Host
             RegisterAllImplementing(typeof(ICommandHandler<,>));
             _container.Register(Component.For<IDispatcher>()
                 .ImplementedBy<Dispatcher>());
+        }
+
+        private void SetUpMongoDb()
+        {
+            BsonClassMap.RegisterClassMap<Event>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIsRootClass(true);
+
+                var featureType = typeof(Event);
+                featureType.Assembly.GetTypes()
+                    .Where(type => featureType.IsAssignableFrom(type)).ToList()
+                    .ForEach(type => cm.AddKnownType(type));
+            });
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
         }
 
         private void RegisterAllImplementing<T>()
