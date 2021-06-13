@@ -106,10 +106,17 @@ namespace PensionGame.Web.Pages
         {
             if (CurrentSessionId != null)
             {
-                //TODO what if this fails? 
-                await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
+                var currentGameSession = await GameService.Get(CurrentSessionId);
 
-                await LoadPageBySessionId(CurrentSessionId);
+                if (currentGameSession?.Year > GameData?.Year)
+                    await LoadPageBySessionId(CurrentSessionId);
+                else
+                {
+                    //TODO what if this fails? 
+                    await GameService.InvestmentSelectionSubmit(CurrentSessionId, InvestmentSelection);
+
+                    await LoadPageBySessionId(CurrentSessionId);
+                }
             }
         }
 
