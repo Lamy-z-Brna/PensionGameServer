@@ -89,6 +89,36 @@ namespace PensionGame.Host.Controllers
         }
 
         [HttpGet]
+        [Route("ReturnRate")]
+        public async Task<PortfolioReturnRate> GetReturnRate(Guid sessionId)
+        {
+            var result = await _dispatcher.Query<GetPortfolioReturnRateQuery, PortfolioReturnRate>
+                (
+                    new
+                    (
+                        SessionId: new SessionId(sessionId)
+                    )
+                );
+
+            return result;
+        }
+
+        [HttpGet]
+        [Route("PortfolioValue")]
+        public async Task<PortfolioValue?> GetPortfolioValue(Guid sessionId)
+        {
+            var result = await _dispatcher.Query<GetPortfolioValueQuery, PortfolioValue?>
+                (
+                    new
+                    (
+                        SessionId: new SessionId(sessionId)
+                    )
+                );
+
+            return result;
+        }
+
+        [HttpGet]
         public async Task<GameState> Get(Guid sessionId)
         {
             var result = await _dispatcher.Query<GetGameStateQuery, GameState?>

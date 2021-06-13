@@ -12,6 +12,8 @@ namespace PensionGame.Core.Domain.Holdings
 
         public int Count => Bonds.Count;
 
+        public int Value => Bonds.Sum(bond => bond.Value);
+
         public IEnumerator<BondHolding> GetEnumerator()
         {
             return Bonds.GetEnumerator();

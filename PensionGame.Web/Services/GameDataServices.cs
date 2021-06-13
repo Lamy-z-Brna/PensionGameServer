@@ -47,5 +47,15 @@ namespace PensionGame.Web.Services
         {
             return await _client.Get<Dictionary<int, GameState>>("Game/All", parameters: new() { { "sessionId", sessionId.Id } });
         }
+
+        public async Task<PortfolioReturnRate?> GetPortfolioReturnRate(SessionId sessionId)
+        {
+            return await _client.Get<PortfolioReturnRate>("Game/ReturnRate", parameters: new() { { "sessionId", sessionId.Id } });
+        }
+
+        public async Task<PortfolioValue?> GetPortfolioValue(SessionId sessionId)
+        {
+            return await _client.Get<PortfolioValue>("Game/PortfolioValue", parameters: new() { { "sessionId", sessionId.Id } });
+        }
     }
 }

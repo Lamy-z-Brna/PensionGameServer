@@ -12,6 +12,7 @@ namespace PensionGame.Web.Pages
     public partial class FinishedGame
     {
         private const string PensionYearsCovered = "The value shows how many years you could spend your pension before running out of money. Aim for the value to be more than 25 - 30 years.";
+        private const string AverageYearlyReturnRate = "The value calculates the average yearly return of your portfolio. Values above inflation rate mean your portfolio has grown.";
 
         [Parameter]
         public string? SessionId { get; set; }
@@ -19,6 +20,10 @@ namespace PensionGame.Web.Pages
         public SessionId? CurrentSessionId { get; set; }
 
         private Dictionary<int, GameState>? GameHistory { get; set; }
+
+        private PortfolioReturnRate? PortfolioReturnRate { get; set; }
+
+        private PortfolioValue? PortfolioValue { get; set; }
 
         private GameState? GameData => GameHistory?
             .OrderByDescending(kv => kv.Key)
@@ -48,6 +53,10 @@ namespace PensionGame.Web.Pages
         private async Task LoadPageBySessionId(SessionId sessionId)
         {
             GameHistory = await GameService.GetAll(sessionId);
+
+            PortfolioReturnRate = await GameService.GetPortfolioReturnRate(sessionId);
+
+            PortfolioValue = await GameService.GetPortfolioValue(sessionId);
 
             if (GameData == null)
             {
